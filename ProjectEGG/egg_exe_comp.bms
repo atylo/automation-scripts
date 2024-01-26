@@ -1,0 +1,19 @@
+#To decrypt/unpack ProjectEGG .sbn/.exe game files
+comtype saint_seya
+get name basename
+print "name %name%"
+get zsize asize
+print "comp %zsize%"
+get size long
+print "uncomp %size%"
+savepos off
+math zsize - off
+print "off %off|h%"
+print "new comp size %zsize%"
+get dummy byte
+get ftype short
+print "new comp size %zsize%"
+if ftype = 0x5a4d
+	string NAME + ".exe"
+endif
+clog name off zsize size
