@@ -4,6 +4,7 @@ get VER short
 get FSIZE long
 get DATAOFF long
 get FILEZ long
+
 for i = 0 < FILEZ
 	getct NAME string 0x2C
 	codepage 932
@@ -12,9 +13,11 @@ for i = 0 < FILEZ
     codepage "utf8"
     set NAME unicode NAME     # utf16 -> utf8
 	putarray 0 -1 NAME
-	if VER == 0x3542 # Version B2, 02 doesn't have description
-		getct DESC string 0x2C
-	endif
+	savepos LAST_COMMA_POS
+	getct DESC string 0x2C
+    if DESC != "game" and DESC != "data" and DESC != "readme"
+        goto LAST_COMMA_POS
+    endif
 next i
 
 goto DATAOFF
