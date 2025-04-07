@@ -11,11 +11,11 @@ def get_response(username, password):
     print("Downloading...")
     try:
         response = requests.post(
-            'http://api.amusement-center.com/api/dcp/v1/getcontentslist',
+            'https://api.amusement-center.com/api/dcp/v1/getcontentslist',
             headers={'User-Agent': USER_AGENT},
             data={'userid': username, 'passwd': password}
         )
-
+        verify=False
         response.raise_for_status()  # Raise an exception for bad responses (non-2xx status codes)
 
         return response
@@ -42,7 +42,7 @@ def find_prefix_file():
 def extract_and_save_from_file(content):
     print("Converting...")
     try:
-        bin_regex = re.compile(r'[a-zA-Z]{3}\d{4}a\.bin')
+        bin_regex = re.compile(r'([a-zA-Z]{3}\d{4}a\.bin|P[a-zA-Z]{3}\d{4}a\.bin)')
 
         # Split the content into lines based on commas
         lines = content.split(',')
@@ -61,6 +61,7 @@ def extract_and_save_from_file(content):
 
 
 def generate_names(prefix_file):
+    print("Using coms to generate a long list...")
     if prefix_file is None:
         print("No suitable file found.")
         return []
@@ -69,17 +70,18 @@ def generate_names(prefix_file):
         lines = file.read().splitlines()
 
     names = []
-    index = 0
-    while index < len(lines):
-        prefix = lines[index][:3].upper()  # Convert to uppercase for case-insensitivity
-        index += 1  # Move to the next line
+    
+    for line in lines:
+        prefix = line.strip().upper()  # Extract prefix and convert to uppercase
 
-        first_num_range = range(9) if prefix == "COM" else \
+        # Determine ranges based on prefix
+        first_num_range = range(10) if prefix == "COM" else \
                           [0, 1, 3] if prefix in {"BOT", "SKP"} else \
                           range(4) if prefix == "TEL" else \
                           [0, 1]
-        second_num_range = [0, 1] if prefix == "FAL" else [0]
+        second_num_range = [0, 1] if prefix in {"FAL", "COM"} else [0]
 
+        # Generate names
         for first_num in first_num_range:
             for second_num in second_num_range:
                 for third_fourth_num in range(100):
@@ -111,4 +113,4 @@ if prefix_file_result is not None:
 else:
     print("No suitable file found. Downloading the list and converting it.")
     response = get_response(username, password)
-    extract_and_save_from_file(response.content)
+    extract_and_save_from_file(response.text)
