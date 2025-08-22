@@ -1,0 +1,105 @@
+; Dismmembr
+; SDCC syntax
+
+Main:
+    ; --- Disable interrupts and clear registers ---
+    di
+    xor a
+    out (0xE6), a      ; cursor off
+    out (0xE4), a      ; disable all IRQs
+
+    ; --- Load some values into ports ---
+    ld a, (0x0002)     ; read from memory (possibly disk info)
+    ld a, #0x3D
+    out (0x31), a
+    ld a, #0x0C
+    ; next byte (B7) seems like data, leave as DB if unsure
+    ; db 0xB7
+
+    ; --- Memory initialization ---
+    ld (0xEB4D), a
+    ld (0xED98), a
+    ld (0xEB46), a
+
+    ld hl, #0xEF58
+    ld (0xEF56), hl
+    ld l, #0xC2
+    ld (0xF02A), hl
+
+    ld hl, (0xC0D7)
+    ld (0xEF54), hl
+    ld hl, (0xC0D9)
+    ld (0xEB50), hl
+
+    ld hl, #0x8021
+    ld (0xEB54), hl
+
+    ; --- Call subroutines ---
+    call 0x3DE1
+    ld bc, #0x5019
+    call 0x093A
+
+    ld hl, #0xC06B
+    call 0x0884
+
+    di
+    ld de, #0xF300
+    ld bc, #0x0801
+    xor a
+    ld (0xEDC5), a
+    ld a, #0x0C
+    ; db B7
+    call 0x0099
+
+    ld sp, #0x0000
+    ld hl, #0xC074
+    ld de, #0xFF40
+    ; db D5
+    ld bc, #0x0067
+    ; ED B0 (could be some hardware opcode)
+    ; RET
+    ; JR instructions for loops
+    ; db 0x30, 0x2C, etc.
+
+    ld sp, #0x1100
+    ; db 0x00, 0x80, etc.
+
+    ; --- Example of port comparisons and jumps ---
+    ld a, #0x0A
+    ; JR Z,+2 or JR NC,+4 sequences
+    ; db sequences left as-is if unknown
+
+    ; --- Disk / memory loading ---
+    call 0x045A
+    ld hl, (0x8021)
+    ; db sequences
+    call 0x3D76
+    ld (0xEFA0), hl
+    ld (0xEFA2), hl
+    ld (0xEFA4), hl
+
+    ld hl, (0xFFA1)
+    ld de, #0x3C82
+    ; db sequences
+    call ED52
+    ld hl, 0xEABC
+    ld (0xEDC0), hl
+    ld a, #1
+    ld (0xEA68), a
+    ld hl, #0x187A
+    ld de, #0x8000
+    ld bc, #0x000C
+    ; ED B0 sequences
+    ei
+    jp 0x3C82
+
+    ; --- Hardware port operations / DB sequences ---
+    out (0xC6), a
+    ; db 0x00, 0x00, 0x00, etc.
+
+.console:
+    ; ASCII / string data embedded
+    .ascii "----HE FAR WAYIPL by KAJA----"
+    .db 0
+
+.include "disk.z80"
