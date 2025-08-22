@@ -1,23 +1,13 @@
-comtype copy
+comtype saint_seya
 idstring "CNPFVR"
 get VER short
 get FSIZE long
 get DATAOFF long
 get FILEZ long
-
 for i = 0 < FILEZ
 	getct NAME string 0x2C
-	codepage 932
-	codepage cp932
-    set NAME to_unicode NAME  # jis -> utf16 (unicode)
-    codepage "utf8"
-    set NAME unicode NAME     # utf16 -> utf8
 	putarray 0 -1 NAME
-	savepos LAST_COMMA_POS
 	getct DESC string 0x2C
-    if DESC != "game" and DESC != "data" and DESC != "readme"
-        goto LAST_COMMA_POS
-    endif
 next i
 
 goto DATAOFF
@@ -28,7 +18,6 @@ for i = 0 < FILEZ
 	savepos OFF
 	getarray NAME 0 i
 	if COMP == 1
-		comtype saint_seya
 		get DECS long
 		savepos OFF
 		math SIZE - 4
