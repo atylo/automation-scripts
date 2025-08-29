@@ -1,9 +1,9 @@
 #!/bin/python3
 import os
 import re
-from binascii import hexlify
 from struct import pack, unpack
 from sys import argv, exit
+import hashlib
 
 if len(argv) < 2 or argv[1] not in ('d88', 'dsk', 'fdi'):
     exit('Usage: egg_disk.py <d88|dsk|fdi>')
@@ -14,41 +14,45 @@ disks = []
 # Discover floppy and hard disk files
 added_hd_group = False
 for i in os.listdir('.'):
-    match_fd = re.match(r'(EGGFDIMG\d+)-INF\.dat$', i)
+    match_fd = re.fullmatch(r'(EGGFDIMG\d+)-INF(?:\..+)?', i)
     if match_fd:
-        disks.append(match_fd.group(1))
+        disks.append((match_fd.group(1), i))  # (floppy disk ID, INF filename)
         continue
 
-    if not added_hd_group and re.match(r'EGGHDIMG\d+\.dat$', i):
-        disks.append('EGGHDIMG')  # Add once for the whole hard disk group
-        added_hd_group = True
+    if not added_hd_group:
+        match_hd = re.fullmatch(r'(EGGHDIMG\d+)-INF(?:\..+)?', i)
+        if match_hd:
+            disks.append(('EGGHDIMG', i))  # store disk ID + INF filename
+            added_hd_group = True
 
         
-def process_floppy_disk(disk, diskformat):
+def process_floppy_disk(disk, diskformat, inf_filename):
     tracksizes = []
-    f = b''
+    outputdata = b''
     try:
-        with open(f'{disk}-INF.dat', 'rb') as inffile:
+        with open(inf_filename, 'rb') as inffile:
             inffile.seek(0x200)
-            sha1hash = inffile.read(0x10)
-            null, ro, numtracks = unpack('<III', inffile.read(12))
-            print(hexlify(sha1hash).decode('ascii'), null, ro, numtracks)
+            md5hash = inffile.read(0x10)
+            null, readonly, numtracks = unpack('<III', inffile.read(12))
+            print(md5hash.hex(), null, readonly, numtracks)
     except FileNotFoundError:
-        print(f"ERROR: {disk}-INF.dat not found.")
+        print(f"ERROR: {disk}-INF not found.")
         return
 
-    if ro == 1:
-        ro = 16
+    if readonly == 1:
+        readonly = 0x10
 
-    dtype = b'\x20' if numtracks > 84 else b'\x00'
+    disktype = b'\x20' if numtracks > 84 else b'\x00'
 
-    for d in range(numtracks):
+    for tracknum in range(numtracks):
         # Try to find either .dat or .cl5 file for this track
-        fn = f'{disk}-{d}.dat'
+        fn = f'{disk}-{tracknum}.dat'
         if not os.path.exists(fn):
-            fn = f'{disk}-{d}.cl5'
+            fn = f'{disk}-{tracknum}.cl5'
             if not os.path.exists(fn):
-                print(f'ERROR: {disk}-{d}.dat/.cl5 NOT FOUND')
+                print(f'Warning: {disk}-{tracknum}.dat/.cl5 not found, skipping.')
+                if diskformat == "d88":
+                    tracksizes.append(0) # Important but hacky: Adds an empty track if the trackfile is missing.
                 continue
 
         with open(fn, 'rb') as file:
@@ -65,18 +69,18 @@ def process_floppy_disk(disk, diskformat):
                     head = file.read(0xC)
                     # a, b, c = unpack('<III', head)
                     # print(f'{a:08x}\t{b:08x}\t{c:08x}')
-                    ssize, = unpack('<I', head[-4:])
-                    # print(d, sectoroffs.index(i), ssize, i)
-                    if ssize >= 0xFFFF:  # this doesn't work last I checked
-                        print(f"Invalid sector length in track {d}, skipping.")
+                    datasize, = unpack('<I', head[-4:])
+                    # print(tracknum, sectoroffs.index(i), datasize, i)
+                    if datasize >= 0xFFFF:  # this doesn't work last I checked
+                        print(f"Invalid sector length in track {tracknum}, skipping.")
                         continue
-                        # ssize = 0x400
-                        # f += head[:4] + pack('B', numsectors) + b'\x00\x00\x00\x00\x00\x00\x00\x00\x00' + pack('<H', ssize)
-                        # f += '\xFF' * 0x400
+                        # datasize = 0x400
+                        # outputdata += head[:4] + pack('B', numsectors) + b'\x00\x00\x00\x00\x00\x00\x00\x00\x00' + pack('<H', datasize)
+                        # outputdata += '\xFF' * 0x400
                         # file.read(0x3F0)
-                    f += head[:4] + pack('B', numsectors) + b'\x00'*9 + pack('<H', ssize)
-                    f += file.read(ssize)
-                    tracksize += ssize + 0x10
+                    outputdata += head[:4] + pack('B', numsectors) + b'\x00'*9 + pack('<H', datasize)
+                    outputdata += file.read(datasize)
+                    tracksize += datasize + 0x10
                 tracksizes.append(tracksize)
                 
                 
@@ -84,51 +88,69 @@ def process_floppy_disk(disk, diskformat):
                 for i in sectoroffs:
                     file.seek(i)
                     head = file.read(0xC)
-                    ssize, = unpack('<I', head[-4:])
-                    f += file.read(ssize)
-                    # print(d, sectoroffs.index(i), ssize, i)
+                    datasize, = unpack('<I', head[-4:])
+                    outputdata += file.read(datasize)
+                    # print(tracknum, sectoroffs.index(i), datasize, i)
 
     # Write output
     if diskformat == 'd88':
-        fhead = b'\x00' * 0x1A
-        fhead += pack('B', ro)
-        fhead += dtype
-        if len(tracksizes) > 164:
-            startoff = 0x20 + len(tracksizes) * 4 + ((len(tracksizes) * 4) % 16)
-        else:
-            startoff = 0x2B0  # 0x20 + 164 * 4 + ((164 * 4) % 16)
-        o = startoff
-        fhead += pack('<II', len(f)+o, o)
-        for i in tracksizes[1:]:
-            o += i
-            fhead += pack('<I', o)
+        NUM_TRACKS = max(len(tracksizes), 164)
 
-        fhead += b'\x00' * abs(startoff - len(fhead))
+    # Compute where the first track data will start (align to 16 bytes)
+        startoff = 0x20 + NUM_TRACKS * 4
+        if startoff % 16:
+            startoff += 16 - (startoff % 16)
 
-        with open(f'fd_{disk}.d88', 'wb') as d:
-            d.write(fhead+f)
+    # Build fixed header
+        d88_header = b'\x00' * 0x1A
+        d88_header += pack('B', readonly)
+        d88_header += disktype
+        d88_header += pack('<I', len(outputdata) + startoff)  # total size
+        d88_header += pack('<I', startoff)                    # first track offset
+        
+        # Track offset table
+        #print(f"tracks list: {tracksizes}")
+        offset = startoff + tracksizes[0]  # Calc from second track (1) since we added first offset
+        for tsize in tracksizes[1:]: # Already added first offset to the header
+            if tsize > 0:
+                d88_header += pack('<I', offset)
+                offset += tsize
+                #print(f"offset: {offset}")
+            else:
+                d88_header += b'\x00\x00\x00\x00'
+
+# Pad out to NUM_TRACKS entries (all zeroes)
+        for _ in range(len(tracksizes), NUM_TRACKS):
+            d88_header += b'\x00\x00\x00\x00'
+
+        # Pad header to reach startoff
+        if len(d88_header) < startoff:
+            d88_header += b'\x00' * (startoff - len(d88_header))
+
+        output_filename = f'fd_{disk}.d88'
+        write_and_check(output_filename, d88_header + outputdata, md5hash)
             
     elif diskformat == 'dsk':
-        with open(f'fd_{disk}.dsk', 'wb') as d:
-            d.write(f)
+        output_filename = f'fd_{disk}.dsk'
+        write_and_check(output_filename, outputdata, md5hash=None)
             
     elif diskformat == 'fdi':
-        fhead = pack('<IIIIIIII', 0, 0x90, 0x1000, 0x134000, 0x400, 8, 2, 77)
-        fhead += b'\x00' * (0x1000 - 0x20)
-        with open(f'fd_{disk}.fdi', 'wb') as d:
-            d.write(fhead+f)
+        d88_header = pack('<IIIIIIII', 0, 0x90, 0x1000, 0x134000, 0x400, 8, 2, 77)
+        d88_header += b'\x00' * (0x1000 - 0x20)
+        output_filename = f'fd_{disk}.fdi'
+        write_and_check(output_filename, outputdata, md5hash)
+            
 
-def process_hard_disk(disk, diskformat):
+def process_hard_disk(disk, diskformat, inf_filename):
     if disk != 'EGGHDIMG':  # We now treat EGGHDIMG as a group, not individual files
         return
 
-    inf_path = f'{disk}-INF.dat'
-    if not os.path.exists(inf_path):
-        print(f"ERROR: {inf_path} not found.")
+    if not os.path.exists(inf_filename):
+        print(f"ERROR: {inf_filename} not found.")
         return
 
     # Read metadata from the INF file
-    with open(inf_path, 'rb') as f:
+    with open(inf_filename, 'rb') as f:
         f.seek(0x210)  # Offset where meaningful data starts
         cyls, = unpack('<I', f.read(4))
         segs_per_cyl, = unpack('<I', f.read(4))
@@ -162,7 +184,7 @@ def process_hard_disk(disk, diskformat):
     if diskformat == 'fdi':
         # Build FDI header
         fullsize = len(fdata) + 0x1000
-        fhead = pack('<IIIIIIII',
+        hdd_header = pack('<IIIIIIII',
             0,          # Unknown / Reserved
             0x90,       # Offset to disk header (usually 0x90)
             0x1000,     # Offset to image data
@@ -172,25 +194,38 @@ def process_hard_disk(disk, diskformat):
             segs_per_cyl,
             cyls
         )
-        fhead += b'\x00' * (0x1000 - 0x20)
+        hdd_header += b'\x00' * (0x1000 - 0x20)
 
-        with open('hd_EGGHDIMG.fdi', 'wb') as out:
-            out.write(fhead + fdata)
+        with open('hd_EGGHDIMG.fdi', 'wb') as disk:
+            disk.write(hdd_header + fdata)
             print(f"Created hard disk image: hd_EGGHDIMG.fdi")
 
     elif diskformat == 'dsk':
-        with open('hd_EGGHDIMG.dsk', 'wb') as out:
-            out.write(fdata)
+        with open('hd_EGGHDIMG.dsk', 'wb') as disk:
+            disk.write(fdata)
             print(f"Created raw disk image: hd_EGGHDIMG.dsk")
 
     elif diskformat == 'd88':
         print("Format 'd88' is not supported for hard disk images.")
 
 
+def write_and_check(filename, data, expected_md5=None):
+    """Write data to file and optionally check MD5."""
+    with open(filename, 'wb') as f:
+        f.write(data)
+    print(f"Wrote {filename}")
+    
+    if expected_md5:
+        md5 = hashlib.md5()
+        md5.update(data)
+        if md5.digest() == expected_md5:
+            print(f"MD5 check passed for {filename}")
+        else:
+            print(f"WARNING: MD5 mismatch for {filename}")
 
 # Run processing
-for disk in disks:
+for disk, inf_filename in disks:
     if disk.startswith('EGGFDIMG'):
-        process_floppy_disk(disk, diskformat)
+        process_floppy_disk(disk, diskformat, inf_filename)
     elif disk == 'EGGHDIMG':
-        process_hard_disk(disk, diskformat)
+        process_hard_disk(disk, diskformat, inf_filename)
