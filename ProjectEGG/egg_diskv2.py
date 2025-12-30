@@ -209,16 +209,16 @@ def process_hard_disk(disk, diskformat, inf_filename):
         print("Format 'd88' is not supported for hard disk images.")
 
 
-def write_and_check(filename, data, expected_md5=None):
+def write_and_check(filename, data, md5hash=None):
     """Write data to file and optionally check MD5."""
     with open(filename, 'wb') as f:
         f.write(data)
     print(f"Wrote {filename}")
     
-    if expected_md5:
+    if md5hash:
         md5 = hashlib.md5()
         md5.update(data)
-        if md5.digest() == expected_md5:
+        if md5.digest() == md5hash:
             print(f"MD5 check passed for {filename}")
         else:
             print(f"WARNING: MD5 mismatch for {filename}")
