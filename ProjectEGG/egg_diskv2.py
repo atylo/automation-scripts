@@ -6,7 +6,7 @@ from sys import argv, exit
 import hashlib
 
 if len(argv) < 2 or argv[1] not in ('d88', 'dsk', 'fdi'):
-    exit('Usage: egg_disk.py <d88|dsk|fdi>')
+    exit('Usage: egg_diskv2.py <d88|dsk|fdi>')
     
 diskformat = argv[1]
 disks = []
