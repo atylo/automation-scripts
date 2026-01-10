@@ -1,0 +1,29 @@
+#Script to decrypt and decompress files inside ProjectEGG games with BINARY folder inside, made before 2009-2010
+comtype lzhlib
+get name basename
+string name + ".dec.bin"
+
+# decrypt AES-128-ECB using the static key in .rdata
+encryption aes "\xEA\x40\x68\x99\xC6\x78\x4B\x71\x28\xA9\x96\x88\x64\x6B\x3D\x00" "" 0 16
+get SIZE asize
+log MEMORY_FILE 0 SIZE
+encryption "" ""
+
+# read header (xorred docomp size)
+get header long MEMORY_FILE
+print "header %header|h%"
+math header ^ 0x18885963
+set mod header
+math mod % 0x4D
+
+if mod == 0
+    math zsize = header
+    math zsize /= 0x4d
+	math size - 4
+    print "Valid! Expecting %zsize% bytes."
+	clog name 4 size zsize MEMORY_FILE
+else
+	print "mod is not 0"
+endif
+
+

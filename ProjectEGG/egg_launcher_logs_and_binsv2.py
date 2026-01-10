@@ -3,7 +3,7 @@ def reverse_bit_flipping(input_bytes):
     return bytes([~b & 0xFF for b in input_bytes])
 
 def read_and_reverse_bitflip_to_file():
-    with open("ln.log", "rb") as log_file:  # Open the file in binary mode
+    with open("data.bin", "rb") as log_file:  # Open the file in binary mode
         flipped_data = log_file.readlines()
 
         # Open the output file to write the decrypted data
