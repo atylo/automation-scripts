@@ -301,6 +301,8 @@ void ExtractFD(const std::vector<uint8_t>& data, const std::string& folder) {
 // ============================================================================
 
 int main() {
+    std::cout << "ProjectEGG TYPE98 extractor. Add CFG and other files from the exe" << std::endl;
+
     int version = 1;
     std::vector<uint8_t> product_id;
 
@@ -320,7 +322,7 @@ int main() {
         // CFG password is NULL (empty vector)
         std::vector<uint8_t> cfg_data = ProcessFile("CFG", version, {});
         
-		// --- Determine Offset ---
+        // --- Determine Offset ---
         // Default V1 = 0x44, Default V2 = 0x04.
         // If V1 game has an HD file, the ID is usually at 0x04.
         size_t id_offset = (version == 2) ? 0x04 : 0x44;
@@ -344,7 +346,8 @@ int main() {
             std::cout << std::dec << std::endl;
         }
     } else {
-        std::cout << "CFG missing, assuming Version 1 default." << std::endl;
+        std::cout << "CFG file is mandatory for extraction" << std::endl;
+        return 1;
     }
 
     // --- Step 3: Process FD ---
@@ -356,7 +359,7 @@ int main() {
 
     // --- Step 5: Process Optional Files ---
     // These use their own filename as the password
-    const char* optionals[] = { "FONT", "SOUND", "BIOS" };
+    const char* optionals[] = { "FONT", "SOUND", "BIOS", "HH", "TOP", "SD" };
     for (const char* name : optionals) {
         std::string s(name);
         std::vector<uint8_t> pw(s.begin(), s.end());

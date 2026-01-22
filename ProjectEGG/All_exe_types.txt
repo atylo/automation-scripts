@@ -1,23 +1,23 @@
 EAGL0001.exe | 2009-05-29 | Found: EGGDATA
-EARS0001.EXE | 2007-11-20 | Found: ÆxKq(©
-EARS0003.EXE | 2007-11-20 | Found: ÆxKq(©
+EARS0001.EXE | 2007-11-20 | Found: old_pc98_aes
+EARS0003.EXE | 2007-11-20 | Found: old_pc98_aes
 EARS0004.exe | 2009-05-29 | Found: EGGDATA
 EARS0005.exe | 2011-08-10 | Found: EGGDATA
 EARS0006.exe | 2011-11-25 | Found: EGGDATA
 EARS0006B.exe | 2011-11-25 | Found: EGGDATA
-EART0001.EXE | 2002-09-30 | Found: None
-EART0004.EXE | 2004-02-01 | Found: DataFileVer2
-EART0005.EXE | 2004-02-20 | Found: DataFileVer2
+EART0001.EXE | 2002-09-30 | Found: old Xor + LZSS
+EART0004.EXE | 2004-02-01 | Found: DataFileVer, Version 2, Type 2
+EART0005.EXE | 2004-02-20 | Found: DataFileVer, Version 2, Type 2
 EART0006.EXE | 2007-01-11 | Found: TYPE98
-EART0007.exe | 2005-08-24 | Found: DataFileVer2
-EART0008.EXE | 2004-04-18 | Found: DataFileVer2
+EART0007.exe | 2005-08-24 | Found: DataFileVer, Version 2, Type 2
+EART0008.EXE | 2004-04-18 | Found: DataFileVer, Version 2, Type 2
 EART0009.EXE | 2007-03-20 | Found: TYPE98
-EART0010.exe | 2005-08-30 | Found: DataFileVer2
+EART0010.exe | 2005-08-30 | Found: DataFileVer, Version 2, Type 2
 EART0013.exe | 2007-03-20 | Found: TYPE98
 EART0014.exe | 2007-03-20 | Found: TYPE98
 EART0015.exe | 2007-03-20 | Found: TYPE98
 EART0016.EXE | 2007-03-20 | Found: TYPE98
-EART0017.EXE | 2007-07-02 | Found: None
+EART0017.EXE | 2007-07-02 | Found: TYPE98_old
 EART0018.exe | 2009-05-29 | Found: EGGDATA
 EART0019.exe | 2011-11-25 | Found: EGGDATA
 EART0020.exe | 2012-07-20 | Found: EGGDATA
@@ -52,30 +52,29 @@ XEVIOUS.exe | 2020-10-15 | Found: EGGDATA
 GAME.exe | 2020-10-07 | Found: EGGDATA
 AEROCROSS.exe | 2020-11-26 | Found: EGGDATA
 GAME.exe | 2019-07-18 | Found: EGGDATA
-EBOT0001.EXE | 2002-02-11 | Found: None
+EBOT0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
 EBOT0003.exe | 2009-05-29 | Found: EGGDATA
 EBOT0005.exe | 2009-05-29 | Found: EGGDATA
-EBOT0006.EXE | 2002-02-11 | Found: None
-EBOT0007.EXE | 2002-02-11 | Found: None
-EBOT0008.exe | 2003-01-26 | Found: ÆxKq(©
+EBOT0006.EXE | 2002-02-11 | Found: old Xor + LZSS
+EBOT0007.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EBOT0008.exe | 2003-01-26 | Found: old_pc98_aes
 EBOT0009.exe | 2013-01-07 | Found: EGGDATA
 EBOT0011.exe | 2012-04-04 | Found: EGGDATA
 EBOT0012.exe | 2009-05-29 | Found: EGGDATA
-EBOT0013.exe | 2002-12-01 | Found: ÆxKq(©
-EBOT0020.EXE | 2006-01-28 | Found: DataFileVer2
-EBOT0021.exe | 2005-12-22 | Found: ÆxKq(©
-EBOT0022.EXE | 2006-03-08 | Found: ÆxKq(©
-EBOT0023.EXE | 2006-01-30 | Found: ÆxKq(©
-EBOT0024.EXE | 2006-02-25 | Found: None
-EBOT0025.EXE | 2006-03-02 | Found: DataFileVer2
-EBOT0026.EXE | 2007-10-11 | Found: None
-EBOT0027.EXE | 2007-11-16 | Found: None
-EBOT0028.EXE | 2007-12-06 | Found: None
-EBOT0029.EXE | 2008-01-11 | Found: DataFileVer2
-REL_98.exe | 2003-02-10 | Found: DataFileVer2
+EBOT0013.exe | 2002-12-01 | Found: old_pc98_aes
+EBOT0020.EXE | 2006-01-28 | Found: DataFileVer, Version 2, Type 2
+EBOT0021.exe | 2005-12-22 | Found: old_pc98_aes
+EBOT0022.EXE | 2006-03-08 | Found: old_pc98_aes
+EBOT0023.EXE | 2006-01-30 | Found: old_pc98_aes
+EBOT0024.EXE | 2006-02-25 | Found: old Xor + LZSS
+EBOT0025.EXE | 2006-03-02 | Found: DataFileVer, Version 2, Type 2
+EBOT0026.EXE | 2007-10-11 | Found: None (.data big virtual size)
+EBOT0027.EXE | 2007-11-16 | Found: old Xor + LZSS
+EBOT0028.EXE | 2007-12-06 | Found: None (.data big virtual size)
+EBOT0029.EXE | 2008-01-11 | Found: DataFileVer, Version 2
 EBOT0031.exe | 2009-04-30 | Found: EGGDATA
 EBOT0032.exe | 2009-05-29 | Found: EGGDATA
-EBOT0028.exe | 2007-12-06 | Found: None
+EBOT0028.exe | 2007-12-06 | Found: None (.data big virtual size)
 EBOT0035.exe | 2010-07-07 | Found: EGGDATA
 EBOT0036.EXE | 2010-06-21 | Found: EGGDATA
 EBOT0037.exe | 2012-04-04 | Found: EGGDATA
@@ -89,9 +88,9 @@ EBOT0043.EXE | 2014-07-30 | Found: EGGDATA
 EBOT0044.exe | 2014-07-30 | Found: EGGDATA
 GAME.exe | 2020-11-27 | Found: EGGDATA
 GAME2.exe | 2020-11-30 | Found: EGGDATA
-EBOT0024.exe | 2006-02-25 | Found: None
-EBOT0025.exe | 2006-03-02 | Found: DataFileVer2
-EBOT0029.exe | 2008-01-11 | Found: DataFileVer2
+EBOT0024.exe | 2006-02-25 | Found: old Xor + LZSS
+EBOT0025.exe | 2006-03-02 | Found: DataFileVer, Version 2, Type 2
+EBOT0029.exe | 2008-01-11 | Found: DataFileVer, Version 2
 EBOT0032.exe | 2009-05-29 | Found: EGGDATA
 GAME.exe | 2021-09-13 | Found: EGGDATA
 EBOT0048.exe | 2019-11-06 | Found: EGGDATA
@@ -114,42 +113,42 @@ EBOT1016.exe | 2010-07-07 | Found: EGGDATA
 EBOT1017.EXE | 2008-12-09 | Found: D4E MSX
 EBOT1018.exe | 2019-09-25 | Found: EGGDATA
 EBOT3001.EXE | 2007-10-01 | Found: MSXPLAYer
-EBOT0023.EXE | 2006-01-30 | Found: ÆxKq(©
+EBOT0023.EXE | 2006-01-30 | Found: old_pc98_aes
 EBOT3003.EXE | 2006-12-12 | Found: MSXPLAYer
-EBOT3004.EXE | 2006-01-28 | Found: DataFileVer2
-EBOT0005.EXE | 2002-02-11 | Found: None
-EBOT3006.exe | 2002-09-08 | Found: ÆxKq(©
-EBOT1011.exe | 2002-07-31 | Found: None
-EBOT0021.exe | 2005-12-22 | Found: ÆxKq(©
+EBOT3004.EXE | 2006-01-28 | Found: DataFileVer, Version 2, Type 2
+EBOT0005.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EBOT3006.exe | 2002-09-08 | Found: old_pc98_aes
+EBOT1011.exe | 2002-07-31 | Found: None (.data big virtual size)
+EBOT0021.exe | 2005-12-22 | Found: old_pc98_aes
 EBOT1017.exe | 2008-12-09 | Found: D4E MSX
-EBOT0006.exe | 2002-02-11 | Found: None
-EBOT0009.exe | 2002-09-08 | Found: ÆxKq(©
-EBOT0001.exe | 2002-02-11 | Found: None
-EBOT0022.EXE | 2006-03-08 | Found: ÆxKq(©
+EBOT0006.exe | 2002-02-11 | Found: old Xor + LZSS
+EBOT0009.exe | 2002-09-08 | Found: old_pc98_aes
+EBOT0001.exe | 2002-02-11 | Found: old_pc98_no_aes
+EBOT0022.EXE | 2006-03-08 | Found: old_pc98_aes
 EBOT1015.exe | 2010-07-07 | Found: EGGDATA
 EBOT0032.exe | 2009-05-29 | Found: EGGDATA
-EBOT0027.exe | 2007-11-16 | Found: None
-EBOT0029.exe | 2008-01-11 | Found: DataFileVer2
-EBOT0026.exe | 2007-10-11 | Found: None
-EBOT0025.exe | 2006-03-02 | Found: DataFileVer2
+EBOT0027.exe | 2007-11-16 | Found: old Xor + LZSS
+EBOT0029.exe | 2008-01-11 | Found: DataFileVer, Version 2
+EBOT0026.exe | 2007-10-11 | Found: None (.data big virtual size)
+EBOT0025.exe | 2006-03-02 | Found: DataFileVer, Version 2, Type 2
 EBOT1003.exe | 2007-10-01 | Found: MSXPLAYer
 EBOT0035.exe | 2010-07-07 | Found: EGGDATA
-EBOT0003.exe | 2002-02-11 | Found: None
-EBOT0028.exe | 2007-12-06 | Found: None
+EBOT0003.exe | 2002-02-11 | Found: old_pc98_no_aes
+EBOT0028.exe | 2007-12-06 | Found: None (.data big virtual size)
 EBOT0036.EXE | 2010-06-21 | Found: EGGDATA
-EBPS0001.EXE | 2002-02-11 | Found: None
-EBPS0004.EXE | 2005-04-12 | Found: DataFileVer2
+EBPS0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EBPS0004.EXE | 2005-04-12 | Found: DataFileVer, Version 2, Type 2
 EBPS0010.exe | 2013-01-07 | Found: EGGDATA
 EBRM0001.exe | 2023-06-08 | Found: EGGDATA
-ECAR0001.EXE | 2005-11-29 | Found: ÆxKq(©
-ECAR0002.EXE | 2006-01-23 | Found: None
-ECAR0003.EXE | 2006-02-07 | Found: None
-ECAR0004.exe | 2006-03-08 | Found: ÆxKq(©
+ECAR0001.EXE | 2005-11-29 | Found: old_pc98_aes
+ECAR0002.EXE | 2006-01-23 | Found: old Xor + LZSS
+ECAR0003.EXE | 2006-02-07 | Found: old Xor + LZSS
+ECAR0004.exe | 2006-03-08 | Found: old_pc98_aes
 GAME.exe | 2021-02-05 | Found: EGGDATA
-ECAR0001.exe | 2005-11-29 | Found: ÆxKq(©
-ECAR0002.exe | 2006-01-23 | Found: None
-ECAR0003.exe | 2006-02-07 | Found: None
-ECAR0004.exe | 2006-03-08 | Found: ÆxKq(©
+ECAR0001.exe | 2005-11-29 | Found: old_pc98_aes
+ECAR0002.exe | 2006-01-23 | Found: old Xor + LZSS
+ECAR0003.exe | 2006-02-07 | Found: old Xor + LZSS
+ECAR0004.exe | 2006-03-08 | Found: old_pc98_aes
 GAME.exe | 2021-11-24 | Found: EGGDATA
 GAME.exe | 2021-11-24 | Found: EGGDATA
 GAME.exe | 2021-02-05 | Found: EGGDATA
@@ -179,39 +178,39 @@ ECBR1002.exe | 2019-09-25 | Found: EGGDATA
 GAME.exe | 2019-09-25 | Found: EGGDATA
 ECBR1004.exe | 2019-09-25 | Found: EGGDATA
 ECOM0004.exe | 2016-02-15 | Found: EGGDATA
-ECOM0005.exe | 2007-07-02 | Found: None
+ECOM0005.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0006.exe | 2012-07-20 | Found: EGGDATA
-ECOM0007.EXE | 2007-07-02 | Found: None
+ECOM0007.EXE | 2007-07-02 | Found: TYPE98_old
 ECOM0010.exe | 2016-02-15 | Found: EGGDATA
-ECOM0011.exe | 2007-07-02 | Found: None
-ECOM0012.exe | 2007-07-02 | Found: None
-ECOM0013.EXE | 2007-07-02 | Found: None
-ECOM0014.EXE | 2007-07-02 | Found: None
+ECOM0011.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0012.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0013.EXE | 2007-07-02 | Found: TYPE98_old
+ECOM0014.EXE | 2007-07-02 | Found: TYPE98_old
 ECOM0015.exe | 2012-07-20 | Found: EGGDATA
-ECOM0016.EXE | 2008-04-21 | Found: None
-ECOM0017.exe | 2007-07-02 | Found: None
-ECOM0018.EXE | 2007-07-02 | Found: None
-ECOM0019.exe | 2007-07-02 | Found: None
-ECOM0020.exe | 2007-07-02 | Found: None
-ECOM0021.exe | 2007-07-02 | Found: None
-ECOM0022.EXE | 2007-07-02 | Found: None
+ECOM0016.EXE | 2008-04-21 | Found: TYPE98_old
+ECOM0017.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0018.EXE | 2007-07-02 | Found: TYPE98_old
+ECOM0019.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0020.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0021.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0022.EXE | 2007-07-02 | Found: TYPE98_old
 ECOM0023.exe | 2009-05-29 | Found: EGGDATA
 ECOM0024.exe | 2016-02-15 | Found: EGGDATA
 ECOM0025.exe | 2016-02-15 | Found: EGGDATA
 ECOM0026.exe | 2012-07-20 | Found: EGGDATA
-ECOM0027.exe | 2007-07-02 | Found: None
-ECOM0028.exe | 2007-07-02 | Found: None
-ECOM0029.exe | 2007-07-02 | Found: None
+ECOM0027.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0028.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0029.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0030.exe | 2012-07-20 | Found: EGGDATA
-ECOM0031.exe | 2007-07-02 | Found: None
+ECOM0031.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0032.exe | 2012-07-20 | Found: EGGDATA
-ECOM0033.exe | 2007-07-02 | Found: None
+ECOM0033.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0034.exe | 2016-02-15 | Found: EGGDATA
-ECOM0035.exe | 2007-07-02 | Found: None
+ECOM0035.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0036.exe | 2009-05-29 | Found: EGGDATA
-ECOM0037.exe | 2007-07-02 | Found: None
+ECOM0037.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0038.exe | 2009-05-29 | Found: EGGDATA
-ECOM0039.exe | 2007-07-02 | Found: None
+ECOM0039.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0041.exe | 2009-05-29 | Found: EGGDATA
 ECOM0042.exe | 2009-05-29 | Found: EGGDATA
 ECOM0043.exe | 2009-05-29 | Found: EGGDATA
@@ -289,8 +288,8 @@ ECOM1003.exe | 2015-12-03 | Found: EGGDATA
 SETUP.EXE | 1999-06-12 | Found: None
 ECOM1006.exe | 2015-12-03 | Found: EGGDATA
 ECOM1010.exe | 2010-07-07 | Found: EGGDATA
-ECOM1013.EXE | 2003-08-16 | Found: None
-ECOM1014.EXE | 2003-08-16 | Found: None
+ECOM1013.EXE | 2003-08-16 | Found: None (.data big virtual size)
+ECOM1014.EXE | 2003-08-16 | Found: None (.data big virtual size)
 ECOM1015.EXE | 2005-05-12 | Found: MSXPLAYer
 ECOM1016.exe | 2010-07-07 | Found: EGGDATA
 ECOM1017.EXE | 2005-10-14 | Found: MSXPLAYer
@@ -354,9 +353,9 @@ GAME.exe | 2023-04-20 | Found: EGGDATA
 ECOM1056.exe | 2019-09-25 | Found: EGGDATA
 PCOM3001.exe | 2004-10-15 | Found: MSXPLAYer
 ECOM3002.EXE | 2009-01-28 | Found: D4E MSX
-ECOM0013.EXE | 2007-07-02 | Found: None
+ECOM0013.EXE | 2007-07-02 | Found: TYPE98_old
 ecom3004.exe | 2007-10-01 | Found: MSXPLAYer
-ECOM0016.EXE | 2008-04-21 | Found: None
+ECOM0016.EXE | 2008-04-21 | Found: TYPE98_old
 ECOM1002.EXE | 2005-04-12 | Found: MSXPLAYer
 ECOM1018.EXE | 2006-12-12 | Found: MSXPLAYer
 にゃんぴ☆これくしょん.EXE | 2005-01-10 | Found: MSXPLAYer
@@ -364,8 +363,8 @@ ECOM1022.EXE | 2009-03-30 | Found: D4E MSX
 ブラスターバーン総集編(前編).exe | 2005-01-21 | Found: MSXPLAYer
 ブラスターバーン総集編(後編).exe | 2005-01-21 | Found: MSXPLAYer
 ECOM1003.exe | 2007-10-01 | Found: MSXPLAYer
-ECOM0035.exe | 2007-07-02 | Found: None
-ECOM0026.exe | 2007-07-02 | Found: None
+ECOM0035.exe | 2007-07-02 | Found: TYPE98_old
+ECOM0026.exe | 2007-07-02 | Found: TYPE98_old
 ECOM1015.exe | 2005-05-12 | Found: MSXPLAYer
 ECOM3017B.exe | 2015-12-03 | Found: EGGDATA
 DSコレクション4.EXE | 2004-10-15 | Found: MSXPLAYer
@@ -374,7 +373,7 @@ ECOM0049.exe | 2009-05-29 | Found: EGGDATA
 DSコレクション7.exe | 2004-12-21 | Found: MSXPLAYer
 ECOM3022.exe | 2009-05-29 | Found: EGGDATA
 ECOM0047.EXE | 2009-05-29 | Found: EGGDATA
-ECOM0031.exe | 2007-07-02 | Found: None
+ECOM0031.exe | 2007-07-02 | Found: TYPE98_old
 ECOM0038.exe | 2009-05-29 | Found: EGGDATA
 ECOM0052.exe | 2009-05-29 | Found: EGGDATA
 ECOM0053.exe | 2011-07-20 | Found: EGGDATA
@@ -388,20 +387,20 @@ ECOM0068.exe | 2012-05-28 | Found: EGGDATA
 ECOM4001A.exe | 2012-05-01 | Found: EGGDATA
 ECOM4001B.exe | 2012-05-01 | Found: EGGDATA
 ECOM4002.exe | 2012-05-01 | Found: EGGDATA
-Bucket.exe | 1998-12-21 | Found: None
-jump4.exe | 1999-04-27 | Found: None
-ANGLER.EXE | 1997-07-18 | Found: None
-JOURNEY.EXE | 1998-03-12 | Found: None
-FNovel.exe | 2000-02-04 | Found: None
-GEO_ADV.exe | 1998-07-02 | Found: None
-BANGIVAN.exe | 1999-07-12 | Found: None
-TANU_PAZ.EXE | 1997-07-29 | Found: None
-TANU_PZ2.EXE | 1998-03-17 | Found: None
+Bucket.exe | 1998-12-21 | Found: None (.data big virtual size)
+jump4.exe | 1999-04-27 | Found: None (.text > 500KB, .data big virtual size)
+ANGLER.EXE | 1997-07-18 | Found: None (.data big virtual size)
+JOURNEY.EXE | 1998-03-12 | Found: None (.data big virtual size)
+FNovel.exe | 2000-02-04 | Found: None (.data big virtual size)
+GEO_ADV.exe | 1998-07-02 | Found: None (.data big virtual size)
+BANGIVAN.exe | 1999-07-12 | Found: None (.data big virtual size)
+TANU_PAZ.EXE | 1997-07-29 | Found: None (.data big virtual size)
+TANU_PZ2.EXE | 1998-03-17 | Found: None (.data big virtual size)
 papapa3.exe | 2001-11-29 | Found: None
-paz23.exe | 1999-04-13 | Found: None
-SeigiMan.exe | 2000-02-23 | Found: None
-FLOAT.EXE | 1997-04-28 | Found: None
-Geo4.exe | 2000-05-18 | Found: None
+paz23.exe | 1999-04-13 | Found: None (.data big virtual size)
+SeigiMan.exe | 2000-02-23 | Found: None (.data big virtual size)
+FLOAT.EXE | 1997-04-28 | Found: None (.data big virtual size)
+Geo4.exe | 2000-05-18 | Found: None (.data big virtual size)
 ECOM6001.exe | 2014-07-30 | Found: EGGDATA
 ECOM6002.exe | 2014-07-30 | Found: EGGDATA
 ECOM6003.exe | 2019-07-18 | Found: EGGDATA
@@ -414,9 +413,9 @@ GAME.exe | 2018-08-23 | Found: EGGDATA
 GAME.exe | 2018-08-23 | Found: EGGDATA
 GAME.exe | 2016-03-03 | Found: EGGDATA
 GAME.exe | 2017-06-07 | Found: EGGDATA
-ECOS0001.EXE | 2003-01-23 | Found: None
-ECOS0002.EXE | 2003-02-10 | Found: ÆxKq(©
-ECOS0003.exe | 2004-01-20 | Found: DataFileVer2
+ECOS0001.EXE | 2003-01-23 | Found: old Xor + LZSS
+ECOS0002.EXE | 2003-02-10 | Found: old_pc98_aes
+ECOS0003.exe | 2004-01-20 | Found: DataFileVer, Version 2
 ECOS0004.exe | 2011-08-02 | Found: EGGDATA
 ECOS0005.exe | 2012-07-20 | Found: EGGDATA
 ECOS0006.exe | 2011-11-25 | Found: EGGDATA
@@ -427,8 +426,8 @@ GAME.exe | 2016-02-15 | Found: EGGDATA
 ECOS0010.exe | 2012-04-04 | Found: EGGDATA
 GAME.exe | 2012-04-04 | Found: EGGDATA
 ECOS0005.exe | 2012-07-20 | Found: EGGDATA
-ECOS0001.exe | 2003-01-23 | Found: None
-ECOS0003.exe | 2004-01-20 | Found: DataFileVer2
+ECOS0001.exe | 2003-01-23 | Found: old Xor + LZSS
+ECOS0003.exe | 2004-01-20 | Found: DataFileVer, Version 2
 ECOS0004.exe | 2011-08-02 | Found: EGGDATA
 ECOS0006.exe | 2011-11-25 | Found: EGGDATA
 GAME.exe | 2021-03-15 | Found: EGGDATA
@@ -444,30 +443,30 @@ GAME.exe | 2019-09-25 | Found: EGGDATA
 ECOS1002.exe | 2019-09-25 | Found: EGGDATA
 ECPM1000.exe | 2015-12-03 | Found: EGGDATA
 ECPM1000B.exe | 2015-12-03 | Found: EGGDATA
-EDBS0005.EXE | 2002-05-22 | Found: ÆxKq(©
-EDBS0002.EXE | 2003-02-07 | Found: None
-EDBS0003.exe | 2002-12-01 | Found: ÆxKq(©
-EDBS0004.exe | 2003-02-10 | Found: ÆxKq(©
-EDBS0006.EXE | 2002-08-31 | Found: None
-EDBS0008.exe | 2004-03-26 | Found: None
-EDBS0008_00000001.exe | 2004-03-26 | Found: None
-EDBS0009.exe | 2005-05-06 | Found: ÆxKq(©
+EDBS0005.EXE | 2002-05-22 | Found: old_pc98_aes
+EDBS0002.EXE | 2003-02-07 | Found: old Xor + LZSS
+EDBS0003.exe | 2002-12-01 | Found: old_pc98_aes
+EDBS0004.exe | 2003-02-10 | Found: old_pc98_aes
+EDBS0006.EXE | 2002-08-31 | Found: old Xor + LZSS
+EDBS0008.exe | 2004-03-26 | Found: None (.data big virtual size)
+EDBS0008_00000001.exe | 2004-03-26 | Found: None (.data big virtual size)
+EDBS0009.exe | 2005-05-06 | Found: old_pc98_aes
 EDBS0009_00000001.exe | 2009-05-29 | Found: EGGDATA
 EDBS0010.exe | 2009-05-29 | Found: EGGDATA
 EDBS0011.exe | 2017-06-07 | Found: EGGDATA
 GAME.exe | 2021-11-22 | Found: EGGDATA
-EDBS1001.EXE | 2002-07-31 | Found: None
+EDBS1001.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EDBS1001_00000001.exe | 2012-09-13 | Found: EGGDATA
-EDBS1002.EXE | 2002-07-31 | Found: None
+EDBS1002.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EDBS1002_00000001.exe | 2012-09-13 | Found: EGGDATA
-EDBS1003.EXE | 2002-07-31 | Found: None
+EDBS1003.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EDBS1003_00000001.exe | 2012-09-13 | Found: EGGDATA
-EDBS1004.EXE | 2002-07-31 | Found: None
+EDBS1004.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EDBS1004_00000001.exe | 2012-09-13 | Found: EGGDATA
-EDBS1005.EXE | 2002-11-03 | Found: None
+EDBS1005.EXE | 2002-11-03 | Found: None (.data big virtual size)
 EDBS1005_00000001.EXE | 2007-10-01 | Found: MSXPLAYer
-EDBS1006.EXE | 2003-08-16 | Found: None
-EDBS1006_00000001.EXE | 2003-08-16 | Found: None
+EDBS1006.EXE | 2003-08-16 | Found: None (.data big virtual size)
+EDBS1006_00000001.EXE | 2003-08-16 | Found: None (.data big virtual size)
 EDBS1007.EXE | 2005-03-11 | Found: MSXPLAYer
 EDBS1007_00000001.EXE | 2005-03-11 | Found: MSXPLAYer
 EDBS1008.EXE | 2006-03-29 | Found: MSXPLAYer
@@ -476,18 +475,18 @@ EDBS1010.exe | 2019-07-10 | Found: EGGDATA
 EDBS1011.exe | 2019-09-25 | Found: EGGDATA
 EDMB0001.exe | 2011-08-10 | Found: EGGDATA
 GAME.exe | 2022-07-13 | Found: EGGDATA
-EEBS0001.exe | 2005-04-02 | Found: ÆxKq(©
-EEBS0002.exe | 2005-04-02 | Found: ÆxKq(©
-EEBS0003.exe | 2003-08-23 | Found: ÆxKq(©
-EEBS0004.EXE | 2004-04-18 | Found: ÆxKq(©
-EEBS0006.exe | 2005-01-05 | Found: None
-EEBS0007.exe | 2007-11-07 | Found: None
-EEBS0008.exe | 2007-11-07 | Found: None
-EEBS0009.exe | 2007-11-20 | Found: None
-EEBS0010a.exe | 2008-01-09 | Found: None
-EEBS0010b.exe | 2008-01-09 | Found: None
-EEBS0011.exe | 2008-01-30 | Found: None
-EEBS0012.exe | 2008-03-07 | Found: None
+EEBS0001.exe | 2005-04-02 | Found: old_pc98_aes
+EEBS0002.exe | 2005-04-02 | Found: old_pc98_aes
+EEBS0003.exe | 2003-08-23 | Found: old_pc98_aes
+EEBS0004.EXE | 2004-04-18 | Found: old_pc98_aes
+EEBS0006.exe | 2005-01-05 | Found: old Xor + LZSS
+EEBS0007.exe | 2007-11-07 | Found: None (.data big virtual size)
+EEBS0008.exe | 2007-11-07 | Found: None (.data big virtual size)
+EEBS0009.exe | 2007-11-20 | Found: None (.data big virtual size)
+EEBS0010a.exe | 2008-01-09 | Found: None (.data big virtual size)
+EEBS0010b.exe | 2008-01-09 | Found: None (.data big virtual size)
+EEBS0011.exe | 2008-01-30 | Found: None (.data big virtual size)
+EEBS0012.exe | 2008-03-07 | Found: None (.data big virtual size)
 EEBS0013.exe | 2013-01-07 | Found: EGGDATA
 EEBS0014.exe | 2013-01-07 | Found: EGGDATA
 EEBS0015.exe | 2009-05-29 | Found: EGGDATA
@@ -506,49 +505,49 @@ EETG0008.exe | 2023-01-04 | Found: EGGDATA
 EETG0009.exe | 2023-01-04 | Found: EGGDATA
 EETG0010.exe | 2023-01-04 | Found: EGGDATA
 GAME.exe | 2023-01-04 | Found: EGGDATA
-EFAL0001.exe | 2003-07-10 | Found: ÆxKq(©
-EFAL0003.exe | 2002-02-11 | Found: None
-EFAL0005.EXE | 2002-02-11 | Found: None
-EFAL0006.EXE | 2002-02-11 | Found: None
-EFAL0007.EXE | 2002-02-11 | Found: None
-EFAL0008.EXE | 2002-01-08 | Found: DataFileVer2
-EFAL0009.exe | 2003-07-10 | Found: ÆxKq(©
-EFAL0010.exe | 2002-02-11 | Found: None
-EFAL0011.exe | 2003-07-10 | Found: ÆxKq(©
-EFAL0012.EXE | 2002-02-18 | Found: DataFileVer2
-EFAL0013.exe | 2002-06-17 | Found: ÆxKq(©
-EFAL0014.EXE | 2002-03-20 | Found: DataFileVer2
-EFAL0015.EXE | 2002-04-23 | Found: None
-EFAL0016.EXE | 2002-06-17 | Found: ÆxKq(©
-EFAL0017.EXE | 2002-03-21 | Found: None
-EFAL0018.EXE | 2002-04-22 | Found: DataFileVer2
-EFAL0019.EXE | 2002-04-28 | Found: None
-EFAL0020.EXE | 2002-05-22 | Found: DataFileVer2
-EFAL0021.exe | 2005-04-17 | Found: ÆxKq(©
-EFAL0028.EXE | 2002-08-31 | Found: None
-EFAL0030.EXE | 2002-06-17 | Found: ÆxKq(©
-EFAL0031.EXE | 2002-05-22 | Found: ÆxKq(©
-EFAL0032.EXE | 2002-12-01 | Found: None
-EFAL0033.EXE | 2002-12-01 | Found: None
-EFAL0034.EXE | 2003-10-02 | Found: DataFileVer2
-EFAL0037.EXE | 2003-10-02 | Found: DataFileVer2
-EFAL0039.EXE | 2003-10-02 | Found: DataFileVer2
-EFAL0040.EXE | 2003-10-07 | Found: None
-EFAL0044.EXE | 2003-10-07 | Found: None
-EFAL0051.exe | 2006-03-08 | Found: ÆxKq(©
+EFAL0001.exe | 2003-07-10 | Found: old_pc98_aes
+EFAL0003.exe | 2002-02-11 | Found: old_pc98_no_aes
+EFAL0005.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EFAL0006.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EFAL0007.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EFAL0008.EXE | 2002-01-08 | Found: DataFileVer, Version 2, Type 2
+EFAL0009.exe | 2003-07-10 | Found: old_pc98_aes
+EFAL0010.exe | 2002-02-11 | Found: old_pc98_no_aes
+EFAL0011.exe | 2003-07-10 | Found: old_pc98_aes
+EFAL0012.EXE | 2002-02-18 | Found: DataFileVer, Version 2, Type 2
+EFAL0013.exe | 2002-06-17 | Found: old_pc98_aes
+EFAL0014.EXE | 2002-03-20 | Found: DataFileVer, Version 2, Type 2
+EFAL0015.EXE | 2002-04-23 | Found: old_pc98_no_aes
+EFAL0016.EXE | 2002-06-17 | Found: old_pc98_aes
+EFAL0017.EXE | 2002-03-21 | Found: old Xor + LZSS
+EFAL0018.EXE | 2002-04-22 | Found: DataFileVer, Version 2
+EFAL0019.EXE | 2002-04-28 | Found: old Xor + LZSS
+EFAL0020.EXE | 2002-05-22 | Found: DataFileVer, Version 2
+EFAL0021.exe | 2005-04-17 | Found: old_pc98_aes
+EFAL0028.EXE | 2002-08-31 | Found: DataFileVer, Version 3
+EFAL0030.EXE | 2002-06-17 | Found: old_pc98_aes
+EFAL0031.EXE | 2002-05-22 | Found: old_pc98_aes
+EFAL0032.EXE | 2002-12-01 | Found: DataFileVer, Version 3
+EFAL0033.EXE | 2002-12-01 | Found: DataFileVer, Version 3
+EFAL0034.EXE | 2003-10-02 | Found: DataFileVer, Version 2, Type 2
+EFAL0037.EXE | 2003-10-02 | Found: DataFileVer, Version 2
+EFAL0039.EXE | 2003-10-02 | Found: DataFileVer, Version 2, Type 2
+EFAL0040.EXE | 2003-10-07 | Found: old Xor + LZSS
+EFAL0044.EXE | 2003-10-07 | Found: old Xor + LZSS
+EFAL0051.exe | 2006-03-08 | Found: old_pc98_aes
 EFAL0052.exe | 2009-05-29 | Found: EGGDATA
-EFAL0053.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0054.exe | 2006-12-20 | Found: None
-EFAL0055.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0056.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0057.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0058.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0059.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0060.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0061.exe | 2007-05-23 | Found: None
-EFAL0062.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0063.exe | 2006-03-08 | Found: ÆxKq(©
-EFAL0064.exe | 2006-12-20 | Found: None
+EFAL0053.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0054.exe | 2006-12-20 | Found: old Xor + LZSS
+EFAL0055.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0056.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0057.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0058.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0059.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0060.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0061.exe | 2007-05-23 | Found: TYPE98_old
+EFAL0062.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0063.exe | 2006-03-08 | Found: old_pc98_aes
+EFAL0064.exe | 2006-12-20 | Found: old Xor + LZSS
 EFAL0065.exe | 2012-04-04 | Found: EGGDATA
 EFAL0066.EXE | 2006-11-30 | Found: TYPE98
 EFAL0067.EXE | 2006-12-19 | Found: TYPE98
@@ -562,13 +561,13 @@ EFAL0074.EXE | 2007-01-11 | Found: TYPE98
 EFAL0075.EXE | 2007-01-11 | Found: TYPE98
 EFAL0078.EXE | 2007-01-11 | Found: TYPE98
 EFAL0079.exe | 2007-04-05 | Found: TYPE98
-EFAL0080.exe | 2007-11-20 | Found: ÆxKq(©
-EFAL0081.EXE | 2007-12-18 | Found: None
-EFAL0084.exe | 2007-07-02 | Found: None
-EFAL0085.exe | 2007-07-02 | Found: None
-EFAL0086.exe | 2007-07-02 | Found: None
-EFAL0087.exe | 2007-07-02 | Found: None
-EFAL0096.exe | 2007-11-20 | Found: ÆxKq(©
+EFAL0080.exe | 2007-11-20 | Found: old_pc98_aes
+EFAL0081.EXE | 2007-12-18 | Found: TYPE98_old
+EFAL0084.exe | 2007-07-02 | Found: TYPE98_old
+EFAL0085.exe | 2007-07-02 | Found: TYPE98_old
+EFAL0086.exe | 2007-07-02 | Found: TYPE98_old
+EFAL0087.exe | 2007-07-02 | Found: TYPE98_old
+EFAL0096.exe | 2007-11-20 | Found: old_pc98_aes
 EFAL0097.exe | 2009-05-29 | Found: EGGDATA
 EFAL0098.exe | 2009-05-29 | Found: EGGDATA
 EFAL0099.exe | 2011-08-11 | Found: EGGDATA
@@ -611,7 +610,7 @@ EFAL0137.exe | 2022-11-29 | Found: EGGDATA
 EFAL1001.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAL1002.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAL1003.EXE | 2007-10-01 | Found: MSXPLAYer
-EFAL1004.EXE | 2002-07-31 | Found: None
+EFAL1004.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EFAL1005.EXE | 2006-12-12 | Found: MSXPLAYer
 EFAL1006.EXE | 2008-05-02 | Found: MSXPLAYer
 EFAL1051.EXE | 2006-06-06 | Found: MSXPLAYer
@@ -628,34 +627,34 @@ EFAL1061.exe | 2015-12-03 | Found: EGGDATA
 EFAL1062.exe | 2018-02-22 | Found: EGGDATA
 EFAL1063.exe | 2017-06-07 | Found: EGGDATA
 EFAL1064.exe | 2017-06-07 | Found: EGGDATA
-EFAM0002.exe | 2005-04-15 | Found: None
-EFAM0003.EXE | 2004-02-20 | Found: None
-EFAM0006.exe | 2006-12-27 | Found: None
-EFAM0007.exe | 2007-01-11 | Found: None
+EFAM0002.exe | 2005-04-15 | Found: old Xor + LZSS
+EFAM0003.EXE | 2004-02-20 | Found: old Xor + LZSS
+EFAM0006.exe | 2006-12-27 | Found: old Xor + LZSS
+EFAM0007.exe | 2007-01-11 | Found: old Xor + LZSS
 EFAM0008.exe | 2009-05-29 | Found: EGGDATA
 EFAM0009.exe | 2009-05-29 | Found: EGGDATA
 EFAM0010.exe | 2009-05-29 | Found: EGGDATA
 EFAM1001.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAM1002.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAM1004.EXE | 2007-10-01 | Found: MSXPLAYer
-EFAS0001.exe | 2003-07-29 | Found: DataFileVer2
+EFAS0001.exe | 2003-07-29 | Found: DataFileVer, Version 2, Type 2
 EFAS1001.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAS1002.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAS1003.EXE | 2007-10-01 | Found: MSXPLAYer
 EFAS1007.EXE | 2007-10-01 | Found: MSXPLAYer
-EFUG0002.exe | 2007-05-23 | Found: None
-EFUG0003.EXE | 2007-05-23 | Found: None
-EFUG0004.EXE | 2007-05-23 | Found: None
-EFUG0005.EXE | 2007-06-26 | Found: None
-EGAR0001.exe | 2005-04-02 | Found: ÆxKq(©
-EGAR0002.EXE | 2004-01-20 | Found: ÆxKq(©
-EGAR0003.EXE | 2003-02-07 | Found: None
-EGAR0004.EXE | 2003-02-10 | Found: ÆxKq(©
-EGAR0005.EXE | 2003-05-12 | Found: ÆxKq(©
-EGAR0006.exe | 2003-08-23 | Found: ÆxKq(©
-EGAR0007.exe | 2003-08-23 | Found: ÆxKq(©
-EGAR0008.EXE | 2005-09-27 | Found: ÆxKq(©
-EGAR0011.exe | 2006-04-27 | Found: None
+EFUG0002.exe | 2007-05-23 | Found: TYPE98_old
+EFUG0003.EXE | 2007-05-23 | Found: TYPE98_old
+EFUG0004.EXE | 2007-05-23 | Found: TYPE98_old
+EFUG0005.EXE | 2007-06-26 | Found: TYPE98_old
+EGAR0001.exe | 2005-04-02 | Found: old_pc98_aes
+EGAR0002.EXE | 2004-01-20 | Found: old_pc98_aes
+EGAR0003.EXE | 2003-02-07 | Found: old Xor + LZSS
+EGAR0004.EXE | 2003-02-10 | Found: old_pc98_aes
+EGAR0005.EXE | 2003-05-12 | Found: old_pc98_aes
+EGAR0006.exe | 2003-08-23 | Found: old_pc98_aes
+EGAR0007.exe | 2003-08-23 | Found: old_pc98_aes
+EGAR0008.EXE | 2005-09-27 | Found: old_pc98_aes
+EGAR0011.exe | 2006-04-27 | Found: old Xor + LZSS
 EGAR0012.exe | 2009-05-29 | Found: EGGDATA
 EGAR0012B.exe | 2009-05-29 | Found: EGGDATA
 EGAR0013.exe | 2009-05-29 | Found: EGGDATA
@@ -709,13 +708,13 @@ EGNX0002.exe | 2009-05-29 | Found: EGGDATA
 EGNX0003.exe | 2009-12-21 | Found: EGGDATA
 EGNX0003B.exe | 2011-02-24 | Found: EGGDATA
 GAME.exe | 2016-02-15 | Found: EGGDATA
-EHAM0001.exe | 2005-04-02 | Found: ÆxKq(©
-EHAM0002.exe | 2002-09-08 | Found: ÆxKq(©
-EHAM0003.EXE | 2002-03-20 | Found: DataFileVer2
-EHAM0004.EXE | 2002-06-17 | Found: ÆxKq(©
-EHAM0005.EXE | 2002-06-17 | Found: ÆxKq(©
-EHAM0006.exe | 2002-09-08 | Found: ÆxKq(©
-EHAM0007.EXE | 2004-02-01 | Found: None
+EHAM0001.exe | 2005-04-02 | Found: old_pc98_aes
+EHAM0002.exe | 2002-09-08 | Found: old_pc98_aes
+EHAM0003.EXE | 2002-03-20 | Found: DataFileVer, Version 2, Type 2
+EHAM0004.EXE | 2002-06-17 | Found: old_pc98_aes
+EHAM0005.EXE | 2002-06-17 | Found: old_pc98_aes
+EHAM0006.exe | 2002-09-08 | Found: old_pc98_aes
+EHAM0007.EXE | 2004-02-01 | Found: old Xor + LZSS
 EHAM0008.exe | 2009-05-29 | Found: EGGDATA
 EHAM0009.exe | 2009-05-29 | Found: EGGDATA
 EHAM0010.exe | 2014-04-07 | Found: EGGDATA
@@ -725,8 +724,8 @@ EHAM0013.exe | 2014-06-30 | Found: EGGDATA
 EHAM0014.exe | 2016-02-15 | Found: EGGDATA
 EHAM0015.exe | 2012-04-04 | Found: EGGDATA
 EHAM0011.exe | 2009-05-29 | Found: EGGDATA
-EHAM0002.exe | 2002-09-08 | Found: ÆxKq(©
-EHAM0007.exe | 2004-02-01 | Found: None
+EHAM0002.exe | 2002-09-08 | Found: old_pc98_aes
+EHAM0007.exe | 2004-02-01 | Found: old Xor + LZSS
 EHAM0013.exe | 2014-06-30 | Found: EGGDATA
 EHAM1005.exe | 2019-09-25 | Found: EGGDATA
 GAME.exe | 2021-10-01 | Found: EGGDATA
@@ -741,15 +740,15 @@ EHAM1005.exe | 2019-09-25 | Found: EGGDATA
 TEST0001.exe | 2019-09-06 | Found: EGGDATA
 EHAM1006.exe | 2019-09-25 | Found: EGGDATA
 EHAM2001.exe | 2019-07-18 | Found: EGGDATA
-EHOK0001.EXE | 2007-07-02 | Found: None
-EHOK0002.EXE | 2007-07-02 | Found: None
-EHOK0003.EXE | 2007-07-02 | Found: None
-EHOT0002.EXE | 2001-11-27 | Found: None
-EHOT0004.exe | 2002-09-08 | Found: ÆxKq(©
-EHOT0006.exe | 2002-09-08 | Found: ÆxKq(©
-EHOT0007.EXE | 2003-01-26 | Found: ÆxKq(©
-EHOT0011.EXE | 2005-09-27 | Found: ÆxKq(©
-EHOT0012.exe | 2007-02-14 | Found: None
+EHOK0001.EXE | 2007-07-02 | Found: TYPE98_old
+EHOK0002.EXE | 2007-07-02 | Found: TYPE98_old
+EHOK0003.EXE | 2007-07-02 | Found: TYPE98_old
+EHOT0002.EXE | 2001-11-27 | Found: old_pc98_no_aes
+EHOT0004.exe | 2002-09-08 | Found: old_pc98_aes
+EHOT0006.exe | 2002-09-08 | Found: old_pc98_aes
+EHOT0007.EXE | 2003-01-26 | Found: old_pc98_aes
+EHOT0011.EXE | 2005-09-27 | Found: old_pc98_aes
+EHOT0012.exe | 2007-02-14 | Found: old Xor + LZSS
 EHOT1001.EXE | 2007-10-01 | Found: MSXPLAYer
 EHOT1002.EXE | 2007-10-01 | Found: MSXPLAYer
 SETUP.EXE | 1999-06-12 | Found: None
@@ -759,7 +758,7 @@ EHOT1006.exe | 2019-09-25 | Found: EGGDATA
 EHOT1007.exe | 2019-09-25 | Found: EGGDATA
 EHRZ1001.EXE | 2006-06-06 | Found: MSXPLAYer
 EHRZ1002.EXE | 2006-06-06 | Found: MSXPLAYer
-EHUD0001.EXE | 2003-02-10 | Found: ÆxKq(©
+EHUD0001.EXE | 2003-02-10 | Found: old_pc98_aes
 EHUD1001.EXE | 2005-03-13 | Found: MSXPLAYer
 EIMX0001.exe | 2010-09-21 | Found: EGGDATA
 EIMX0002.exe | 2010-09-21 | Found: EGGDATA
@@ -820,14 +819,14 @@ EKNM1016.exe | 2014-05-02 | Found: EGGDATA
 EKNM1017.exe | 2014-03-16 | Found: EGGDATA
 EKNM1018.exe | 2014-05-02 | Found: EGGDATA
 EKNM1019.exe | 2015-04-09 | Found: EGGDATA
-EKSK0001.EXE | 2002-02-11 | Found: None
-EKSK0002.EXE | 2002-02-11 | Found: None
-EKSK0003.EXE | 2002-02-11 | Found: None
-EKSK0006.EXE | 2002-01-22 | Found: None
-EKSK0013.EXE | 2002-09-08 | Found: ÆxKq(©
-EKSK0019.EXE | 2004-07-26 | Found: DataFileVer2
-EKSK0022.exe | 2006-06-16 | Found: None
-EKSK0023.exe | 2007-11-20 | Found: ÆxKq(©
+EKSK0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EKSK0002.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EKSK0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EKSK0006.EXE | 2002-01-22 | Found: X1_old (.rdata > 500KB, .data big virtual size)
+EKSK0013.EXE | 2002-09-08 | Found: old_pc98_aes
+EKSK0019.EXE | 2004-07-26 | Found: DataFileVer, Version 2, Type 2
+EKSK0022.exe | 2006-06-16 | Found: old Xor + LZSS
+EKSK0023.exe | 2007-11-20 | Found: old_pc98_aes
 EKSK0024.exe | 2009-04-30 | Found: EGGDATA
 EKSK0025.exe | 2009-05-29 | Found: EGGDATA
 EKSK0026.exe | 2009-05-29 | Found: EGGDATA
@@ -852,7 +851,7 @@ EKSK0043.exe | 2016-02-15 | Found: EGGDATA
 EKSK0044.exe | 2011-11-25 | Found: EGGDATA
 EKSK0045.exe | 2014-07-30 | Found: EGGDATA
 EKSK1001.exe | 2007-10-01 | Found: MSXPLAYer
-EKSK1002.EXE | 2002-07-31 | Found: None
+EKSK1002.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EKSK1003.exe | 2005-12-19 | Found: MSXPLAYer
 EKSK1004.EXE | 2005-12-19 | Found: MSXPLAYer
 EKSK1005.EXE | 2005-12-19 | Found: MSXPLAYer
@@ -864,16 +863,16 @@ EKSK1010.exe | 2017-06-07 | Found: EGGDATA
 EKSK1011.exe | 2017-06-07 | Found: EGGDATA
 EKSK1012.exe | 2019-09-25 | Found: EGGDATA
 EKSK1013.exe | 2019-09-25 | Found: EGGDATA
-EKUR0001.EXE | 2002-02-11 | Found: None
-EKUR0002.EXE | 2002-02-11 | Found: None
-EKUR0003.EXE | 2007-07-02 | Found: None
-EKUR0006.EXE | 2004-04-02 | Found: ÆxKq(©
-EKUR0008.EXE | 2004-04-18 | Found: DataFileVer2
-EKUR0010.exe | 2004-12-16 | Found: DataFileVer2
-EKUR0012.exe | 2005-10-20 | Found: ÆxKq(©
-EKUR0013.exe | 2007-07-02 | Found: None
-EKUR0014.exe | 2007-07-02 | Found: None
-EKUR0017.exe | 2007-07-02 | Found: None
+EKUR0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EKUR0002.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EKUR0003.EXE | 2007-07-02 | Found: TYPE98_old
+EKUR0006.EXE | 2004-04-02 | Found: old_pc98_aes
+EKUR0008.EXE | 2004-04-18 | Found: DataFileVer, Version 2, Type 2
+EKUR0010.exe | 2004-12-16 | Found: DataFileVer, Version 2, Type 2
+EKUR0012.exe | 2005-10-20 | Found: old_pc98_aes
+EKUR0013.exe | 2007-07-02 | Found: TYPE98_old
+EKUR0014.exe | 2007-07-02 | Found: TYPE98_old
+EKUR0017.exe | 2007-07-02 | Found: TYPE98_old
 EKUR0018.exe | 2009-05-29 | Found: EGGDATA
 EKUR0019.exe | 2011-11-25 | Found: EGGDATA
 EKUR0020.exe | 2009-05-29 | Found: EGGDATA
@@ -889,24 +888,24 @@ EMCN0007.exe | 2009-05-29 | Found: EGGDATA
 EMCN0009.exe | 2013-07-01 | Found: EGGDATA
 EMCN1001.exe | 2011-02-24 | Found: EGGDATA
 EMEW0001.EXE | 2006-10-18 | Found: TYPE98
-EMIC0001.EXE | 2002-02-11 | Found: None
-EMIC0002.EXE | 2001-11-26 | Found: DataFileVer2
-EMIC0003.exe | 2002-02-11 | Found: None
-EMIC0004.EXE | 2002-02-11 | Found: None
-EMIC0005.EXE | 2001-11-26 | Found: DataFileVer2
-EMIC0006.EXE | 2002-02-11 | Found: None
-EMIC0007.EXE | 2002-02-26 | Found: DataFileVer2
-EMIC0008.EXE | 2002-03-26 | Found: DataFileVer2
-EMIC0009.EXE | 2002-04-22 | Found: DataFileVer2
-EMIC0012.EXE | 2003-02-10 | Found: ÆxKq(©
-EMIC0014.exe | 2003-08-04 | Found: ÆxKq(©
-EMIC0015.exe | 2003-10-25 | Found: DataFileVer2
-EMIC0017.exe | 2004-02-01 | Found: DataFileVer2
-EMIC0019.exe | 2005-05-13 | Found: None
-EMIC0022.exe | 2005-11-28 | Found: DataFileVer2
-EMIC0023.EXE | 2005-12-03 | Found: None
+EMIC0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EMIC0002.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+EMIC0003.exe | 2002-02-11 | Found: old_pc98_no_aes
+EMIC0004.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EMIC0005.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+EMIC0006.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EMIC0007.EXE | 2002-02-26 | Found: DataFileVer, Version 2, Type 2
+EMIC0008.EXE | 2002-03-26 | Found: DataFileVer, Version 2, Type 2
+EMIC0009.EXE | 2002-04-22 | Found: DataFileVer, Version 2
+EMIC0012.EXE | 2003-02-10 | Found: old_pc98_aes
+EMIC0014.exe | 2003-08-04 | Found: old_pc98_aes
+EMIC0015.exe | 2003-10-25 | Found: DataFileVer, Version 2
+EMIC0017.exe | 2004-02-01 | Found: DataFileVer, Version 2
+EMIC0019.exe | 2005-05-13 | Found: old Xor + LZSS
+EMIC0022.exe | 2005-11-28 | Found: DataFileVer, Version 2, Type 2
+EMIC0023.EXE | 2005-12-03 | Found: old Xor + LZSS
 EMIC0024.EXE | 2008-02-15 | Found: TYPE98
-EMIC0025.EXE | 2008-03-31 | Found: ÆxKq(©
+EMIC0025.EXE | 2008-03-31 | Found: old_pc98_aes
 EMIC0026.exe | 2009-05-29 | Found: EGGDATA
 EMIC0027.exe | 2009-04-30 | Found: EGGDATA
 EMIC0028.exe | 2009-05-29 | Found: EGGDATA
@@ -940,7 +939,7 @@ EMIC1005.EXE | 2005-12-19 | Found: MSXPLAYer
 EMIC1006.EXE | 2007-10-01 | Found: MSXPLAYer
 EMIC1007.EXE | 2005-12-19 | Found: MSXPLAYer
 EMIC1008.EXE | 2007-10-01 | Found: MSXPLAYer
-EMIC1009.EXE | 2002-07-31 | Found: None
+EMIC1009.EXE | 2002-07-31 | Found: None (.data big virtual size)
 EMIC1010.exe | 2017-02-03 | Found: EGGDATA
 EMIC1011.exe | 2017-06-07 | Found: EGGDATA
 EMIC1012.exe | 2015-12-03 | Found: EGGDATA
@@ -976,19 +975,19 @@ EMLC1017.exe | 2023-04-20 | Found: EGGDATA
 EMLC1018.exe | 2023-04-20 | Found: EGGDATA
 GAME.exe | 2023-04-20 | Found: EGGDATA
 GAME.exe | 2023-03-27 | Found: EGGDATA
-ENCS0001.exe | 2005-05-12 | Found: None
-ENCS0002.exe | 2005-05-12 | Found: None
-ENCS0003.exe | 2005-05-12 | Found: None
-ENCS0004.exe | 2005-05-12 | Found: None
-ENCS0005.exe | 2004-09-13 | Found: None
-ENCS0006.exe | 2006-03-08 | Found: ÆxKq(©
-ENCS0007.exe | 2006-03-08 | Found: ÆxKq(©
-ENCS0008.exe | 2006-03-08 | Found: ÆxKq(©
-ENCS0009.exe | 2006-03-08 | Found: ÆxKq(©
-ENCS0010.exe | 2006-03-08 | Found: ÆxKq(©
-ENCS0011.exe | 2006-11-30 | Found: None
-ENCS0012.exe | 2006-12-27 | Found: None
-ENCS0013.exe | 2006-03-08 | Found: ÆxKq(©
+ENCS0001.exe | 2005-05-12 | Found: None (.data big virtual size)
+ENCS0002.exe | 2005-05-12 | Found: None (.data big virtual size)
+ENCS0003.exe | 2005-05-12 | Found: None (.data big virtual size)
+ENCS0004.exe | 2005-05-12 | Found: None (.data big virtual size)
+ENCS0005.exe | 2004-09-13 | Found: None (.data big virtual size)
+ENCS0006.exe | 2006-03-08 | Found: old_pc98_aes
+ENCS0007.exe | 2006-03-08 | Found: old_pc98_aes
+ENCS0008.exe | 2006-03-08 | Found: old_pc98_aes
+ENCS0009.exe | 2006-03-08 | Found: old_pc98_aes
+ENCS0010.exe | 2006-03-08 | Found: old_pc98_aes
+ENCS0011.exe | 2006-11-30 | Found: old Xor + LZSS
+ENCS0012.exe | 2006-12-27 | Found: old Xor + LZSS
+ENCS0013.exe | 2006-03-08 | Found: old_pc98_aes
 ENCS0014.exe | 2011-11-21 | Found: EGGDATA
 ENCS0015.exe | 2014-11-14 | Found: EGGDATA
 ENCS0016.exe | 2011-11-21 | Found: EGGDATA
@@ -1021,15 +1020,15 @@ ENCS0043.exe | 2011-11-25 | Found: EGGDATA
 ENCS0044.exe | 2011-11-25 | Found: EGGDATA
 ENCS1001.EXE | 2005-05-12 | Found: MSXPLAYer
 ENCS1002.exe | 2019-09-25 | Found: EGGDATA
-ENIC0001.EXE | 2007-07-02 | Found: None
-ENIC0003.EXE | 2007-07-02 | Found: None
+ENIC0001.EXE | 2007-07-02 | Found: TYPE98_old
+ENIC0003.EXE | 2007-07-02 | Found: TYPE98_old
 ENIC0004.exe | 2023-03-28 | Found: EGGDATA
 ENIC0005.exe | 2023-03-28 | Found: EGGDATA
 ENIC0006.exe | 2023-03-27 | Found: EGGDATA
 ENIC0007.exe | 2023-03-27 | Found: EGGDATA
 ENIC0005.exe | 2023-03-28 | Found: EGGDATA
-ENTB0001.exe | 2007-07-02 | Found: None
-ENTB0002.EXE | 2007-07-02 | Found: None
+ENTB0001.exe | 2007-07-02 | Found: TYPE98_old
+ENTB0002.EXE | 2007-07-02 | Found: TYPE98_old
 ENTB0003.exe | 2010-09-21 | Found: EGGDATA
 ENTB0004.exe | 2012-08-21 | Found: EGGDATA
 ENTB0005.exe | 2014-07-31 | Found: EGGDATA
@@ -1061,16 +1060,22 @@ DSコレクション7.exe | 2004-12-21 | Found: MSXPLAYer
 ルーンマスター1-Ⅱ-三.exe | 2007-01-10 | Found: MSXPLAYer
 マース_s1.exe | 2006-04-12 | Found: MSXPLAYer
 マース_s2.exe | 2006-04-12 | Found: MSXPLAYer
-launch.exe | 2004-07-20 | Found: None
-イース.exe | 2007-05-24 | Found: None
-launch.exe | 2004-07-20 | Found: None
-xn1start.exe | 2007-05-24 | Found: None
-launch.exe | 2004-07-20 | Found: None
-xn1start.exe | 2007-05-24 | Found: None
-launch.exe | 2004-07-20 | Found: None
-xn2start.exe | 2007-05-24 | Found: None
-launch.exe | 2004-07-20 | Found: None
-xn2start.exe | 2007-05-24 | Found: None
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
+ƒC[ƒX.exe | 2007-05-24 | Found: None (.data big virtual size)
+Ys1.exe | 2003-07-10 | Found: old_pc98_aes
+Ys2.exe | 2003-07-10 | Found: old_pc98_aes
+Ys3.exe | 2003-07-10 | Found: old_pc98_aes
+YSIV.exe | 2003-06-19 | Found: None (.text > 500KB, .data big virtual size)
+YSV.exe | 2003-01-31 | Found: None (.text > 500KB, .data big virtual size)
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
+main.exe | 2003-10-21 | Found: None (.data big virtual size)
+xn1start.exe | 2007-05-24 | Found: None (.data big virtual size)
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
+xn1start.exe | 2007-05-24 | Found: None (.data big virtual size)
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
+xn2start.exe | 2007-05-24 | Found: None (.data big virtual size)
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
+xn2start.exe | 2007-05-24 | Found: None (.data big virtual size)
 AMARANTH.exe | 2006-03-07 | Found: TYPE98
 AMARANTH2.exe | 2006-03-07 | Found: TYPE98
 テグザー＆ファイアホーク.exe | 2005-06-25 | Found: MSXPLAYer
@@ -1078,9 +1083,9 @@ AMARANTH2.exe | 2006-03-07 | Found: TYPE98
 電脳学園2.exe | 2005-03-01 | Found: TYPE98
 電脳学園3.exe | 2005-03-03 | Found: TYPE98
 電脳学園4.exe | 2005-03-03 | Found: TYPE98
-EPHA0001.EXE | 2002-02-11 | Found: None
-EPHA0003.exe | 2004-01-14 | Found: DataFileVer2
-EPHA0004.EXE | 2004-06-13 | Found: None
+EPHA0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EPHA0003.exe | 2004-01-14 | Found: DataFileVer, Version 2
+EPHA0004.EXE | 2004-06-13 | Found: old Xor + LZSS
 EPHA0005.exe | 2009-05-29 | Found: EGGDATA
 EPHA0006.exe | 2012-05-28 | Found: EGGDATA
 EPHA0007.exe | 2011-11-25 | Found: EGGDATA
@@ -1094,9 +1099,9 @@ LODOSS2.exe | 2005-10-14 | Found: TYPE98
 卒業2.exe | 2006-10-12 | Found: TYPE98
 POWERDOLLS.exe | 2006-08-18 | Found: TYPE98
 エクスランダー.exe | 2006-09-13 | Found: TYPE98
-AC_EMIC0021_GalppoClub_88.exe | 2005-10-14 | Found: ÆxKq(©
+AC_EMIC0021_GalppoClub_88.exe | 2005-10-14 | Found: old_pc98_aes
 EPON0000.exe | 2010-02-05 | Found: EGGDATA
-EPOP0001.EXE | 2002-02-11 | Found: None
+EPOP0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
 EPOP0003.EXE | 2007-03-20 | Found: TYPE98
 EPOP0004.exe | 2011-11-25 | Found: EGGDATA
 EPOP0005.exe | 2009-05-29 | Found: EGGDATA
@@ -1121,19 +1126,19 @@ EPSK0001.exe | 2019-11-06 | Found: EGGDATA
 ROBOCRUSH98.exe | 2005-11-28 | Found: TYPE98
 マスターオブモンスターズファイナル.exe | 2006-05-22 | Found: TYPE98
 ROBOCRUSH2.exe | 2006-06-27 | Found: TYPE98
-DAIVA1.exe | 2004-09-09 | Found: ÆxKq(©
+DAIVA1.exe | 2004-09-09 | Found: old_pc98_aes
 HYDLIDE98.exe | 2004-10-28 | Found: TYPE98
-d4oggplayer.exe | 2004-10-29 | Found: None
+d4oggplayer.exe | 2004-10-29 | Found: None (.data big virtual size)
 SWPC.exe | 2004-10-28 | Found: TYPE98
-hyd123.exe | 2004-12-22 | Found: None
-launch.exe | 2004-07-20 | Found: None
+hyd123.exe | 2004-12-22 | Found: None (.data big virtual size)
+launch.exe | 2004-07-20 | Found: None (.data big virtual size)
 惑星メフィウス＋バトルシップクラプトン2.exe | 2005-07-20 | Found: MSXPLAYer
-PTAE0001_DAIVA1.exe | 2005-12-19 | Found: ÆxKq(©
-PTAE0002_DAIVA2.exe | 2005-12-22 | Found: None
-PTAE0003_DAIVA3.exe | 2005-12-21 | Found: None
+PTAE0001_DAIVA1.exe | 2005-12-19 | Found: old_pc98_aes
+PTAE0002_DAIVA2.exe | 2005-12-22 | Found: old Xor + LZSS
+PTAE0003_DAIVA3.exe | 2005-12-21 | Found: old Xor + LZSS
 PTAE1001_DAIVA4.exe | 2005-12-19 | Found: MSXPLAYer
 PTAE1002_DAIVA5.exe | 2005-12-19 | Found: MSXPLAYer
-DAIVA6.exe | 2005-12-22 | Found: None
+DAIVA6.exe | 2005-12-22 | Found: None (.data big virtual size)
 DAIVA98.exe | 2005-11-28 | Found: TYPE98
 ルーンワース.exe | 2006-01-26 | Found: TYPE98
 ルーンワース2.exe | 2006-01-26 | Found: TYPE98
@@ -1145,10 +1150,10 @@ DAIVA98.exe | 2005-11-28 | Found: TYPE98
 天舞満漢全席.exe | 2006-09-20 | Found: TYPE98
 メルティランサー.exe | 2006-10-12 | Found: TYPE98
 デザートドラグーン.exe | 2006-10-12 | Found: TYPE98
-chacknpop.exe | 2006-03-08 | Found: ÆxKq(©
-gyrodine.exe | 2006-03-08 | Found: ÆxKq(©
-elevatoraction.exe | 2006-03-08 | Found: ÆxKq(©
-victorious_nine.exe | 2006-03-08 | Found: ÆxKq(©
+chacknpop.exe | 2006-03-08 | Found: old_pc98_aes
+gyrodine.exe | 2006-03-08 | Found: old_pc98_aes
+elevatoraction.exe | 2006-03-08 | Found: old_pc98_aes
+victorious_nine.exe | 2006-03-08 | Found: old_pc98_aes
 エレベーターアクション.exe | 2007-01-10 | Found: MSXPLAYer
 ジャイロダイン.exe | 2007-01-10 | Found: MSXPLAYer
 スクランブルフォーメーション.exe | 2007-01-10 | Found: MSXPLAYer
@@ -1159,30 +1164,30 @@ EQSR0001.exe | 2009-05-29 | Found: EGGDATA
 EQSR0002.exe | 2009-05-29 | Found: EGGDATA
 ERDM0001.exe | 2009-05-29 | Found: EGGDATA
 ERDM0002.exe | 2009-05-29 | Found: EGGDATA
-ERIV0001.EXE | 2001-11-26 | Found: DataFileVer2
-ERIV0002.EXE | 2001-11-26 | Found: DataFileVer2
-ERIV0003.EXE | 2002-02-11 | Found: None
-ERIV0004.EXE | 2002-02-18 | Found: DataFileVer2
-ERIV0005.EXE | 2002-04-22 | Found: DataFileVer2
-ERIV0006.exe | 2003-07-22 | Found: None
-ERIV0008.EXE | 2005-11-29 | Found: ÆxKq(©
-ERIV0010.EXE | 2006-03-08 | Found: ÆxKq(©
-ERIV0011.EXE | 2003-02-20 | Found: None
-ERIV0012.EXE | 2002-11-01 | Found: None
-ERIV0013.EXE | 2002-11-01 | Found: None
-ERIV0014.exe | 2005-04-12 | Found: None
-ERIV0015.exe | 2003-08-23 | Found: ÆxKq(©
-ERIV0016.EXE | 2004-02-01 | Found: None
-ERIV0017.exe | 2004-12-16 | Found: DataFileVer2
-ERIV0018.exe | 2005-06-02 | Found: None
-ERIV0019.EXE | 2005-04-28 | Found: None
-ERIV0020.EXE | 2005-07-06 | Found: None
-ERIV0021.EXE | 2006-01-30 | Found: ÆxKq(©
-ERIV0022.exe | 2006-04-26 | Found: None
-ERIV0023.exe | 2006-04-26 | Found: None
-ERIV0024.exe | 2008-02-29 | Found: ÆxKq(©
-ERIV0025.exe | 2007-11-20 | Found: ÆxKq(©
-ERIV0026.exe | 2007-11-20 | Found: ÆxKq(©
+ERIV0001.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+ERIV0002.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+ERIV0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ERIV0004.EXE | 2002-02-18 | Found: DataFileVer, Version 2, Type 2
+ERIV0005.EXE | 2002-04-22 | Found: DataFileVer, Version 2
+ERIV0006.exe | 2003-07-22 | Found: old Xor + LZSS
+ERIV0008.EXE | 2005-11-29 | Found: old_pc98_aes
+ERIV0010.EXE | 2006-03-08 | Found: old_pc98_aes
+ERIV0011.EXE | 2003-02-20 | Found: TYPE98_old
+ERIV0012.EXE | 2002-11-01 | Found: DataFileVer, Version 3
+ERIV0013.EXE | 2002-11-01 | Found: DataFileVer, Version 3
+ERIV0014.exe | 2005-04-12 | Found: old Xor + LZSS
+ERIV0015.exe | 2003-08-23 | Found: old_pc98_aes
+ERIV0016.EXE | 2004-02-01 | Found: old Xor + LZSS
+ERIV0017.exe | 2004-12-16 | Found: DataFileVer, Version 2, Type 2
+ERIV0018.exe | 2005-06-02 | Found: old Xor + LZSS
+ERIV0019.EXE | 2005-04-28 | Found: old Xor + LZSS
+ERIV0020.EXE | 2005-07-06 | Found: old Xor + LZSS
+ERIV0021.EXE | 2006-01-30 | Found: old_pc98_aes
+ERIV0022.exe | 2006-04-26 | Found: old Xor + LZSS
+ERIV0023.exe | 2006-04-26 | Found: old Xor + LZSS
+ERIV0024.exe | 2008-02-29 | Found: old_pc98_aes
+ERIV0025.exe | 2007-11-20 | Found: old_pc98_aes
+ERIV0026.exe | 2007-11-20 | Found: old_pc98_aes
 ERIV0027.exe | 2009-05-29 | Found: EGGDATA
 ERIV0028.exe | 2009-05-29 | Found: EGGDATA
 ERIV0029.exe | 2011-11-25 | Found: EGGDATA
@@ -1197,29 +1202,29 @@ ERIV1004.EXE | 2007-10-01 | Found: MSXPLAYer
 ERIV1005.EXE | 2007-10-01 | Found: MSXPLAYer
 ERIV1006.EXE | 2005-07-20 | Found: MSXPLAYer
 ERIV1007.exe | 2015-12-03 | Found: EGGDATA
-EROM0001.exe | 2006-03-08 | Found: ÆxKq(©
-EROM0002.exe | 2006-03-08 | Found: ÆxKq(©
+EROM0001.exe | 2006-03-08 | Found: old_pc98_aes
+EROM0002.exe | 2006-03-08 | Found: old_pc98_aes
 GAME.exe | 2021-04-24 | Found: EGGDATA
 GAME2.exe | 2021-04-24 | Found: EGGDATA
 GAME.exe | 2021-04-24 | Found: EGGDATA
 GAME2.exe | 2021-04-24 | Found: EGGDATA
-ESAC0001.EXE | 2002-02-11 | Found: None
-ESAC0002.EXE | 2001-11-27 | Found: None
-ESAC0003.EXE | 2002-02-11 | Found: None
-ESAC0004.EXE | 2002-02-18 | Found: None
-ESAC0005.EXE | 2001-11-26 | Found: DataFileVer2
-ESAC0006.EXE | 2001-11-27 | Found: None
-ESAC0007.EXE | 2002-09-08 | Found: ÆxKq(©
-ESAC0008.EXE | 2002-02-18 | Found: DataFileVer2
-ESAC0009.exe | 2003-01-26 | Found: ÆxKq(©
-ESAC0010.EXE | 2004-03-06 | Found: None
-ESAC0011.EXE | 2004-07-12 | Found: None
-ESAC0012.EXE | 2004-07-12 | Found: None
-ESAC0014.exe | 2005-04-15 | Found: None
-ESAC0015.exe | 2005-05-21 | Found: None
+ESAC0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ESAC0002.EXE | 2001-11-27 | Found: old_pc98_no_aes
+ESAC0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ESAC0004.EXE | 2002-02-18 | Found: DataFileVer, Version 4, Type 2
+ESAC0005.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+ESAC0006.EXE | 2001-11-27 | Found: None (.data big virtual size)
+ESAC0007.EXE | 2002-09-08 | Found: old_pc98_aes
+ESAC0008.EXE | 2002-02-18 | Found: DataFileVer, Version 2, Type 2
+ESAC0009.exe | 2003-01-26 | Found: old_pc98_aes
+ESAC0010.EXE | 2004-03-06 | Found: old Xor + LZSS
+ESAC0011.EXE | 2004-07-12 | Found: old Xor + LZSS
+ESAC0012.EXE | 2004-07-12 | Found: old Xor + LZSS
+ESAC0014.exe | 2005-04-15 | Found: old Xor + LZSS
+ESAC0015.exe | 2005-05-21 | Found: old Xor + LZSS
 ESAC0016.EXE | 2007-03-20 | Found: TYPE98
 ESAC0017.EXE | 2008-09-08 | Found: TYPE98
-ESAC0018.EXE | 2007-07-02 | Found: None
+ESAC0018.EXE | 2007-07-02 | Found: TYPE98_old
 ESAC0019.EXE | 2006-11-06 | Found: TYPE98
 ESAC0020.exe | 2012-04-16 | Found: EGGDATA
 ESAC0021.exe | 2012-07-20 | Found: EGGDATA
@@ -1234,8 +1239,8 @@ TEST0001.exe | 2019-11-06 | Found: EGGDATA
 GAME.exe | 2020-11-12 | Found: EGGDATA
 GAME2.exe | 2021-01-04 | Found: EGGDATA
 ESAC0020.exe | 2012-04-16 | Found: EGGDATA
-ESAC0004.exe | 2002-02-18 | Found: None
-ESAC0010.exe | 2004-03-06 | Found: None
+ESAC0004.exe | 2002-02-18 | Found: DataFileVer, Version 4, Type 2
+ESAC0010.exe | 2004-03-06 | Found: old Xor + LZSS
 ESAC0019.exe | 2006-11-06 | Found: TYPE98
 ESAC1001.exe | 2007-10-01 | Found: MSXPLAYer
 GAME.exe | 2016-02-15 | Found: EGGDATA
@@ -1279,7 +1284,7 @@ ESNT0009.exe | 2010-09-21 | Found: EGGDATA
 ESNT0010.exe | 2010-09-21 | Found: EGGDATA
 ESNT0012.exe | 2010-03-15 | Found: EGGDATA
 ESNT0013.exe | 2010-04-19 | Found: EGGDATA
-ESYS0012.exe | 2006-11-30 | Found: None
+ESYS0012.exe | 2006-11-30 | Found: old Xor + LZSS
 ESNT0014.exe | 2010-03-15 | Found: EGGDATA
 ESNT0015.exe | 2010-09-21 | Found: EGGDATA
 ESNT0016.exe | 2010-09-21 | Found: EGGDATA
@@ -1310,12 +1315,12 @@ ESQE0007.exe | 2012-07-20 | Found: EGGDATA
 ESQE0008.exe | 2012-07-20 | Found: EGGDATA
 ESQE0009.exe | 2012-07-20 | Found: EGGDATA
 ESQE0010.exe | 2014-07-30 | Found: EGGDATA
-ESTW0001.EXE | 2002-04-22 | Found: DataFileVer2
-ESTW0002.exe | 2003-02-10 | Found: ÆxKq(©
-ESTW0003.EXE | 2002-05-22 | Found: ÆxKq(©
-ESTW0004.exe | 2002-09-08 | Found: ÆxKq(©
-ESTW0005.exe | 2002-09-08 | Found: ÆxKq(©
-ESTW0006.exe | 2006-03-08 | Found: ÆxKq(©
+ESTW0001.EXE | 2002-04-22 | Found: DataFileVer, Version 2
+ESTW0002.exe | 2003-02-10 | Found: old_pc98_aes
+ESTW0003.EXE | 2002-05-22 | Found: old_pc98_aes
+ESTW0004.exe | 2002-09-08 | Found: old_pc98_aes
+ESTW0005.exe | 2002-09-08 | Found: old_pc98_aes
+ESTW0006.exe | 2006-03-08 | Found: old_pc98_aes
 GAME.exe | 2016-02-15 | Found: EGGDATA
 ESTW1001.EXE | 2007-10-01 | Found: MSXPLAYer
 ESTW1001.EXE | 2007-10-01 | Found: MSXPLAYer
@@ -1326,30 +1331,30 @@ GAME.exe | 2019-09-25 | Found: EGGDATA
 GAME.exe | 2019-09-25 | Found: EGGDATA
 ESTW1012.exe | 2019-09-25 | Found: EGGDATA
 GAME.exe | 2023-04-20 | Found: EGGDATA
-ESYS0001.exe | 2003-11-27 | Found: ÆxKq(©
-ESYS0002.EXE | 2002-02-11 | Found: None
-ESYS0003.EXE | 2002-02-11 | Found: None
-ESYS0005.EXE | 2002-02-11 | Found: None
-ESYS0006.exe | 2005-05-06 | Found: ÆxKq(©
-ESYS0007.EXE | 2004-01-19 | Found: ÆxKq(©
-ESYS0008.EXE | 2006-03-08 | Found: ÆxKq(©
-ESYS0009.EXE | 2003-01-21 | Found: DataFileVer2
-ESYS0010.exe | 2005-04-12 | Found: None
-ESYS0013.exe | 2006-11-30 | Found: None
-ESYS0014.EXE | 2005-07-22 | Found: None
-ESYS0016.EXE | 2006-03-27 | Found: None
-ESYS0019.exe | 2006-11-20 | Found: None
-ESYS0022.EXE | 2005-10-31 | Found: None
-ESYS0024.EXE | 2005-12-17 | Found: DataFileVer2
-ESYS0025.EXE | 2006-03-08 | Found: ÆxKq(©
+ESYS0001.exe | 2003-11-27 | Found: old_pc98_aes
+ESYS0002.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ESYS0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ESYS0005.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ESYS0006.exe | 2005-05-06 | Found: old_pc98_aes
+ESYS0007.EXE | 2004-01-19 | Found: old_pc98_aes
+ESYS0008.EXE | 2006-03-08 | Found: old_pc98_aes
+ESYS0009.EXE | 2003-01-21 | Found: DataFileVer, Version 2
+ESYS0010.exe | 2005-04-12 | Found: old Xor + LZSS
+ESYS0013.exe | 2006-11-30 | Found: old Xor + LZSS
+ESYS0014.EXE | 2005-07-22 | Found: old Xor + LZSS
+ESYS0016.EXE | 2006-03-27 | Found: old Xor + LZSS
+ESYS0019.exe | 2006-11-20 | Found: old Xor + LZSS
+ESYS0022.EXE | 2005-10-31 | Found: old Xor + LZSS
+ESYS0024.EXE | 2005-12-17 | Found: DataFileVer, Version 2, Type 2
+ESYS0025.EXE | 2006-03-08 | Found: old_pc98_aes
 ESYS0026.EXE | 2006-10-31 | Found: TYPE98
-ESYS0028.exe | 2006-03-08 | Found: ÆxKq(©
+ESYS0028.exe | 2006-03-08 | Found: old_pc98_aes
 ESYS0029.exe | 2007-03-20 | Found: TYPE98
-ESYS0030.EXE | 2006-03-08 | Found: ÆxKq(©
-ESYS0031.EXE | 2007-07-02 | Found: None
-ESYS0032.EXE | 2007-07-02 | Found: None
-ESYS0033.EXE | 2007-07-02 | Found: None
-ESYS0034.EXE | 2007-07-02 | Found: None
+ESYS0030.EXE | 2006-03-08 | Found: old_pc98_aes
+ESYS0031.EXE | 2007-07-02 | Found: TYPE98_old
+ESYS0032.EXE | 2007-07-02 | Found: TYPE98_old
+ESYS0033.EXE | 2007-07-02 | Found: TYPE98_old
+ESYS0034.EXE | 2007-07-02 | Found: TYPE98_old
 ESYS0035.EXE | 2007-01-11 | Found: TYPE98
 ESYS0036.exe | 2009-05-29 | Found: EGGDATA
 ESYS0037.exe | 2009-05-29 | Found: EGGDATA
@@ -1384,28 +1389,28 @@ ESYS1004.exe | 2011-08-23 | Found: EGGDATA
 ESYS1005.exe | 2014-05-02 | Found: EGGDATA
 ESYS1006.exe | 2015-01-15 | Found: EGGDATA
 ESYS1007.exe | 2015-12-03 | Found: EGGDATA
-ETAE0001.exe | 2005-04-02 | Found: ÆxKq(©
-ETAE0002.EXE | 2001-11-27 | Found: None
-ETAE0003.EXE | 2002-02-11 | Found: None
-ETAE0004.EXE | 2003-01-10 | Found: None
-ETAE0005.EXE | 2001-11-28 | Found: None
-ETAE0006.EXE | 2001-11-26 | Found: DataFileVer2
-ETAE0007.EXE | 2002-02-11 | Found: None
-ETAE0008.exe | 2005-04-04 | Found: DataFileVer2
-ETAE0009.exe | 2002-02-11 | Found: None
-ETAE0010.exe | 2005-04-04 | Found: DataFileVer2
-ETAE0011.EXE | 2002-04-24 | Found: DataFileVer2
-ETAE0012.EXE | 2002-06-17 | Found: None
-ETAE0013.EXE | 2002-07-11 | Found: None
-ETAE0014.EXE | 2002-05-22 | Found: ÆxKq(©
-ETAE0016.EXE | 2002-08-31 | Found: None
-ETAE0017.EXE | 2002-09-30 | Found: None
-ETAE0018.EXE | 2005-07-29 | Found: None
-ETAE0019.exe | 2005-04-01 | Found: None
-ETAE0020.exe | 2006-07-10 | Found: None
-ETAE0021.exe | 2006-07-10 | Found: None
-ETAE0022.exe | 2006-08-17 | Found: None
-ETAE0023.exe | 2006-09-02 | Found: None
+ETAE0001.exe | 2005-04-02 | Found: old_pc98_aes
+ETAE0002.EXE | 2001-11-27 | Found: None (.data big virtual size)
+ETAE0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ETAE0004.EXE | 2003-01-10 | Found: old Xor + LZSS
+ETAE0005.EXE | 2001-11-28 | Found: old Xor + LZSS
+ETAE0006.EXE | 2001-11-26 | Found: DataFileVer, Version 2, Type 2
+ETAE0007.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ETAE0008.exe | 2005-04-04 | Found: DataFileVer, Version 2, Type 2
+ETAE0009.exe | 2002-02-11 | Found: old_pc98_no_aes
+ETAE0010.exe | 2005-04-04 | Found: DataFileVer, Version 2, Type 2
+ETAE0011.EXE | 2002-04-24 | Found: DataFileVer, Version 2
+ETAE0012.EXE | 2002-06-17 | Found: X1_old (.rdata > 500KB, .data big virtual size)
+ETAE0013.EXE | 2002-07-11 | Found: X1_old (.rdata > 500KB, .data big virtual size)
+ETAE0014.EXE | 2002-05-22 | Found: old_pc98_aes
+ETAE0016.EXE | 2002-08-31 | Found: old Xor + LZSS
+ETAE0017.EXE | 2002-09-30 | Found: None (.data big virtual size)
+ETAE0018.EXE | 2005-07-29 | Found: old Xor + LZSS
+ETAE0019.exe | 2005-04-01 | Found: old Xor + LZSS
+ETAE0020.exe | 2006-07-10 | Found: old Xor + LZSS
+ETAE0021.exe | 2006-07-10 | Found: old Xor + LZSS
+ETAE0022.exe | 2006-08-17 | Found: old Xor + LZSS
+ETAE0023.exe | 2006-09-02 | Found: old Xor + LZSS
 ETAE0024.exe | 2012-04-04 | Found: EGGDATA
 ETAE0025.exe | 2012-04-04 | Found: EGGDATA
 ETAE0026.exe | 2009-05-29 | Found: EGGDATA
@@ -1464,7 +1469,7 @@ ETAE0053.exe | 2016-02-15 | Found: EGGDATA
 ETAE1001.EXE | 2006-10-16 | Found: MSXPLAYer
 ETAE1002.exe | 2012-09-13 | Found: EGGDATA
 ETAE1003.EXE | 2006-10-16 | Found: MSXPLAYer
-ETAE1004.EXE | 2002-07-31 | Found: None
+ETAE1004.EXE | 2002-07-31 | Found: None (.data big virtual size)
 ETAE1005.EXE | 2007-10-01 | Found: MSXPLAYer
 ETAE1006.EXE | 2005-03-11 | Found: MSXPLAYer
 ETAE1007.EXE | 2007-10-01 | Found: MSXPLAYer
@@ -1501,40 +1506,40 @@ GAME.exe | 2025-02-07 | Found: EGGDATA
 ETEH0001.exe | 2016-02-15 | Found: EGGDATA
 GAME.exe | 2016-02-15 | Found: EGGDATA
 ETEH0003.exe | 2016-02-15 | Found: EGGDATA
-ETEL0001.exe | 2005-04-02 | Found: ÆxKq(©
-ETEL0002.exe | 2003-10-28 | Found: ÆxKq(©
-ETEL0003.EXE | 2002-09-08 | Found: ÆxKq(©
-ETEL0004.EXE | 2003-01-09 | Found: None
-ETEL0005.EXE | 2003-01-21 | Found: None
-ETEL0008.exe | 2005-03-08 | Found: DataFileVer2
-ETEL0009.EXE | 2003-10-28 | Found: ÆxKq(©
-ETEL0010.exe | 2003-10-28 | Found: ÆxKq(©
-ETEL0012.EXE | 2004-03-22 | Found: None
-ETEL0013.exe | 2006-03-08 | Found: ÆxKq(©
-ETEL0014.exe | 2006-03-08 | Found: ÆxKq(©
-ETEL0015.exe | 2006-03-08 | Found: ÆxKq(©
-ETEL0016.EXE | 2003-12-22 | Found: DataFileVer2
-ETEL0017.EXE | 2004-03-26 | Found: None
-ETEL0018.exe | 2004-02-20 | Found: None
-ETEL0019.EXE | 2004-03-06 | Found: DataFileVer2
-ETEL0020.EXE | 2004-03-06 | Found: DataFileVer2
-ETEL0021.EXE | 2004-04-05 | Found: DataFileVer2
-ETEL0022.exe | 2007-05-23 | Found: None
-ETEL0023.exe | 2004-05-30 | Found: ÆxKq(©
-ETEL0024.EXE | 2004-07-12 | Found: DataFileVer2
-ETEL0027.exe | 2004-11-12 | Found: None
-ETEL0030.exe | 2005-08-22 | Found: DataFileVer2
-ETEL0031.exe | 2005-08-30 | Found: DataFileVer2
-ETEL0032.EXE | 2005-12-22 | Found: ÆxKq(©
-ETEL0033.EXE | 2006-03-08 | Found: ÆxKq(©
+ETEL0001.exe | 2005-04-02 | Found: old_pc98_aes
+ETEL0002.exe | 2003-10-28 | Found: old_pc98_aes
+ETEL0003.EXE | 2002-09-08 | Found: old_pc98_aes
+ETEL0004.EXE | 2003-01-09 | Found: old Xor + LZSS
+ETEL0005.EXE | 2003-01-21 | Found: X1_old (.rdata > 500KB, .data big virtual size)
+ETEL0008.exe | 2005-03-08 | Found: DataFileVer, Version 2, Type 2
+ETEL0009.EXE | 2003-10-28 | Found: old_pc98_aes
+ETEL0010.exe | 2003-10-28 | Found: old_pc98_aes
+ETEL0012.EXE | 2004-03-22 | Found: old Xor + LZSS
+ETEL0013.exe | 2006-03-08 | Found: old_pc98_aes
+ETEL0014.exe | 2006-03-08 | Found: old_pc98_aes
+ETEL0015.exe | 2006-03-08 | Found: old_pc98_aes
+ETEL0016.EXE | 2003-12-22 | Found: DataFileVer, Version 2, Type 2
+ETEL0017.EXE | 2004-03-26 | Found: None (.data big virtual size)
+ETEL0018.exe | 2004-02-20 | Found: old Xor + LZSS
+ETEL0019.EXE | 2004-03-06 | Found: DataFileVer, Version 2, Type 2
+ETEL0020.EXE | 2004-03-06 | Found: DataFileVer, Version 2, Type 2
+ETEL0021.EXE | 2004-04-05 | Found: DataFileVer, Version 2, Type 2
+ETEL0022.exe | 2007-05-23 | Found: TYPE98_old
+ETEL0023.exe | 2004-05-30 | Found: old_pc98_aes
+ETEL0024.EXE | 2004-07-12 | Found: DataFileVer, Version 2, Type 2
+ETEL0027.exe | 2004-11-12 | Found: old Xor + LZSS
+ETEL0030.exe | 2005-08-22 | Found: DataFileVer, Version 2, Type 2
+ETEL0031.exe | 2005-08-30 | Found: DataFileVer, Version 2, Type 2
+ETEL0032.EXE | 2005-12-22 | Found: old_pc98_aes
+ETEL0033.EXE | 2006-03-08 | Found: old_pc98_aes
 ETEL0034.exe | 2006-07-07 | Found: TYPE98
 ETEL0035.exe | 2007-03-20 | Found: TYPE98
-ETEL0036.exe | 2007-06-13 | Found: None
-ETEL0037.exe | 2007-06-25 | Found: None
-ETEL0038.exe | 2007-06-26 | Found: None
-ETEL0039.exe | 2007-06-26 | Found: None
-ETEL0040.exe | 2007-06-26 | Found: None
-ETEL0041.EXE | 2007-06-26 | Found: None
+ETEL0036.exe | 2007-06-13 | Found: old Xor + LZSS
+ETEL0037.exe | 2007-06-25 | Found: None (.data big virtual size)
+ETEL0038.exe | 2007-06-26 | Found: None (.data big virtual size)
+ETEL0039.exe | 2007-06-26 | Found: None (.data big virtual size)
+ETEL0040.exe | 2007-06-26 | Found: None (.data big virtual size)
+ETEL0041.EXE | 2007-06-26 | Found: TYPE98_old
 ETEL0043.exe | 2011-11-29 | Found: EGGDATA
 ETEL0044.exe | 2011-11-29 | Found: EGGDATA
 ETEL0045.exe | 2011-11-29 | Found: EGGDATA
@@ -1586,21 +1591,21 @@ ETEL1021.exe | 2015-12-03 | Found: EGGDATA
 ETEL1022.exe | 2019-09-25 | Found: EGGDATA
 ETEL1023.exe | 2019-09-25 | Found: EGGDATA
 ETEL2001.exe | 2016-06-16 | Found: EGGDATA
-ETEL2002.EXE | 2003-10-06 | Found: None
-ETEL2003.EXE | 2003-10-06 | Found: None
-ETEL2004.EXE | 2003-10-06 | Found: None
-ETEL2005.EXE | 2003-10-06 | Found: None
+ETEL2002.EXE | 2003-10-06 | Found: None (.text > 500KB, .data big virtual size)
+ETEL2003.EXE | 2003-10-06 | Found: None (.text > 500KB, .data big virtual size)
+ETEL2004.EXE | 2003-10-06 | Found: None (.text > 500KB, .data big virtual size)
+ETEL2005.EXE | 2003-10-06 | Found: None (.text > 500KB, .data big virtual size)
 ETEL2006.exe | 2016-09-16 | Found: EGGDATA
 ETEL2007.exe | 2018-08-16 | Found: EGGDATA
 ETEL3001.exe | 2015-05-29 | Found: EGGDATA
 ETEL3002.exe | 2019-10-18 | Found: EGGDATA
-ETHR0001.EXE | 2002-02-11 | Found: None
-ETHR0002.EXE | 2002-05-22 | Found: ÆxKq(©
-ETHR0003.EXE | 2002-05-30 | Found: ÆxKq(©
-ETHR0004.EXE | 2002-06-17 | Found: ÆxKq(©
-ETHR0005.EXE | 2005-04-12 | Found: None
-ETHR0006.exe | 2004-03-06 | Found: None
-ETHR0007.EXE | 2004-04-04 | Found: None
+ETHR0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+ETHR0002.EXE | 2002-05-22 | Found: old_pc98_aes
+ETHR0003.EXE | 2002-05-30 | Found: old_pc98_aes
+ETHR0004.EXE | 2002-06-17 | Found: old_pc98_aes
+ETHR0005.EXE | 2005-04-12 | Found: old Xor + LZSS
+ETHR0006.exe | 2004-03-06 | Found: old Xor + LZSS
+ETHR0007.EXE | 2004-04-04 | Found: old Xor + LZSS
 ETHR0008.exe | 2012-04-16 | Found: EGGDATA
 ETHR0009.exe | 2009-05-29 | Found: EGGDATA
 ETHR0010.exe | 2012-07-20 | Found: EGGDATA
@@ -1620,8 +1625,8 @@ GAME.exe | 2022-01-20 | Found: EGGDATA
 GAME.exe | 2022-02-17 | Found: EGGDATA
 GAME.exe | 2022-07-01 | Found: EGGDATA
 GAME.exe | 2022-07-04 | Found: EGGDATA
-EWIN0001.EXE | 2002-02-11 | Found: None
-EWIN0002.exe | 2003-10-03 | Found: ÆxKq(©
+EWIN0001.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EWIN0002.exe | 2003-10-03 | Found: old_pc98_aes
 EWIN0003.exe | 2009-05-29 | Found: EGGDATA
 EWIN0004.exe | 2009-05-29 | Found: EGGDATA
 EWIN0005.exe | 2011-11-25 | Found: EGGDATA
@@ -1634,19 +1639,19 @@ EWIN1001.EXE | 2007-10-01 | Found: MSXPLAYer
 EWIN1002.exe | 2019-09-25 | Found: EGGDATA
 EWIN1003.exe | 2019-09-25 | Found: EGGDATA
 EWIN1002.exe | 2019-09-25 | Found: EGGDATA
-EXTA0001.exe | 2003-10-28 | Found: ÆxKq(©
-EXTA0003.EXE | 2002-02-11 | Found: None
-EXTA0004.exe | 2001-12-21 | Found: None
-EXTA0005.EXE | 2002-02-11 | Found: None
-EXTA0006.EXE | 2002-01-22 | Found: None
-EXTA0007.exe | 2002-02-11 | Found: None
-EXTA0008.EXE | 2002-03-31 | Found: None
-EXTA0009.EXE | 2002-09-08 | Found: ÆxKq(©
-EXTA0010.exe | 2004-09-17 | Found: ÆxKq(©
-EXTA0011.EXE | 2005-04-17 | Found: ÆxKq(©
-EXTA0012.exe | 2003-02-10 | Found: ÆxKq(©
-EXTA0013.EXE | 2003-02-10 | Found: ÆxKq(©
-EXTA0014.EXE | 2003-12-17 | Found: ÆxKq(©
+EXTA0001.exe | 2003-10-28 | Found: old_pc98_aes
+EXTA0003.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EXTA0004.exe | 2001-12-21 | Found: old_pc98_no_aes
+EXTA0005.EXE | 2002-02-11 | Found: old_pc98_no_aes
+EXTA0006.EXE | 2002-01-22 | Found: None (.data big virtual size)
+EXTA0007.exe | 2002-02-11 | Found: old_pc98_no_aes
+EXTA0008.EXE | 2002-03-31 | Found: X1_old (.rdata > 500KB, .data big virtual size)
+EXTA0009.EXE | 2002-09-08 | Found: old_pc98_aes
+EXTA0010.exe | 2004-09-17 | Found: old_pc98_aes
+EXTA0011.EXE | 2005-04-17 | Found: old_pc98_aes
+EXTA0012.exe | 2003-02-10 | Found: old_pc98_aes
+EXTA0013.EXE | 2003-02-10 | Found: old_pc98_aes
+EXTA0014.EXE | 2003-12-17 | Found: old_pc98_aes
 EXTA0015.exe | 2009-05-29 | Found: EGGDATA
 EXTA0016.exe | 2009-05-29 | Found: EGGDATA
 EXTA0017.exe | 2009-05-29 | Found: EGGDATA
@@ -1689,9 +1694,9 @@ EXTA1003.EXE | 2006-06-06 | Found: MSXPLAYer
 EXTA1004.EXE | 2006-12-12 | Found: MSXPLAYer
 EXTA1005.exe | 2019-09-25 | Found: EGGDATA
 GAME.exe | 2019-09-25 | Found: EGGDATA
-EZOM0001.EXE | 2005-04-12 | Found: None
-EZOM0002.EXE | 2003-10-08 | Found: None
-EZOM0003.EXE | 2004-09-16 | Found: None
-EZOM0004.EXE | 2003-11-28 | Found: None
-EZOM0005.EXE | 2003-11-28 | Found: None
-EZOM0006.EXE | 2004-03-22 | Found: None
+EZOM0001.EXE | 2005-04-12 | Found: old Xor + LZSS
+EZOM0002.EXE | 2003-10-08 | Found: old Xor + LZSS
+EZOM0003.EXE | 2004-09-16 | Found: old Xor + LZSS
+EZOM0004.EXE | 2003-11-28 | Found: old Xor + LZSS
+EZOM0005.EXE | 2003-11-28 | Found: old Xor + LZSS
+EZOM0006.EXE | 2004-03-22 | Found: old Xor + LZSS
