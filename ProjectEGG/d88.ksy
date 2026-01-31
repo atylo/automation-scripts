@@ -8,7 +8,7 @@ seq:
   - id: disk_name
     type: str
     size: 16
-    encoding: ascii
+    encoding: shift-jis
   - id: comment_terminator
     type: u1
   - id: reserved

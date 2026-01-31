@@ -3,6 +3,7 @@ comtype lzhlib
 get name basename
 string name + ".dec.bin"
 
+# For some games there's only decompression, AES is not needed, comment out encryption lines
 # decrypt AES-128-ECB using the static key in .rdata
 encryption aes "\xEA\x40\x68\x99\xC6\x78\x4B\x71\x28\xA9\x96\x88\x64\x6B\x3D\x00" "" 0 16
 get SIZE asize
