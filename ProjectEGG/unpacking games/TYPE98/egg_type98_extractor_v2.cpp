@@ -325,7 +325,7 @@ int main(int argc, char* argv[]) {
     }
 
     // --- Step 5: Process Optional Files ---
-    const char* optionals[] = { "FONT", "SOUND", "BIOS", "HH", "TOP", "SD" };
+    const char* optionals[] = { "FONT", "SOUND", "BIOS", "HH", "TOP", "SD", "BD", "TOM", "RIM" };
     for (const char* name : optionals) {
         std::vector<uint8_t> raw = LoadResource(hLib, name, "BIN");
         if (!raw.empty()) {

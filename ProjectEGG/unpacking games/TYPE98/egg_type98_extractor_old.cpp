@@ -349,7 +349,7 @@ int main() {
 
     // --- Step 5: Process Optional Files ---
     // These use their own filename as the password
-    const char* optionals[] = { "FONT", "SOUND", "BIOS" };
+    const char* optionals[] = { "FONT", "SOUND", "BIOS", "HH", "TOP", "SD", "BD", "TOM", "RIM" };
     for (const char* name : optionals) {
         std::string s(name);
         std::vector<uint8_t> pw(s.begin(), s.end());
