@@ -1,5 +1,5 @@
 #To decrypt/unpack ProjectEGG .sbn/.exe game files
-comtype saint_seya
+comtype lzss0
 get name basename
 print "name %name%"
 get zsize asize
