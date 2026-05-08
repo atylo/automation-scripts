@@ -43,17 +43,33 @@ def config_key_from_exe_name(exe_name: str) -> bytes:
     base = md5(exe_name.encode("utf-8")).digest()
     return bytes(b ^ 0xFF for b in base)
 
-def find_egg_regions(exe_bytes: bytes):
-    """Yield (payload_start, payload_end_exclusive) for each EGGDATA region."""
+def find_egg_regions(exe_bytes: bytes, debug: bool = False):
     positions = []
     pos = 0
     while True:
         idx = exe_bytes.find(EGG_MAGIC, pos)
         if idx == -1:
             break
+        # FIX: validate the header — real regions have word[0] == 1;
+        # false positives (e.g. format strings) do not.
+        hdr_start = idx + 8
+        if hdr_start + 4 <= len(exe_bytes):
+            word0, = struct.unpack_from("<I", exe_bytes, hdr_start)
+            if word0 != 1:
+                if debug:
+                    print(f"[dbg] Skipping false positive at {hex(idx)} (word[0]={hex(word0)})")
+                pos = idx + len(EGG_MAGIC)
+                continue
         positions.append(idx)
-        pos = idx + 1
-    # Convert to payload regions: [idx + 0x20, next_idx) or EOF
+        pos = idx + len(EGG_MAGIC)
+
+    if debug:
+        print(f"[dbg] {len(positions)} valid EGGDATA region(s) at: {[hex(p) for p in positions]}")
+        for i, idx in enumerate(positions):
+            hdr = exe_bytes[idx + 8 : idx + 8 + 0x18]
+            words = struct.unpack_from("<6I", hdr)
+            print(f"[dbg] Region {i} @ {hex(idx)}: {[hex(w) for w in words]}")
+
     regions = []
     for i, idx in enumerate(positions):
         payload_start = idx + EGG_HEADER_SKIP
@@ -77,7 +93,7 @@ def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
     while off + 4 <= len(data):
         TYPE = data[off : off + 4]
         off += 4
-        if TYPE.startswith(b"END"):
+        if TYPE == b"END\x00":  # FIX: exact match, not startswith
             break
         if TYPE == b"NEXT":
             if off + 4 > len(data):
@@ -108,12 +124,14 @@ def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
                     comp_end = file_off + entry_size
                     comp_payload = data[comp_off:comp_end]
                     decomp = zlib.decompress(comp_payload)
-                    # if xsize present and matches, fine; otherwise still write out
+                    # FIX: validate decompressed size against header value
+                    if len(decomp) != xsize:
+                        print(f"[!] Warning: {name} decompressed to {len(decomp)} bytes, expected {xsize}")
                     out_path = out_dir / f"{name}.bin"
                     out_path.write_bytes(decomp)
                     files.append(out_path)
-                except Exception:
-                    # write the raw block if zlib fails
+                except Exception as e:
+                    print(f"[!] COMPZIP failed for {name}: {e}")
                     raw_path = out_dir / f"{name}_COMPZIP_error.bin"
                     raw_path.write_bytes(data[file_off : file_off + entry_size])
                     files.append(raw_path)
@@ -132,7 +150,7 @@ def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
 # -------------------------------
 def process_exe(exe_path: Path, exe_name: str):
     exe_bytes = exe_path.read_bytes()
-    regions = find_egg_regions(exe_bytes)
+    regions = find_egg_regions(exe_bytes, debug=False)
     if not regions:
         raise RuntimeError("No EGGDATA regions found in executable. "
                            "If this is an old title without EGGDATA, use --config/--data mode.")
@@ -142,7 +160,7 @@ def process_exe(exe_path: Path, exe_name: str):
     cfg_enc = exe_bytes[cfg_start:cfg_end]
     cfg_key = config_key_from_exe_name(exe_name)
     cfg_dec = chunked_aes_decrypt(cfg_enc, cfg_key)
-    Path(f"{exe_name}_CONFIG.dec.txt").write_bytes(cfg_dec)
+    Path(f"{exe_name}_CONFIG.txt").write_bytes(cfg_dec)
 
     m = re.search(br"YekTpyrc=([0-9A-Fa-f]{32})", cfg_dec)
     if not m:
@@ -161,7 +179,7 @@ def process_exe(exe_path: Path, exe_name: str):
         raw_out.write_bytes(data_dec)
 
         # Extract files
-        out_dir = Path("extracted") / f"{exe_name}_DATA_{idx}"
+        out_dir = Path(f"{exe_name}_DATA_{idx}")
         out_files = extract_files_from_decrypted_data(data_dec, out_dir)
         print(f"[+] DATA[{idx}]: extracted {len(out_files)} files to {out_dir}")
         all_outputs.extend(out_files)
