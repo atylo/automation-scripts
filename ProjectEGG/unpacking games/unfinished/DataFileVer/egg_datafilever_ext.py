@@ -322,6 +322,48 @@ def find_type1_metadata(data, image_base):
 
 # --- 4. TYPE 2/3/4 DETECTION (E9 0B signature approach) ---
 
+def parse_blob_header(data, blob_offset):
+    # Go back from blob_offset past zeros to find last non-zero byte
+    pos = blob_offset - 1
+    min_pos = max(4, blob_offset - 16)
+
+    while pos > min_pos and data[pos] == 0x00:
+        pos -= 1
+
+    if data[pos] == 0x00 or pos < 4:
+        return None
+
+    P = pos  # tentative key position
+
+    if data[P - 1] != 0x00:
+        # Zero key case: P landed on decomp[2] (3rd byte of decomp)
+        # because all zeros (key + padding) were skipped
+        # decomp starts at P-2
+        key = 0x00
+        decomp_pos = P - 2
+    else:
+        # Non-zero key case: P is the key, prev byte is decomp MSB (0x00)
+        # decomp starts at P-4
+        key = data[P]
+        decomp_pos = P - 4
+
+    if decomp_pos < 0 or decomp_pos + 4 > len(data):
+        return None
+
+    # Verify decomp MSB is 0x00
+    if data[decomp_pos + 3] != 0x00:
+        return None
+
+    decomp = struct.unpack_from('<I', data, decomp_pos)[0]
+    if not (10000 < decomp < 5000000):
+        return None
+
+    return {
+        'decomp': decomp,
+        'key': key,
+        'blob_start': blob_offset
+    }
+    
 def find_type234_metadata(data, image_base, sections):
     """
     Find Type 2/3/4 disk metadata using Init function and E9 0B signature.
@@ -358,7 +400,7 @@ def find_type234_metadata(data, image_base, sections):
     # Scrape MOV [mem], imm instructions
     found_values = []
     cursor = code_start
-    limit = cursor + 3000
+    limit = cursor + 15000
 
     while cursor < limit and cursor + 10 <= len(data):
         if data[cursor] == 0xC7 and data[cursor+1] == 0x05:
@@ -375,24 +417,29 @@ def find_type234_metadata(data, image_base, sections):
         blob_va = found_values[i]
         comp_size = found_values[i+1]
 
-        if is_valid_va(blob_va, sections) and (100 < comp_size < 50_000_000):
+        if is_valid_va(blob_va, sections) and (10000 < comp_size < 5000000):
             blob_offset = va_to_offset(blob_va, sections)
 
-            if blob_offset and blob_offset >= 8:
+            if blob_offset:
                 try:
-                    key = data[blob_offset - 4]
-                    decomp_size = struct.unpack_from("<I", data, blob_offset - 8)[0]
-
-                    if decomp_size > comp_size:
-                        entries.append({
-                            'decomp': decomp_size,
-                            'va': blob_va,
-                            'blob_off': blob_offset,
-                            'comp': comp_size,
-                            'key': key
-                        })
-                        i += 2
+                    parsed = parse_blob_header(data, blob_offset)
+                    
+                    if not parsed:
+                        print(f"Found possible blob at 0x{blob_offset:X} and comp 0x{comp_size:X}, but no actual blob header")
+                        i += 1
                         continue
+
+                    entries.append({
+                        'decomp': parsed['decomp'],
+                        'va': blob_va,
+                        'blob_off': parsed['blob_start'],
+                        'comp': comp_size,
+                        'key': parsed['key']
+                    })
+
+                    i += 2
+                    continue
+                        
                 except:
                     pass
         i += 1
@@ -549,7 +596,7 @@ def extract_disks(exe_path, output_dir=None):
 
 def main():
     if len(sys.argv) < 2:
-        print("egg_datafilever_ext")
+        print("egg_datafilever_ext version 2")
         print("Usage: python egg_datafilever_ext.py <game.exe> [output_dir]")
         print("\nSupports Type 1 (string xref metadata) and Type 2/3/4 (E9 0B signature)")
         return

@@ -172,7 +172,7 @@ int main(int argc, char* argv[]) {
 
     try {
         if (argc < 2) {
-            std::cout << "Usage: dpac_tool <input_file>\n";
+            std::cout << "DPAC (DataPac) Decryptor/Unpacker for ProjectEGG Steam released games.\nUsage: dpac_tool.exe <input_file>\n";
             return 1;
         }
 
