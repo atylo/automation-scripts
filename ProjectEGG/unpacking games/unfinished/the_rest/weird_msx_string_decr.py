@@ -3,10 +3,7 @@ import struct
 import sys
 
 def decrypt_msx_string(ciphertext: str, key: str = "v0Uw5i2") -> str:
-    # -------------------------------------------------------------------------
-    # CRITICAL: Replace this placeholder with the 79 characters found at 
-    # memory address dword_43302C in your decompiler.
-    # -------------------------------------------------------------------------
+
     ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789()_-+*=~^!&$%#[]."
     
     if len(ALPHABET) != 79:
