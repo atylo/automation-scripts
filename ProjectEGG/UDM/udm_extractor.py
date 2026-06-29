@@ -5,21 +5,41 @@ import zlib
 import io
 
 def find_udm_headers(f):
-    MAGIC = b'UDM '
-    offsets = set()
-
+    # Read the 256KB header region into memory once
     f.seek(0)
-    data = f.read() 
+    data = f.read(0x40000)
+    data_len = len(data)
 
-    pos = 0
-    while (pos := data.find(MAGIC, pos)) != -1:
-        if pos + 6 <= len(data):
-            v = struct.unpack_from('<H', data, pos + 4)[0]
-            if 1 <= v <= 899:
-                offsets.add(pos)
-        pos += 1
+    # Look for the single valid TOC (LUMP or LMP2)
+    for magic, fmt, entry_size in [(b'LUMP', '<II', 8), (b'LMP2', '<QQ', 16)]:
+        pos = 0
+        while (pos := data.find(magic, pos)) != -1:
+            if pos + 6 <= data_len:
+                num_entries = struct.unpack_from('<H', data, pos + 4)[0]
+                
+                # Check bounds and ensure the entire TOC fits in our buffer
+                if 0 < num_entries <= 20 and (pos + 6 + num_entries * entry_size) <= data_len:
+                    return sorted([
+                        struct.unpack_from(fmt, data, pos + 6 + i * entry_size)[0]
+                        for i in range(num_entries)
+                    ])
+            pos += 1
 
-    return sorted(offsets)
+    # No LUMP found, fallback to scanning the known offsets for single UDM magic
+    for offset in (0x31FE0, 0x19FE0, 0x29FE0, 0):
+        print(f"using offset: {offset}")
+        f.seek(offset)
+        chunk = f.read(0x100)
+        
+        pos = 0
+        while (pos := chunk.find(b'UDM ', pos)) != -1:
+            if pos + 6 <= len(chunk):
+                version = struct.unpack_from('<H', chunk, pos + 4)[0]
+                if 1 <= version <= 899:
+                    return [offset + pos]
+            pos += 1
+            
+    return []
 
 def read_string_1(f):
     length_byte = f.read(1)
@@ -37,6 +57,9 @@ def parse_udf_stream(udf_bytes: bytes) -> tuple[bytes | None, str]:
 
     header = udf_bytes[:10]
     magic, version, chunk_size = struct.unpack('<4sHI', header)
+    
+    if magic != b'UDF ':
+        return None, "Invalid UDF magic"
 
     # parse the Target Size if version is 110
     target_size = None
@@ -47,9 +70,6 @@ def parse_udf_stream(udf_bytes: bytes) -> tuple[bytes | None, str]:
         stream_offset = 10
     else:
         return None, f"Unsupported version: {version} (0x{version:04X})"
-
-    if magic != b'UDF ':
-        return None, "Invalid UDF magic"
 
     stream = io.BytesIO(udf_bytes[stream_offset:])
     out_buffer = bytearray()
@@ -184,7 +204,7 @@ def walk_fat(f, files_a, files_b, files_c, base_offset, file_size):
 
     return file_list
     
-def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
+def extract_udm_archive(file_path, base_offset, skip_flag, output_dir="extracted"):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
@@ -211,7 +231,7 @@ def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
         print(f"Company: {company}")
         print("----------------------------\n")
         
-        
+
         print("Locating FAT manifest...")
         curr_pos = f.tell()
         f.seek(base_offset)
@@ -220,8 +240,7 @@ def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
         search_end = (base_offset + z_idx) if z_idx != -1 else file_size
         
         f.seek(curr_pos)
-        
-        
+            
         # 2. Strict, Fallback-Proof Scanner 
         # Instead of guessing padding, we scan the space between the company name
         # and zlib_start. We keep the LAST valid 16-byte block we find, guaranteeing
@@ -242,7 +261,6 @@ def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
                 continue
             if v123 + v121 + v120 == 0:
                 continue
-            
             
             # The next byte must be a valid string length for the first filename
             if i + flag_size < len(search_space):
@@ -317,19 +335,26 @@ def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
 
                 # UDF inline parsing logic
                 if file_info['type'] == 'A' and uncompressed_data.startswith(b"UDF "):
+                    skip_write = False
                     extracted_payload, status_msg = parse_udf_stream(uncompressed_data)
                     
                     if extracted_payload:
                         final_data = extracted_payload
                         patch_status = f"UDF Patch -> {status_msg}"
                     else:
-                        out_name += ".udf" # Append .udf so we know it isn't a rebuilt file
-                        patch_status = f"UDF Patch -> Saved Raw ({status_msg})"
+                        if skip_flag == 1:
+                            skip_write = True
+                            patch_status = "File Skipped!"
+                        else:
+                            out_name += ".udf" # Append .udf so we know it isn't a rebuilt file
+                            patch_status = f"UDF Patch -> Saved Raw ({status_msg})"
                 else:
                     patch_status = "Full File Replacement"
                 if payload_count < 40:
                     print(f"Extracting {file_info['filename']} [{patch_status}]...")
-
+                
+                if skip_write:
+                    continue
                 # Directory Traversal Sanitizer Protection
                 clean_name = out_name.replace('\\', '/').lstrip('/')
                 parts = [p for p in clean_name.split('/') if p and p != '..']
@@ -346,16 +371,18 @@ def extract_udm_archive(file_path, base_offset, output_dir="extracted"):
     print("Extraction complete.")
     
 if __name__ == "__main__":
-    print("# Ultimate UDM and UDF extractor v0.8")
+    print("# Ultimate UDM and UDF extractor v0.8.1")
     if len(sys.argv) < 2:
         print("Extractor for udm Self Extract Updater exes, including UDM archives and differential UDF patches,")
         print("which may contain full content data and be \'pure inserts\'.")
-        print(f"Usage: python {os.path.basename(sys.argv[0])} <input_file> [output_dir]")
+        print("Set skip_flag to 1 to skip extracting UDFs that aren't.")
+        print(f"Usage: python {os.path.basename(sys.argv[0])} <input_file> <skip_flag> [output_dir]")
         sys.exit(1)
 
     input_file = sys.argv[1]
-    base_out_dir = ( sys.argv[2] if len(sys.argv) > 2 else os.path.splitext(input_file)[0] )
-
+    skip_flag = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+    base_out_dir = sys.argv[3] if len(sys.argv) > 3 else os.path.splitext(input_file)[0]
+    
     if not os.path.isfile(input_file):
         print(f"Error: file not found: {input_file}")
         sys.exit(1)
@@ -369,4 +396,4 @@ if __name__ == "__main__":
 
     for index, offset in enumerate(offsets, start=1):
         out_dir = f"{base_out_dir}_{index}"
-        extract_udm_archive(input_file, offset, out_dir)
+        extract_udm_archive(input_file, offset, skip_flag, out_dir)
