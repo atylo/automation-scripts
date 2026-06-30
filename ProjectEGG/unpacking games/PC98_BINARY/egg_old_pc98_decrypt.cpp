@@ -6,7 +6,11 @@
 #include <cstring>
 #include <algorithm>
 #include <iomanip>
-// KEKCHMONK
+#include <filesystem>
+#include <windows.h> 
+
+namespace fs = std::filesystem;
+
 // =============================================================
 // 1. Tiny AES-128-ECB Implementation
 // =============================================================
@@ -148,45 +152,44 @@ public:
         dst.clear();
     }
 
-	void Decode(size_t out_size) {
-		init_getbits();
+    void Decode(size_t out_size) {
+        init_getbits();
 
-		std::vector<uint8_t> buffer(LZH_DICSIZ, 0);
-		uint32_t count = 0;
-		uint32_t loc = 0;
-		uint16_t blocksize = 0;   // <-- added
+        std::vector<uint8_t> buffer(LZH_DICSIZ, 0);
+        uint32_t count = 0;
+        uint32_t loc = 0;
+        uint16_t blocksize = 0;
 
-		while (count < out_size) {
-			// Bug 1 fix: reload tables at the start of every block
-			if (blocksize == 0) {
-				blocksize = getbits(16);
-				read_pt_len(LZH_NT, LZH_TBIT, 3);   // T-table (char/type)
-				read_c_len();
-				read_pt_len(LZH_NP, LZH_PBIT, -1);  // Bug 3 fix: P-table (position)
-			}
-			blocksize--;
+        while (count < out_size) {
+            if (blocksize == 0) {
+                blocksize = getbits(16);
+                read_pt_len(LZH_NT, LZH_TBIT, 3);
+                read_c_len();
+                read_pt_len(LZH_NP, LZH_PBIT, -1);
+            }
+            blocksize--;
 
-			uint16_t c = decode_c();
-			if (c <= 255) {
-				buffer[loc++] = (uint8_t)c;
-				loc &= (LZH_DICSIZ - 1);
-				dst.push_back((uint8_t)c);
-				count++;
-			} else {
-				uint32_t j = c - 256 + LZH_THRESHOLD; // Bug 2 fix: was c - 255
-				uint32_t i = (loc - decode_p() - 1) & (LZH_DICSIZ - 1);
-				while (j > 0 && count < out_size) {
-					uint8_t val = buffer[i];
-					buffer[loc++] = val;
-					loc &= (LZH_DICSIZ - 1);
-					i = (i + 1) & (LZH_DICSIZ - 1);
-					dst.push_back(val);
-					count++;
-					j--;
-				}
-			}
-		}
-	}
+            uint16_t c = decode_c();
+            if (c <= 255) {
+                buffer[loc++] = (uint8_t)c;
+                loc &= (LZH_DICSIZ - 1);
+                dst.push_back((uint8_t)c);
+                count++;
+            } else {
+                uint32_t j = c - 256 + LZH_THRESHOLD;
+                uint32_t i = (loc - decode_p() - 1) & (LZH_DICSIZ - 1);
+                while (j > 0 && count < out_size) {
+                    uint8_t val = buffer[i];
+                    buffer[loc++] = val;
+                    loc &= (LZH_DICSIZ - 1);
+                    i = (i + 1) & (LZH_DICSIZ - 1);
+                    dst.push_back(val);
+                    count++;
+                    j--;
+                }
+            }
+        }
+    }
 
 private:
     const uint8_t* src;
@@ -358,9 +361,6 @@ private:
 
     uint16_t decode_c() {
         uint16_t j, mask;
-        if (bitbuf < 0x1000) { // Safety check roughly implies empty or small buf
-             // In standard code, this check isn't here, but let's trust the bitbuf logic
-        }
         j = c_table[bitbuf >> (LZH_BITBUFSIZ - 12)];
         if (j >= LZH_NC) {
             mask = 1U << (LZH_BITBUFSIZ - 1 - 12);
@@ -394,82 +394,98 @@ private:
 } // namespace LZH
 
 // =============================================================
-// 3. Main Logic
+// 3. Automation and Extraction Logic
 // =============================================================
 
-int main(int argc, char* argv[]) {
-	std::cout << "===ProjectEGG old_PC98 Decryption Utility===\n\n";
-	std::cout << "   With files inside the BINARY folder inside the exe.\n";
-	std::cout << "   Use --no-aes if the game doesn't use it\n";
-	
-    if (argc < 2) {
-		std::string exeName = argv[0];
-		size_t pos = exeName.find_last_of("/\\");
-		if (pos != std::string::npos)
-			exeName = exeName.substr(pos + 1);
+// Hardcoded AES key we are looking for in .rdata
+static const uint8_t TARGET_AES_KEY[16] = {
+    0xEA, 0x40, 0x68, 0x99, 0xC6, 0x78, 0x4B, 0x71, 
+    0x28, 0xA9, 0x96, 0x88, 0x64, 0x6B, 0x3D, 0x00
+};
 
-		std::cerr << "Usage: " << exeName
-				  << " <input_file> [--no-aes]" << std::endl;
-        return 1;
-    }
+// Parses the PE headers, finds .rdata, and scans it for the AES key
+bool CheckIfAesKeyExistsInRData(const fs::path& exePath) {
+    std::ifstream file(exePath, std::ios::binary);
+    if (!file) return false;
 
-    std::string inputPath = argv[1];
-    bool useAES = true;
+    IMAGE_DOS_HEADER dosHeader;
+    file.read(reinterpret_cast<char*>(&dosHeader), sizeof(IMAGE_DOS_HEADER));
+    if (dosHeader.e_magic != IMAGE_DOS_SIGNATURE) return false;
 
-    for (int i = 2; i < argc; i++) {
-        if (std::string(argv[i]) == "--no-aes") {
-            useAES = false;
+    // Jump to NT Headers
+    file.seekg(dosHeader.e_lfanew, std::ios::beg);
+    
+    DWORD peSignature;
+    file.read(reinterpret_cast<char*>(&peSignature), sizeof(DWORD));
+    if (peSignature != IMAGE_NT_SIGNATURE) return false;
+
+    IMAGE_FILE_HEADER fileHeader;
+    file.read(reinterpret_cast<char*>(&fileHeader), sizeof(IMAGE_FILE_HEADER));
+
+    // Skip the Optional Header to get directly to the Section Headers
+    file.seekg(fileHeader.SizeOfOptionalHeader, std::ios::cur);
+
+    // Iterate through sections to find .rdata
+    for (int i = 0; i < fileHeader.NumberOfSections; ++i) {
+        IMAGE_SECTION_HEADER sectionHeader;
+        file.read(reinterpret_cast<char*>(&sectionHeader), sizeof(IMAGE_SECTION_HEADER));
+
+        // PE section names are up to 8 chars and not guaranteed to be null-terminated if full
+        if (std::strncmp(reinterpret_cast<const char*>(sectionHeader.Name), ".rdata", 8) == 0) {
+            
+            DWORD offset = sectionHeader.PointerToRawData;
+            DWORD size = sectionHeader.SizeOfRawData;
+
+            if (size == 0) continue;
+
+            // Load .rdata into memory
+            std::vector<uint8_t> rdata(size);
+            std::streampos currentPos = file.tellg(); 
+            
+            file.seekg(offset, std::ios::beg);
+            file.read(reinterpret_cast<char*>(rdata.data()), size);
+            
+            // Search for the key
+            auto it = std::search(rdata.begin(), rdata.end(), std::begin(TARGET_AES_KEY), std::end(TARGET_AES_KEY));
+            
+            if (it != rdata.end()) {
+                return true; // Key found
+            }
+            
+            file.seekg(currentPos, std::ios::beg); // Restore stream pos if continuing loop
         }
     }
+    return false;
+}
 
-    std::string outputPath = inputPath + ".dec.bin";
-
-    std::ifstream inFile(inputPath, std::ios::binary | std::ios::ate);
-    if (!inFile) {
-        std::cerr << "Error: Could not open file " << inputPath << std::endl;
-        return 1;
-    }
-    std::streamsize fileSize = inFile.tellg();
-    inFile.seekg(0, std::ios::beg);
-
-    std::vector<uint8_t> fileData(fileSize);
-    if (!inFile.read(reinterpret_cast<char*>(fileData.data()), fileSize)) return 1;
-    inFile.close();
-
-    std::cout << "File loaded: " << fileSize << " bytes." << std::endl;
-
+void ProcessPayload(std::vector<uint8_t>& fileData, const std::string& outputPath, bool useAES) {
+    size_t fileSize = fileData.size();
+    
     // --- Step 1: Decrypt AES-128-ECB ---
     if (useAES) {
-        const uint8_t keyData[] = { 
-            0xEA, 0x40, 0x68, 0x99, 0xC6, 0x78, 0x4B, 0x71, 
-            0x28, 0xA9, 0x96, 0x88, 0x64, 0x6B, 0x3D, 0x00 
-        };
-        AES128 aes(keyData);
+        AES128 aes(TARGET_AES_KEY);
         size_t numBlocks = fileSize / 16;
         for (size_t i = 0; i < numBlocks; ++i) {
             size_t offset = i * 16;
             aes.DecryptBlock(&fileData[offset], &fileData[offset]);
         }
-        std::cout << "Decryption complete." << std::endl;
-    } else {
-        std::cout << "Skipping AES decryption." << std::endl;
     }
 
     // --- Step 2: Parse Header ---
-    if (fileSize < 4) return 1;
+    if (fileSize < 4) {
+        std::cerr << "  -> Error: Data too small for header." << std::endl;
+        return;
+    }
 
     uint32_t header = *reinterpret_cast<uint32_t*>(fileData.data());
-    std::cout << "Raw Header: 0x" << std::hex << header << std::dec << std::endl;
-    
     header ^= 0x18885963;
 
     if ((header % 0x4D) == 0) {
         uint32_t zsize = header / 0x4D;
-        std::cout << "Valid Header. Decompressed Size: " << zsize << " bytes." << std::endl;
         
         if (fileSize <= 4) {
-            std::cerr << "Error: No data to decompress." << std::endl;
-            return 1;
+            std::cerr << "  -> Error: No data to decompress." << std::endl;
+            return;
         }
 
         size_t compressedPayloadSize = fileSize - 4;
@@ -483,21 +499,124 @@ int main(int argc, char* argv[]) {
             LZH::Decoder decoder(compressedPtr, compressedPayloadSize, decompressedData);
             decoder.Decode(zsize);
         } catch (...) {
-            std::cerr << "Warning: Decompression ended abruptly." << std::endl;
+            std::cerr << "  -> Warning: Decompression ended abruptly." << std::endl;
         }
 
-        std::cout << "Decompressed " << decompressedData.size() << " bytes." << std::endl;
-
         std::ofstream outFile(outputPath, std::ios::binary);
-        outFile.write(reinterpret_cast<const char*>(decompressedData.data()), decompressedData.size());
-        outFile.close();
-
-        std::cout << "Success! Saved to " << outputPath << std::endl;
+        if (outFile) {
+            outFile.write(reinterpret_cast<const char*>(decompressedData.data()), decompressedData.size());
+            outFile.close();
+            std::cout << "  -> Success! Extracted " << decompressedData.size() << " bytes.\n" << std::endl;
+        } else {
+            std::cerr << "  -> Error: Could not write output file." << std::endl;
+        }
 
     } else {
-        std::cerr << "Header validation failed (header % 0x4D != 0)." << std::endl;
+        std::cerr << "  -> Error: Header validation failed (header % 0x4D != 0)." << std::endl;
+    }
+}
+
+// Context struct to pass down to our Win32 callback
+struct ExtractContext {
+    fs::path outputDir;
+    bool useAES;
+};
+
+std::string GetExtension(const std::string& name) {
+    if (name.find("CONF") == 0) return ".txt";
+    if (name.find("DISK") == 0) return ".pds";
+    if (name.find("LOGO") == 0) return ".bmp";
+    
+    // Check for audio identifiers
+    if (name.find("HH") == 0 || name.find("TOP") == 0 || name.find("SD") == 0 ||
+        name.find("BD") == 0 || name.find("TOM") == 0 || name.find("RIM") == 0) {
+        return ".wav";
+    }
+    
+    return ".rom";
+}
+
+// Callback to handle each resource found in the .exe
+BOOL CALLBACK EnumResNameProc(HMODULE hModule, LPCSTR lpszType, LPSTR lpszName, LONG_PTR lParam) {
+    ExtractContext* ctx = reinterpret_cast<ExtractContext*>(lParam);
+    
+    HRSRC hResInfo = FindResourceA(hModule, lpszName, lpszType);
+    if (!hResInfo) return TRUE;
+    
+    HGLOBAL hResData = LoadResource(hModule, hResInfo);
+    if (!hResData) return TRUE;
+    
+    DWORD resSize = SizeofResource(hModule, hResInfo);
+    void* pResData = LockResource(hResData);
+    
+    if (resSize == 0 || !pResData) return TRUE;
+
+    std::string resNameStr;
+    if (IS_INTRESOURCE(lpszName)) {
+        resNameStr = std::to_string(reinterpret_cast<uintptr_t>(lpszName));
+    } else {
+        resNameStr = lpszName;
+    }
+
+    std::cout << "Processing Resource: " << resNameStr << " (" << resSize << " bytes)" << std::endl;
+
+    std::vector<uint8_t> fileData(static_cast<uint8_t*>(pResData), static_cast<uint8_t*>(pResData) + resSize);
+	std::string extension = GetExtension(resNameStr);
+	fs::path outPath = ctx->outputDir / (resNameStr + extension);
+    
+    ProcessPayload(fileData, outPath.string(), ctx->useAES);
+
+    return TRUE;
+}
+
+int main(int argc, char* argv[]) {
+    std::cout << "===ProjectEGG old_PC98 Decryption Utility===\n";
+
+    
+    if (argc < 2) {
+		std::cout << "   Extracts and decompresses from EXE BINARY resources.\n";
+		std::cout << "   Automatically detects AES encryption via .rdata scan.\n\n";
+        fs::path exeName = argv[0];
+        std::cerr << "Usage: " << exeName.filename().string() << " <input.exe>" << std::endl;
         return 1;
     }
 
+    fs::path inputPath = argv[1];
+
+    if (!fs::exists(inputPath) || !fs::is_regular_file(inputPath)) {
+        std::cerr << "Error: Could not find executable: " << inputPath << std::endl;
+        return 1;
+    }
+
+    // 1. Scan for AES Key dynamically
+    //std::cout << "Scanning " << inputPath.filename().string() << " for encryption key..." << std::endl;
+    bool useAES = CheckIfAesKeyExistsInRData(inputPath);
+    
+/*     if (useAES) {
+        std::cout << "[+] Target AES key found in .rdata. Decryption enabled.\n" << std::endl;
+    } else {
+        std::cout << "[-] Target AES key missing. Proceeding without decryption.\n" << std::endl;
+    } */
+
+    fs::path outputDir = inputPath.parent_path() / (inputPath.stem().string());
+    if (!fs::exists(outputDir)) {
+        fs::create_directory(outputDir);
+    }
+
+    std::cout << "Output directory: " << outputDir.string() << "\n" << std::endl;
+
+    // 2. Load the executable and process resources
+    HMODULE hExe = LoadLibraryExA(inputPath.string().c_str(), NULL, LOAD_LIBRARY_AS_DATAFILE);
+    if (!hExe) {
+        std::cerr << "Error: Could not load the executable to parse resources. Error Code: " << GetLastError() << std::endl;
+        return 1;
+    }
+
+    ExtractContext ctx = { outputDir, useAES };
+    EnumResourceNamesA(hExe, "BINARY", EnumResNameProc, reinterpret_cast<LONG_PTR>(&ctx));
+
+    FreeLibrary(hExe);
+
+    std::cout << "Extraction complete." << std::endl;
     return 0;
 }

@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <sstream>
 #include <windows.h>
+#include <span>
 
 namespace fs = std::filesystem;
 
@@ -50,7 +51,7 @@ std::vector<uint8_t> LoadResource(HMODULE hModule, const char* resName, const ch
 // CRYPTOGRAPHY
 // ============================================================================
 
-uint8_t CalcHash(const std::vector<uint8_t>& password) {
+uint8_t CalcHash(std::span<const uint8_t> password) {
     if (password.empty()) return 0;
     uint8_t val = 0xFF;
     for (uint8_t b : password) {
@@ -59,7 +60,7 @@ uint8_t CalcHash(const std::vector<uint8_t>& password) {
     return val;
 }
 
-void Decrypt(uint8_t* ptr, size_t len, uint8_t seed, const std::vector<uint8_t>& password, int version) {
+void Decrypt(uint8_t* ptr, size_t len, uint8_t seed, std::span<const uint8_t> password, int version) {
     uint8_t key_hash = CalcHash(password);
     uint8_t combined_key;
     uint8_t shift_init;
@@ -171,14 +172,16 @@ std::vector<uint8_t> ProcessData(std::vector<uint8_t>& raw, const std::string& n
     }
 
     std::cout << "Processing: " << name << "... ";
-
-    uint32_t* pMagic = (uint32_t*)raw.data();
-    if (*pMagic != 1) {
+	
+	uint32_t magic = 0;
+    std::memcpy(&magic, raw.data(), sizeof(magic));
+    if (magic != 1) {
         std::cout << "Invalid Header Magic." << std::endl;
         return {};
     }
-
-    uint32_t uncompressed_size = *(uint32_t*)(raw.data() + 4);
+	
+	uint32_t uncompressed_size = 0;
+    std::memcpy(&uncompressed_size, raw.data() + 4, sizeof(uint32_t));
     uint8_t seed = raw[12];
     
     uint8_t* payload_ptr = raw.data() + 13;
