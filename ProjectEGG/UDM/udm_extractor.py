@@ -334,15 +334,15 @@ def extract_udm_archive(file_path, base_offset, skip_flag, output_dir="extracted
                 out_name = file_info['filename']
 
                 # UDF inline parsing logic
+                skip_write = False
                 if file_info['type'] == 'A' and uncompressed_data.startswith(b"UDF "):
-                    skip_write = False
                     extracted_payload, status_msg = parse_udf_stream(uncompressed_data)
                     
                     if extracted_payload:
                         final_data = extracted_payload
                         patch_status = f"UDF Patch -> {status_msg}"
                     else:
-                        if skip_flag == 1:
+                        if skip_flag:
                             skip_write = True
                             patch_status = "File Skipped!"
                         else:
