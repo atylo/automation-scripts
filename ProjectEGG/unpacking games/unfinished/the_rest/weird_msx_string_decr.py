@@ -56,7 +56,7 @@ def decrypt_msx_string(ciphertext: str, key: str = "v0Uw5i2") -> str:
 # EXAMPLE USAGE
 # =============================================================================
 if __name__ == "__main__":
-    # Example encrypted string from your launcher context: "v0Uw5i2" was used 
+    # Example encrypted string from the launcher context: "v0Uw5i2" was used 
     # against resource blocks. 
     encrypted_input = "d.Rzm^unVKke!"
     
