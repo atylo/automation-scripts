@@ -10,82 +10,72 @@ def parse_pds_disk(data, start_offset):
     ptr = start_offset
     file_size = len(data)
 
-    # 1. Check Magic
-    if ptr + 3 > file_size:
+    # 1. Check 4-byte Magic ("pds\n")
+    if ptr + 5 > file_size:
         return [], ptr, False
     
-    magic = data[ptr:ptr+3]
-    if magic.lower() != b'pds':
+    if data[ptr:ptr+4].lower() != b'pds\n':
         return [], ptr, False
 
-    # Skip Header (3 bytes Magic + 1 byte Ver + 1 byte Pad = 5 bytes)
+    # Byte 4: Version/Type (0 = 84 tracks, 1 or 2 = 164/168 tracks)
+    version = data[ptr+4]
+    max_tracks = 84 if version == 0 else 168
     ptr += 5
     
     tracks_data = []
+    track_count = 0
     
     # 2. Parse Tracks
-    while ptr < file_size:
-        # Check if we've hit the start of a NEW PDS file (concatenated)
+    while ptr < file_size and track_count < max_tracks:
+        # Check if we've hit the start of a new PDS file (concatenated)
         # We look ahead to see if the next bytes are a PDS signature
-        if ptr + 3 <= file_size:
-            if data[ptr:ptr+3].lower() == b'pds':
-                # Found a new header, finish current disk
-                break
+        if ptr + 4 <= file_size and data[ptr:ptr+4].lower() == b'pds\n':
+            # Found a new header, finish current disk
+            break
 
-        # Read Track Header (Num Sectors)
-        num_sectors = data[ptr]
+        # Read Track Header & MASK Bit 7 (0x7F)
+        raw_track_header = data[ptr]
+        num_sectors = raw_track_header & 0x7F
         ptr += 1
+        track_count += 1
         
         # If 0 sectors, might be padding or empty track, just continue
         if num_sectors == 0:
             continue
 
         current_track_blob = bytearray()
-        track_c = 0
-        track_h = 0
+        track_c, track_h = 0, 0
         
         # Read Sectors
         for _ in range(num_sectors):
             if ptr + 6 > file_size: 
-                break # EOF inside track
+                break # EOF inside sector header
             
-            # PDS Sector Header
-            c, h, r, f1, sec_type, size_param = struct.unpack("BBBBBB", data[ptr:ptr+6])
+            # PDS Sector Header (Cylinder, Head, Record or Sector Number, N or Sector size, Status, Size Factor)
+            c, h, r, n_code, status, size_factor = struct.unpack("BBBBBB", data[ptr:ptr+6])
             ptr += 6
-            
             track_c, track_h = c, h
+            # print(f"C: {c} H: {h} R: {r} N: {n_code} Status: {status} Size Factor: {size_factor}")
 
-            # Size Calculation
-            # Logic: Try shift (sec_type << size), if 0 or result 0, use linear (128 * size)
-            sector_size = 0
-            if sec_type > 0:
-                sector_size = sec_type << size_param
-            
-            if sector_size == 0:
-                sector_size = 128 * size_param
+            # Size Calculation (Size Factor * 128)
+            # sector_size = 128 * (2 ** n_code)
+            sector_size = size_factor << 7
 
             if ptr + sector_size > file_size:
-                break # EOF inside data
+                break # EOF inside payload
 
             sector_payload = data[ptr:ptr+sector_size]
             ptr += sector_size
             
             # D88 Sector Header (16 bytes)
-            # N-code: 0=128, 1=256, 2=512, 3=1024
-            if sector_size == 128: n = 0
-            elif sector_size == 256: n = 1
-            elif sector_size == 512: n = 2
-            elif sector_size == 1024: n = 3
-            else: n = 1
-
             d88_sec_header = struct.pack(
                 "<BBBBHBBB5sH",
-                c, h, r, n,
-                num_sectors,
-                0x00,       # Density (00=Double)
-                0x00,       # Deleted
-                0x00,       # Status
-                b'\x00'*5,  # Reserved
+                c, h, r, n_code,
+                num_sectors,    # Pure sector count
+                0x00,           # Density (00=Double)
+                0x00,           # Deleted Flag
+                0x00,           # FDC status byte, maybe should be the "status" value, OR'ed with 0x10 in the emu
+                b'\x00'*5,      # Reserved, but not always empty
                 sector_size
             )
             

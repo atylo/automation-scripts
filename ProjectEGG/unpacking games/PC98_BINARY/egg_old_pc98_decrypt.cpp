@@ -8,8 +8,19 @@
 #include <iomanip>
 #include <filesystem>
 #include <windows.h> 
+#include <string_view>
+#include <memory>
 
 namespace fs = std::filesystem;
+
+// =============================================================
+// Data Structures
+// =============================================================
+
+struct ExtractedResource {
+    std::string name;
+    std::vector<uint8_t> data;
+};
 
 // =============================================================
 // 1. Tiny AES-128-ECB Implementation
@@ -123,27 +134,22 @@ private:
 
 namespace LZH {
 
-#define LZH_BITBUFTYPE uint16_t
-#define LZH_CHAR_BIT 8
-#define LZH_UCHAR_MAX 255
-#define LZH_BITBUFSIZ (LZH_CHAR_BIT * sizeof (LZH_BITBUFTYPE))
-#define LZH_DICBIT 13 // LH5=13, LH4=12
-#define LZH_DICSIZ (1U << LZH_DICBIT)
-#define LZH_MAXMATCH 256
-#define LZH_THRESHOLD 3
-#define LZH_NC (LZH_UCHAR_MAX + LZH_MAXMATCH + 2 - LZH_THRESHOLD)
-#define LZH_CBIT 9
-#define LZH_CODE_BIT 16
-#define LZH_NP (LZH_DICBIT + 1)
-#define LZH_NT (LZH_CODE_BIT + 3)
-#define LZH_PBIT 4
-#define LZH_TBIT 5
-
-#if LZH_NT > LZH_NP
-#define LZH_NPT LZH_NT
-#else
-#define LZH_NPT LZH_NP
-#endif
+using BitBufType = uint16_t;
+constexpr size_t CHAR_BIT_LZH = 8;
+constexpr size_t UCHAR_MAX_LZH = 255;
+constexpr size_t BITBUFSIZ = (CHAR_BIT_LZH * sizeof(BitBufType));
+constexpr size_t DICBIT = 13; // LH5=13, LH4=12
+constexpr size_t DICSIZ = (1U << DICBIT);
+constexpr size_t MAXMATCH = 256;
+constexpr size_t THRESHOLD = 3;
+constexpr size_t NC = (UCHAR_MAX_LZH + MAXMATCH + 2 - THRESHOLD);
+constexpr size_t CBIT = 9;
+constexpr size_t CODE_BIT = 16;
+constexpr size_t NP = (DICBIT + 1);
+constexpr size_t NT = (CODE_BIT + 3);
+constexpr size_t PBIT = 4;
+constexpr size_t TBIT = 5;
+constexpr size_t NPT = (NT > NP) ? NT : NP;
 
 class Decoder {
 public:
@@ -155,7 +161,7 @@ public:
     void Decode(size_t out_size) {
         init_getbits();
 
-        std::vector<uint8_t> buffer(LZH_DICSIZ, 0);
+        std::vector<uint8_t> buffer(DICSIZ, 0);
         uint32_t count = 0;
         uint32_t loc = 0;
         uint16_t blocksize = 0;
@@ -163,26 +169,26 @@ public:
         while (count < out_size) {
             if (blocksize == 0) {
                 blocksize = getbits(16);
-                read_pt_len(LZH_NT, LZH_TBIT, 3);
+                read_pt_len(NT, TBIT, 3);
                 read_c_len();
-                read_pt_len(LZH_NP, LZH_PBIT, -1);
+                read_pt_len(NP, PBIT, -1);
             }
             blocksize--;
 
             uint16_t c = decode_c();
             if (c <= 255) {
                 buffer[loc++] = (uint8_t)c;
-                loc &= (LZH_DICSIZ - 1);
+                loc &= (DICSIZ - 1);
                 dst.push_back((uint8_t)c);
                 count++;
             } else {
-                uint32_t j = c - 256 + LZH_THRESHOLD;
-                uint32_t i = (loc - decode_p() - 1) & (LZH_DICSIZ - 1);
+                uint32_t j = c - 256 + THRESHOLD;
+                uint32_t i = (loc - decode_p() - 1) & (DICSIZ - 1);
                 while (j > 0 && count < out_size) {
                     uint8_t val = buffer[i];
                     buffer[loc++] = val;
-                    loc &= (LZH_DICSIZ - 1);
-                    i = (i + 1) & (LZH_DICSIZ - 1);
+                    loc &= (DICSIZ - 1);
+                    i = (i + 1) & (DICSIZ - 1);
                     dst.push_back(val);
                     count++;
                     j--;
@@ -200,10 +206,10 @@ private:
     uint32_t subbitbuf = 0;
     int bitcount = 0;
 
-    uint16_t left[2 * LZH_NC - 1];
-    uint16_t right[2 * LZH_NC - 1];
-    uint8_t c_len[LZH_NC];
-    uint8_t pt_len[LZH_NPT];
+    uint16_t left[2 * NC - 1];
+    uint16_t right[2 * NC - 1];
+    uint8_t c_len[NC];
+    uint8_t pt_len[NPT];
     uint16_t c_table[4096];
     uint16_t pt_table[256];
 
@@ -216,14 +222,14 @@ private:
             } else {
                 subbitbuf = 0;
             }
-            bitcount = LZH_CHAR_BIT;
+            bitcount = CHAR_BIT_LZH;
         }
         bitbuf |= subbitbuf >> (bitcount -= n);
     }
 
     uint16_t getbits(int n) {
         uint16_t x;
-        x = bitbuf >> (LZH_BITBUFSIZ - n);
+        x = bitbuf >> (BITBUFSIZ - n);
         fillbuf(n);
         return x;
     }
@@ -232,7 +238,7 @@ private:
         bitbuf = 0;
         subbitbuf = 0;
         bitcount = 0;
-        fillbuf(LZH_BITBUFSIZ);
+        fillbuf(BITBUFSIZ);
     }
 
     void make_table(int nchar, uint8_t* bitlen, int tablebits, uint16_t* table) {
@@ -302,9 +308,9 @@ private:
         } else {
             i = 0;
             while (i < n) {
-                c = bitbuf >> (LZH_BITBUFSIZ - 3);
+                c = bitbuf >> (BITBUFSIZ - 3);
                 if (c == 7) {
-                    mask = 1U << (LZH_BITBUFSIZ - 1 - 3);
+                    mask = 1U << (BITBUFSIZ - 1 - 3);
                     while (mask & bitbuf) {
                         mask >>= 1;
                         c++;
@@ -327,48 +333,48 @@ private:
         int c;
         uint32_t mask;
 
-        n = getbits(LZH_CBIT);
+        n = getbits(CBIT);
         if (n == 0) {
-            c = getbits(LZH_CBIT);
-            for (i = 0; i < LZH_NC; i++) c_len[i] = 0;
+            c = getbits(CBIT);
+            for (i = 0; i < NC; i++) c_len[i] = 0;
             for (i = 0; i < 4096; i++) c_table[i] = c;
         } else {
             i = 0;
             while (i < n) {
-                c = pt_table[bitbuf >> (LZH_BITBUFSIZ - 8)];
-                if (c >= LZH_NT) {
-                    mask = 1U << (LZH_BITBUFSIZ - 1 - 8);
+                c = pt_table[bitbuf >> (BITBUFSIZ - 8)];
+                if (c >= NT) {
+                    mask = 1U << (BITBUFSIZ - 1 - 8);
                     do {
                         if (bitbuf & mask) c = right[c];
                         else               c = left[c];
                         mask >>= 1;
-                    } while (c >= LZH_NT);
+                    } while (c >= NT);
                 }
                 fillbuf(pt_len[c]);
                 if (c <= 2) {
                     if (c == 0) c = 1;
                     else if (c == 1) c = getbits(4) + 3;
-                    else             c = getbits(LZH_CBIT) + 20;
+                    else             c = getbits(CBIT) + 20;
                     while (--c >= 0) c_len[i++] = 0;
                 } else {
                     c_len[i++] = c - 2;
                 }
             }
-            while (i < LZH_NC) c_len[i++] = 0;
-            make_table(LZH_NC, c_len, 12, c_table);
+            while (i < NC) c_len[i++] = 0;
+            make_table(NC, c_len, 12, c_table);
         }
     }
 
     uint16_t decode_c() {
         uint16_t j, mask;
-        j = c_table[bitbuf >> (LZH_BITBUFSIZ - 12)];
-        if (j >= LZH_NC) {
-            mask = 1U << (LZH_BITBUFSIZ - 1 - 12);
+        j = c_table[bitbuf >> (BITBUFSIZ - 12)];
+        if (j >= NC) {
+            mask = 1U << (BITBUFSIZ - 1 - 12);
             do {
                 if (bitbuf & mask) j = right[j];
                 else               j = left[j];
                 mask >>= 1;
-            } while (j >= LZH_NC);
+            } while (j >= NC);
         }
         fillbuf(c_len[j]);
         return j;
@@ -376,14 +382,14 @@ private:
 
     uint16_t decode_p() {
         uint16_t j, mask;
-        j = pt_table[bitbuf >> (LZH_BITBUFSIZ - 8)];
-        if (j >= LZH_NP) {
-            mask = 1U << (LZH_BITBUFSIZ - 1 - 8);
+        j = pt_table[bitbuf >> (BITBUFSIZ - 8)];
+        if (j >= NP) {
+            mask = 1U << (BITBUFSIZ - 1 - 8);
             do {
                 if (bitbuf & mask) j = right[j];
                 else               j = left[j];
                 mask >>= 1;
-            } while (j >= LZH_NP);
+            } while (j >= NP);
         }
         fillbuf(pt_len[j]);
         if (j != 0) j = (1U << (j - 1)) + getbits(j - 1);
@@ -405,54 +411,74 @@ static const uint8_t TARGET_AES_KEY[16] = {
 
 // Parses the PE headers, finds .rdata, and scans it for the AES key
 bool CheckIfAesKeyExistsInRData(const fs::path& exePath) {
-    std::ifstream file(exePath, std::ios::binary);
+    // Open at the end with std::ios::ate to get the total file size
+    std::ifstream file(exePath, std::ios::binary | std::ios::ate);
     if (!file) return false;
 
+    // 1. Get exact file size to prevent out-of-bounds reads
+    std::streamsize fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // Ensure it's big enough to even hold a DOS header
+    if (fileSize < sizeof(IMAGE_DOS_HEADER)) return false;
+
     IMAGE_DOS_HEADER dosHeader;
-    file.read(reinterpret_cast<char*>(&dosHeader), sizeof(IMAGE_DOS_HEADER));
+    if (!file.read(reinterpret_cast<char*>(&dosHeader), sizeof(IMAGE_DOS_HEADER))) return false;
     if (dosHeader.e_magic != IMAGE_DOS_SIGNATURE) return false;
 
-    // Jump to NT Headers
+    // 2. Validate e_lfanew (NT Header offset)
+    // It must be a positive offset and leave enough room for the NT signature
+    if (dosHeader.e_lfanew <= 0 || dosHeader.e_lfanew >= (fileSize - sizeof(DWORD))) return false;
+
     file.seekg(dosHeader.e_lfanew, std::ios::beg);
-    
+
     DWORD peSignature;
-    file.read(reinterpret_cast<char*>(&peSignature), sizeof(DWORD));
+    if (!file.read(reinterpret_cast<char*>(&peSignature), sizeof(DWORD))) return false;
     if (peSignature != IMAGE_NT_SIGNATURE) return false;
 
     IMAGE_FILE_HEADER fileHeader;
-    file.read(reinterpret_cast<char*>(&fileHeader), sizeof(IMAGE_FILE_HEADER));
+    if (!file.read(reinterpret_cast<char*>(&fileHeader), sizeof(IMAGE_FILE_HEADER))) return false;
 
-    // Skip the Optional Header to get directly to the Section Headers
+    // 3. Prevent skipping past the end of the file 
+    // Calculate where the section headers begin
+    std::streampos currentPos = file.tellg();
+    if (currentPos + static_cast<std::streamoff>(fileHeader.SizeOfOptionalHeader) > fileSize) {
+        return false;
+    }
+
+    // Skip the Optional Header
     file.seekg(fileHeader.SizeOfOptionalHeader, std::ios::cur);
 
     // Iterate through sections to find .rdata
     for (int i = 0; i < fileHeader.NumberOfSections; ++i) {
         IMAGE_SECTION_HEADER sectionHeader;
-        file.read(reinterpret_cast<char*>(&sectionHeader), sizeof(IMAGE_SECTION_HEADER));
+        
+        // 4. Validate we can actually read the section header
+        if (!file.read(reinterpret_cast<char*>(&sectionHeader), sizeof(IMAGE_SECTION_HEADER))) break;
 
-        // PE section names are up to 8 chars and not guaranteed to be null-terminated if full
         if (std::strncmp(reinterpret_cast<const char*>(sectionHeader.Name), ".rdata", 8) == 0) {
             
             DWORD offset = sectionHeader.PointerToRawData;
             DWORD size = sectionHeader.SizeOfRawData;
 
-            if (size == 0) continue;
+            // 5. Validate the section's raw data actually exists within the file boundaries
+            if (size == 0 || (static_cast<std::streamoff>(offset) + size > fileSize)) {
+                continue; 
+            }
 
-            // Load .rdata into memory
             std::vector<uint8_t> rdata(size);
-            std::streampos currentPos = file.tellg(); 
+            std::streampos savedPos = file.tellg(); 
             
             file.seekg(offset, std::ios::beg);
-            file.read(reinterpret_cast<char*>(rdata.data()), size);
-            
-            // Search for the key
-            auto it = std::search(rdata.begin(), rdata.end(), std::begin(TARGET_AES_KEY), std::end(TARGET_AES_KEY));
-            
-            if (it != rdata.end()) {
-                return true; // Key found
+            if (file.read(reinterpret_cast<char*>(rdata.data()), size)) {
+                auto it = std::search(rdata.begin(), rdata.end(), std::begin(TARGET_AES_KEY), std::end(TARGET_AES_KEY));
+                if (it != rdata.end()) {
+                    return true; // Key found
+                }
             }
             
-            file.seekg(currentPos, std::ios::beg); // Restore stream pos if continuing loop
+            // Restore stream position to read the next section header
+            file.seekg(savedPos, std::ios::beg); 
         }
     }
     return false;
@@ -471,23 +497,19 @@ void ProcessPayload(std::vector<uint8_t>& fileData, const std::string& outputPat
         }
     }
 
-    // --- Step 2: Parse Header ---
+    // --- Step 2: Parse Header Safely ---
     if (fileSize < 4) {
         std::cerr << "  -> Error: Data too small for header." << std::endl;
         return;
     }
 
-    uint32_t header = *reinterpret_cast<uint32_t*>(fileData.data());
+    uint32_t header = 0;
+    std::memcpy(&header, fileData.data(), sizeof(header));
     header ^= 0x18885963;
 
     if ((header % 0x4D) == 0) {
         uint32_t zsize = header / 0x4D;
         
-        if (fileSize <= 4) {
-            std::cerr << "  -> Error: No data to decompress." << std::endl;
-            return;
-        }
-
         size_t compressedPayloadSize = fileSize - 4;
         const uint8_t* compressedPtr = fileData.data() + 4;
         
@@ -516,29 +538,31 @@ void ProcessPayload(std::vector<uint8_t>& fileData, const std::string& outputPat
     }
 }
 
-// Context struct to pass down to our Win32 callback
-struct ExtractContext {
-    fs::path outputDir;
-    bool useAES;
-};
 
-std::string GetExtension(const std::string& name) {
-    if (name.find("CONF") == 0) return ".txt";
-    if (name.find("DISK") == 0) return ".pds";
-    if (name.find("LOGO") == 0) return ".bmp";
+std::string GetExtension(std::string_view name) {
+    if (name.starts_with("CONF")) return ".txt";
+    if (name.starts_with("DISK")) return ".pds";
+    if (name.starts_with("LOGO")) return ".bmp";
     
-    // Check for audio identifiers
-    if (name.find("HH") == 0 || name.find("TOP") == 0 || name.find("SD") == 0 ||
-        name.find("BD") == 0 || name.find("TOM") == 0 || name.find("RIM") == 0) {
+    if (name.starts_with("HH")  || name.starts_with("TOP") || name.starts_with("SD") ||
+        name.starts_with("BD")  || name.starts_with("TOM") || name.starts_with("RIM")) {
         return ".wav";
     }
     
     return ".rom";
 }
 
-// Callback to handle each resource found in the .exe
+// Memory Cleanup Helper for HMODULE
+struct HModuleDeleter {
+    void operator()(HMODULE h) const { if (h) FreeLibrary(h); }
+};
+using UniqueHModule = std::unique_ptr<std::remove_pointer_t<HMODULE>, HModuleDeleter>;
+
+// -------------------------------------------------------------
+// Callback to just collect raw resource bytes into memory
+// -------------------------------------------------------------
 BOOL CALLBACK EnumResNameProc(HMODULE hModule, LPCSTR lpszType, LPSTR lpszName, LONG_PTR lParam) {
-    ExtractContext* ctx = reinterpret_cast<ExtractContext*>(lParam);
+    auto* resourceList = reinterpret_cast<std::vector<ExtractedResource>*>(lParam);
     
     HRSRC hResInfo = FindResourceA(hModule, lpszName, lpszType);
     if (!hResInfo) return TRUE;
@@ -558,24 +582,21 @@ BOOL CALLBACK EnumResNameProc(HMODULE hModule, LPCSTR lpszType, LPSTR lpszName, 
         resNameStr = lpszName;
     }
 
-    std::cout << "Processing Resource: " << resNameStr << " (" << resSize << " bytes)" << std::endl;
-
-    std::vector<uint8_t> fileData(static_cast<uint8_t*>(pResData), static_cast<uint8_t*>(pResData) + resSize);
-	std::string extension = GetExtension(resNameStr);
-	fs::path outPath = ctx->outputDir / (resNameStr + extension);
+    // Copy raw bytes to vector and add to our list
+    const uint8_t* byteData = static_cast<const uint8_t*>(pResData);
+    std::vector<uint8_t> fileData(byteData, byteData + resSize);
     
-    ProcessPayload(fileData, outPath.string(), ctx->useAES);
+    resourceList->push_back({ resNameStr, std::move(fileData) });
 
     return TRUE;
 }
 
 int main(int argc, char* argv[]) {
-    std::cout << "===ProjectEGG old_PC98 Decryption Utility===\n";
-
+    std::cout << "===ProjectEGG old_PC98 Extraction Utility===\n";
     
     if (argc < 2) {
-		std::cout << "   Extracts and decompresses from EXE BINARY resources.\n";
-		std::cout << "   Automatically detects AES encryption via .rdata scan.\n\n";
+        std::cout << "   Extracts and decompresses from EXE BINARY resources.\n";
+        std::cout << "   Automatically detects AES encryption via .rdata scan.\n\n";
         fs::path exeName = argv[0];
         std::cerr << "Usage: " << exeName.filename().string() << " <input.exe>" << std::endl;
         return 1;
@@ -588,34 +609,35 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // 1. Scan for AES Key dynamically
-    //std::cout << "Scanning " << inputPath.filename().string() << " for encryption key..." << std::endl;
+    // 1. Scan for AES Key
     bool useAES = CheckIfAesKeyExistsInRData(inputPath);
     
-/*     if (useAES) {
-        std::cout << "[+] Target AES key found in .rdata. Decryption enabled.\n" << std::endl;
-    } else {
-        std::cout << "[-] Target AES key missing. Proceeding without decryption.\n" << std::endl;
-    } */
-
-    fs::path outputDir = inputPath.parent_path() / (inputPath.stem().string());
+    fs::path outputDir = inputPath.parent_path() / inputPath.stem();
     if (!fs::exists(outputDir)) {
         fs::create_directory(outputDir);
     }
-
     std::cout << "Output directory: " << outputDir.string() << "\n" << std::endl;
 
-    // 2. Load the executable and process resources
-    HMODULE hExe = LoadLibraryExA(inputPath.string().c_str(), NULL, LOAD_LIBRARY_AS_DATAFILE);
+    // 2. Load the executable safely with RAII
+    UniqueHModule hExe(LoadLibraryExA(inputPath.string().c_str(), NULL, LOAD_LIBRARY_AS_DATAFILE));
     if (!hExe) {
         std::cerr << "Error: Could not load the executable to parse resources. Error Code: " << GetLastError() << std::endl;
         return 1;
     }
 
-    ExtractContext ctx = { outputDir, useAES };
-    EnumResourceNamesA(hExe, "BINARY", EnumResNameProc, reinterpret_cast<LONG_PTR>(&ctx));
+    // 3. Setup our vector and enumerate resources
+    std::vector<ExtractedResource> resources;
+    EnumResourceNamesA(hExe.get(), "BINARY", EnumResNameProc, reinterpret_cast<LONG_PTR>(&resources));
 
-    FreeLibrary(hExe);
+    // 4. Process all collected files
+    for (auto& item : resources) {
+        std::cout << "Processing Resource: " << item.name << " (" << item.data.size() << " bytes)\n";
+        
+        std::string extension = GetExtension(item.name);
+        fs::path outPath = outputDir / (item.name + extension);
+        
+        ProcessPayload(item.data, outPath.string(), useAES);
+    }
 
     std::cout << "Extraction complete." << std::endl;
     return 0;
