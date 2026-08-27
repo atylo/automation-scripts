@@ -199,6 +199,9 @@ std::vector<uint8_t> ProcessData(std::vector<uint8_t>& raw, const std::string& n
         std::string out_name;
         if (name == "HD") {
             out_name = name + ".hdi";
+        }
+        else if (name == "CFG") {
+            out_name = name + ".txt";
         } 
         else if (name == "FONT" || name == "SOUND" || name == "BIOS" || name == "HH" || name == "TOP" || name == "SD") {
             out_name = name + ".ROM";

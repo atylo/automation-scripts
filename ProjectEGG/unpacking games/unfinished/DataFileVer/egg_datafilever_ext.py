@@ -120,40 +120,7 @@ def decompress_lzss(data, output_size):
                 r = (r + 1) & 0xFFF
     return output
 
-# --- 3. TYPE 1 DETECTION (String XREF approach) ---
-
-def find_disk_name_strings(data):
-    """Find disk name strings like 'DISK 1', 'DISK 2', 'DISK A', etc."""
-    disk_strings = []
-    patterns = [b'DISK 1', b'DISK 2', b'DISK 3', b'DISK 4', b'DISK 5',
-                b'DISK A', b'DISK B', b'DISK C', b'DISK D',
-                b'DISKA', b'DISKB', b'DISKC', b'USER']
-
-    for pattern in patterns:
-        idx = 0
-        while True:
-            idx = data.find(pattern, idx)
-            if idx == -1:
-                break
-            end = idx
-            while end < len(data) and data[end] != 0:
-                end += 1
-            disk_strings.append((idx, data[idx:end].decode('ascii', errors='ignore')))
-            idx += 1
-    return disk_strings
-
-def find_xrefs_to_va(data, target_va):
-    """Find references to a VA in the file."""
-    va_bytes = struct.pack('<I', target_va)
-    xrefs = []
-    idx = 0
-    while True:
-        idx = data.find(va_bytes, idx)
-        if idx == -1:
-            break
-        xrefs.append(idx)
-        idx += 1
-    return xrefs
+# --- 3. TYPE 1 DETECTION ---
 
 def is_valid_disk_entry_13(decomp, va, comp, data_len, image_base):
     """Check if 13-byte entry values look valid (decomp, va, comp)."""
@@ -462,8 +429,8 @@ def validate_d88(data):
     if len(data) < 0x2B0:
         return False, ""
 
-    # Get disk name (16 bytes, shift-jis or ascii)
-    name_bytes = bytes(data[0:16]).rstrip(b'\x00')
+    # Get disk name (0-25 or 26 bytes, shift-jis or ascii) Seen 20 at least bytes long.
+    name_bytes = bytes(data[0:25]).rstrip(b'\x00') # Name can be longer than 16 bytes!
     try:
         name_str = name_bytes.decode('ascii')
     except:
@@ -472,19 +439,20 @@ def validate_d88(data):
         except:
             name_str = "[binary]"
 
-    # Check comment terminator (0x10 should be 0x00)
-    if data[0x10] != 0x00:
-        return False, name_str
+    # Check comment terminator (0x10 should be 0x00), Not verified
+    # if data[0x10] != 0x00:
+        # return False, name_str
 
-    # Check reserved bytes (0x11-0x19 should be 0x00)
-    reserved = data[0x11:0x1A]
-    if reserved != b'\x00' * 9:
-        return False, name_str
+    # Check reserved bytes (0x11-0x19 should be 0x00) Sometimes non-zero, useless
+    # reserved = data[0x11:0x1A]
+    # if reserved != b'\x00' * 9:
+        # return False, name_str
 
     # Check media type (0x1B) - valid values: 0x00, 0x10, 0x20, 0x30, 0x40
-    media_type = data[0x1B]
-    if media_type not in (0x00, 0x10, 0x20, 0x30, 0x40):
-        return False, name_str
+    # shouldn't be trusted
+    # media_type = data[0x1B]
+    # if media_type not in (0x00, 0x10, 0x20, 0x30, 0x40):
+        # return False, name_str
 
     # Check disk size matches actual data size
     disk_size = struct.unpack_from('<I', data, 0x1C)[0]

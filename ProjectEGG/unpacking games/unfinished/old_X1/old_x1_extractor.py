@@ -38,7 +38,7 @@ def extract_all_disks(exe_path):
 
             # D88 Header Validation
             if media_type in [0x00, 0x10, 0x20] and 0x400 <= disk_size < 4000000:
-                name_part = decrypted[:17].replace(b'\x00', b'')
+                name_part = decrypted[:25].replace(b'\x00', b'')
                 if len(name_part) == 0 or all(32 <= b <= 126 or b > 128 for b in name_part):
                     if physical_off + disk_size > len(data):
                         continue

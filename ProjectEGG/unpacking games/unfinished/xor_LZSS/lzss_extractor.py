@@ -23,8 +23,8 @@ def save_extracted_asset(data, default_filename):
             #base_filename = os.path.splitext(default_filename)[0]
             
             while offset + 0x2B0 <= len(data):
-                # 1. Extract Disk Name (First 16 bytes, null-terminated, Shift-JIS encoded)
-                name_bytes = data[offset : offset + 16]
+                # 1. Extract Disk Name (First 25 bytes, null-terminated, Shift-JIS encoded)
+                name_bytes = data[offset : offset + 25]
                 disk_name = name_bytes.split(b'\0')[0].decode('shift_jis', 'ignore').strip()
                 if not disk_name:
                     disk_name = f"Disk_{disk_count + 1}"

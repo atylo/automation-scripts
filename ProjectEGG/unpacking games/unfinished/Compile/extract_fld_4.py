@@ -7,12 +7,16 @@ from sys import argv
 # ==========================================
 # DECRYPTION CONFIGURATION
 # ==========================================
+# Mode 0: Use the hardcoded integer from WinMain
+# Mode 1: Use a string-based key
+# Mode 2: System Time based, requires external context
 SET_MODE = 0  
-SET_KEY  = -1677351266  # 0x9C00001E
+SET_KEY  = -1677351266  # 0x9C05A69E or 9E A6 05 9C
+# Use integer for Mode 0, "String" for Mode 1
+# MODE_1_SEED = generate_seed(1, "SampleKey")
 # ==========================================
 
 # --- DECOMPRESSION (CNX v2) ---
-
 def decompress_cnx(data):
     """
     Decompresses Atlus CNX v2 using the exact logic from sub_414F30.
@@ -169,16 +173,15 @@ def get_header_info(f, magic):
     raw_count = f.read(4)
     if len(raw_count) < 4: return 0, "", hdr_size
     count = unpack("<I", raw_count)[0]
+    
+    f.read(4) # empty padding in both versions?
 
     sub_dir = ""
-    if magic == b"FLDF0300":
-        f.read(4) 
-        dir_len = hdr_size - 20
-        if dir_len > 0:
-            sub_dir = decode_string(f.read(dir_len))
-        print(f"    [+] FLDF0300 | Header: {hdr_size} bytes | Files: {count} | Path: '{sub_dir}'")
-    else:
-        print(f"    [+] FLDF0200 | Header: {hdr_size} bytes | Files: {count}")
+    dir_len = hdr_size - 20
+    if dir_len > 0:
+        sub_dir = decode_string(f.read(dir_len))
+        
+    print(f"    [+] {magic.decode('ascii', errors='ignore')} | Header: {hdr_size} bytes | Files: {count} | Path: '{sub_dir}'")
     
     return count, sub_dir, hdr_size
 
@@ -192,7 +195,7 @@ def get_entries(f, count, magic, hdr_size):
             if len(raw) < 20: break
             name_raw, offset, size = unpack("<12sII", raw)
             flag = 0 
-        else:
+        if magic == b"FLDF0300":
             raw = f.read(24)
             if len(raw) < 24: break
             flag, offset, size, name_raw = unpack("<III12s", raw)

@@ -7,15 +7,14 @@ seq:
   - id: magic
     type: str
     encoding: ascii
-    size: 3
-  - id: versionmb
-    type: u1
-  - id: some_data2
+    size: 4
+  - id: disk_type # 0 - 84, 1 or 2 - 168 tracks
     type: u1
   - id: track
     type: track
     repeat: until
-    repeat-until: _io.eof
+    repeat-until: _.num_of_sectors == 0
+
 
   
 types:
@@ -32,7 +31,7 @@ types:
       - id: sheader
         type: sector_head
       - id: sector_data
-        size: 128 * sheader.data_size
+        size: sheader.size_factor << 7 # like in the code
 
   sector_head:
     seq:
@@ -42,10 +41,11 @@ types:
         type: u1
       - id: sector_num
         type: u1
-      - id: smth
+      - id: n_code
         type: u1
-      - id: smth2
+      - id: status
+        if: status != 64
         type: u1
-      - id: data_size
+      - id: size_factor
         type: u1
     
