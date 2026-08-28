@@ -76,6 +76,7 @@ def find_egg_regions(exe_bytes: bytes, debug: bool = False):
         payload_end = positions[i + 1] if i + 1 < len(positions) else len(exe_bytes)
         if payload_start < payload_end:
             regions.append((payload_start, payload_end))
+            #print(f"payload start: {payload_start} , payload end: {payload_end}")
     return regions
 
 def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
@@ -90,11 +91,20 @@ def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
     out_dir.mkdir(parents=True, exist_ok=True)
     files = []
     off = 0
+
+    def make_output_path(name):
+        path = Path(name)
+        if path.suffix:
+            return out_dir / name
+        return out_dir / f"{name}.bin"
+
     while off + 4 <= len(data):
         TYPE = data[off : off + 4]
         off += 4
-        if TYPE == b"END\x00":  # FIX: exact match, not startswith
+
+        if TYPE == b"END\x00":
             break
+
         if TYPE == b"NEXT":
             if off + 4 > len(data):
                 break
@@ -102,47 +112,74 @@ def extract_files_from_decrypted_data(data: bytes, out_dir: Path):
             off += 4
             off = next_off * CHUNK_SIZE
             continue
+
         if TYPE == b"DATA":
             if off + 8 + 0x14 > len(data):
                 break
+
             entry_off, entry_size = struct.unpack_from("<II", data, off)
             off += 8
+
             name = read_c_string(data, off, 0x14).strip() or "NONAME"
             off += 0x14
 
             file_off = entry_off * CHUNK_SIZE
             if file_off + min(entry_size, 8) > len(data):
-                # out-of-bounds entry; skip
                 continue
 
             sign = data[file_off : file_off + 8]
+
             # COMPZIP (zlib) block
             if sign == b"COMPZIP " and entry_size >= 0x10:
                 try:
-                    xsize, _dummy = struct.unpack_from("<II", data, file_off + 8)
+                    xsize, crc_32 = struct.unpack_from(
+                        "<II", data, file_off + 8
+                    )
+
                     comp_off = file_off + 0x10
                     comp_end = file_off + entry_size
                     comp_payload = data[comp_off:comp_end]
+
                     decomp = zlib.decompress(comp_payload)
-                    # FIX: validate decompressed size against header value
+
                     if len(decomp) != xsize:
-                        print(f"[!] Warning: {name} decompressed to {len(decomp)} bytes, expected {xsize}")
-                    out_path = out_dir / f"{name}.bin"
+                        print(
+                            f"[!] Warning: {name} decompressed to "
+                            f"{len(decomp)} bytes, expected {xsize}"
+                        )
+
+                    out_path = make_output_path(name)
                     out_path.write_bytes(decomp)
                     files.append(out_path)
+
                 except Exception as e:
                     print(f"[!] COMPZIP failed for {name}: {e}")
-                    raw_path = out_dir / f"{name}_COMPZIP_error.bin"
-                    raw_path.write_bytes(data[file_off : file_off + entry_size])
+
+                    # Keep the error suffix, but don't create
+                    # "example.png_COMPZIP_error.bin" unnecessarily.
+                    if Path(name).suffix:
+                        raw_name = f"{Path(name).stem}_COMPZIP_error{Path(name).suffix}"
+                    else:
+                        raw_name = f"{name}_COMPZIP_error.bin"
+
+                    raw_path = out_dir / raw_name
+                    raw_path.write_bytes(
+                        data[file_off : file_off + entry_size]
+                    )
                     files.append(raw_path)
+
             else:
                 # Normal raw chunk
-                out_path = out_dir / f"{name}.bin"
-                out_path.write_bytes(data[file_off : file_off + entry_size])
+                out_path = make_output_path(name)
+                out_path.write_bytes(
+                    data[file_off : file_off + entry_size]
+                )
                 files.append(out_path)
+
         else:
             # unknown tag; stop to avoid desync
             break
+
     return files
 
 # -------------------------------
