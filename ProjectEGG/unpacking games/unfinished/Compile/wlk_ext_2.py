@@ -67,8 +67,9 @@ def extract_v1(f, file_path):
         b0, entry_flags, offset, size, srate = struct.unpack("<BBIII", raw)
         
         channels = 2 if (entry_flags & 0x40) else 1
+        bits_per_sample = 16 if (entry_flags & 0x80) else 8
         name = f"sample_{i:03d}.wav"
-        directory.append({"name": name, "off": offset, "sz": size, "rate": srate, "channels": channels})
+        directory.append({'name': name, 'off': offset, 'sz': size, 'rate': srate, "channels": channels, "bits": bits_per_sample})
 
     save_files(f, file_path, directory)
 
@@ -94,16 +95,17 @@ def extract_v2(f, file_path):
         # Runtime Buffer / Wave Format Pointer / Pan / Volume and DirectSound Buffer Handle / Playback Status
         
         
-        # TODO: implement bit reading
         # Bit 0 (0x01): Channel Allocation behavior (1 = Force new buffer instance, 0 = Rewind/reuse active instance if playing).
         # Bit 5 (0x20): Looping Flag (1 = Pass DSBPLAY_LOOPING to IDirectSoundBuffer::Play, 0 = One-shot).
         # Bit 6 (0x40): Channel Count (1 = Stereo / 2 Channels, 0 = Mono / 1 Channel).
         # Bit 7 (0x80): Bit Depth (1 = 16-bit PCM, 0 = 8-bit PCM).
         
         channels = 2 if (entry_flags & 0x40) else 1
-        # bit_depth = entry_flags & 0x80
-        # looping_flag = entry_flags & 0x20
-        # alloc_status = entry_flags & 0x01
+        bits_per_sample = 16 if (entry_flags & 0x80) else 8
+        
+        # Optional flags for metadata/debugging
+        looping_flag = bool(entry_flags & 0x20)
+        alloc_status = bool(entry_flags & 0x01)
         
         name = f"sample_{i:03d}.wav"
         
@@ -122,7 +124,7 @@ def extract_v2(f, file_path):
                     pass
                 f.seek(current_pos)
 
-        directory.append({'name': name, 'off': offset, 'sz': size, 'rate': srate, "channels": channels})
+        directory.append({'name': name, 'off': offset, 'sz': size, 'rate': srate, "channels": channels, "bits": bits_per_sample})
         
         if (flags & 2) and debug:
             # Original full directory file path, not used by extraction
@@ -153,7 +155,9 @@ def save_files(f, file_path, directory):
 
         channels = entry.get("channels", 1)
         rate = entry["rate"]
-        bits_per_sample = 16
+        
+        # Dynamically get bits per sample, defaulting to 8 if not specified.
+        bits_per_sample = entry.get("bits", 8)
         block_align = channels * (bits_per_sample // 8)
         byte_rate = rate * block_align
 
@@ -176,11 +180,11 @@ def save_files(f, file_path, directory):
             )
             out_f.write(header)
             out_f.write(data)
-        print(f"  [+] Saved: {entry['name']} ({entry['rate']}Hz)")
+        print(f"  [+] Saved: {entry['name']} ({entry['rate']}Hz, {bits_per_sample}-bit)")
 
 def main():
     if len(sys.argv) < 2:
-        print("Compile WLK archive extractor")
+        print("Compile WLK archive extractor (Wav's)")
         print("Usage: python wlk_ext_2.py <archive_name>")
         sys.exit(1)
 

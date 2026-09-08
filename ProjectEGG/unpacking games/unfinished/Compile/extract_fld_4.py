@@ -16,12 +16,13 @@ SET_KEY  = -1677351266  # 0x9C05A69E or 9E A6 05 9C
 # MODE_1_SEED = generate_seed(1, "SampleKey")
 # ==========================================
 
-# --- DECOMPRESSION (CNX v2) ---
+# --- DECOMPRESSION ---
 def decompress_cnx(data):
     """
-    Decompresses Atlus CNX v2 using the exact logic from sub_414F30.
+    Decompresses CNX v2 using the exact logic from sub_414F30.
+    For CNX/CFS/CRS
     """
-    if len(data) < 16 or data[:4] != b"CNX\x02":
+    if len(data) < 16:
         return data, "bin"
 
     # Header Parsing (Big Endian)
@@ -32,21 +33,30 @@ def decompress_cnx(data):
         if not extension: extension = "bmp"
     except:
         extension = "bmp"
-
+    
+    data_offset = data[7]
+    comp_size = struct.unpack(">I", data[8:12])[0] # Usually matches full file size, not the payload 
+    # which is size or len(data) - data_offset (usually 16)
+    #print(f"data offset: {data_offset}, comp_size: {comp_size} and data length: {len(data)}")
+    
     # Decompressed size is Big Endian at offset 12
     decomp_size = struct.unpack(">I", data[12:16])[0]
     
-    input_ptr = 16
+    input_ptr = data_offset # Saw in Java implementetion
     output = bytearray()
     
     # Mirroring the while ( dword_836CCC < dword_836CD0 ) loop from sub_414E80
-    while len(output) < decomp_size and input_ptr < len(data):
+    while len(output) < decomp_size:
+        if input_ptr >= len(data):
+            raise ValueError("Unexpected end of CNX data")
+            
         control = data[input_ptr]
         input_ptr += 1
         
-        # If control byte is 0, the sub_414F30 function returns 2 (End of Block)
+        # If control byte is 0, the sub_414F30 function returns 2 (End of Block)?
+        # A zero control byte terminates this decompression pass?
         if control == 0:
-            break
+            break # Unclear behavior
 
         # Process 4 tokens (2 bits each) per control byte
         for _ in range(4):
@@ -56,44 +66,57 @@ def decompress_cnx(data):
             op = control & 0x03
             control >>= 2
             
-            if op == 0: # Case 0: Skip/Metadata block
-                if input_ptr < len(data):
-                    skip_len = data[input_ptr]
-                    input_ptr += (skip_len + 1)
-                # sub_414F30 returns 1 here, triggering a new control byte read
-                break 
+            if op == 0: # Case 0: Skip length-prefixed data/Metadata block
+                if input_ptr >= len(data):
+                    raise ValueError("Unexpected end in CNX skip block")
+                    
+                skip_len = data[input_ptr]
+                input_ptr += (skip_len + 1)
+                # sub_414F30 returns 1 here, triggering a new control byte read?
+                break  # Should break!
                 
             elif op == 1: # Case 1: Single Literal
-                if input_ptr < len(data):
-                    output.append(data[input_ptr])
-                    input_ptr += 1
+                if input_ptr >= len(data):
+                    raise ValueError("Unexpected end in CNX literal")
+                    
+                output.append(data[input_ptr])
+                input_ptr += 1
                     
             elif op == 2: # Case 2: LZ Match (The logic from sub_4150A0)
-                if input_ptr + 1 < len(data):
-                    # v8 = v6[1] | (v6[0] << 8)
-                    v8 = (data[input_ptr] << 8) | data[input_ptr+1]
-                    input_ptr += 2
+                if input_ptr + 1 >= len(data):
+                    raise ValueError("Unexpected end in CNX LZ match")
                     
-                    length = (v8 & 0x1F) + 4
-                    offset = (v8 >> 5) + 1
+                # v8 = v6[1] | (v6[0] << 8)
+                v8 = (data[input_ptr] << 8) | data[input_ptr+1]
+                input_ptr += 2
                     
-                    # sub_4150A0 loop
-                    for _ in range(length):
-                        if len(output) >= decomp_size: break
-                        back_ptr = len(output) - offset
-                        if back_ptr >= 0:
-                            output.append(output[back_ptr])
-                        else:
-                            output.append(0) # Padding
-                            
+                length = (v8 & 0x1F) + 4
+                offset = (v8 >> 5) + 1
+                    
+                for _ in range(length):
+                    if len(output) >= decomp_size: break
+                    back_ptr = len(output) - offset
+                    
+                    if back_ptr < 0:
+                        raise ValueError(
+                            f"Invalid CNX back-reference: "
+                            f"offset={offset}, output_size={len(output)}")
+
+                    output.append(output[back_ptr])
+
             elif op == 3: # Case 3: Multi-literal block
-                if input_ptr < len(data):
-                    count = data[input_ptr]
-                    input_ptr += 1
-                    for _ in range(count):
-                        if input_ptr < len(data):
-                            output.append(data[input_ptr])
-                            input_ptr += 1
+                if input_ptr >= len(data):
+                    raise ValueError("Unexpected end in CNX literal run")
+                    
+                count = data[input_ptr]
+                input_ptr += 1
+                
+                if input_ptr + count > len(data):
+                    print(f"input_ptr + count: {input_ptr + count} and data length: {len(data)}")
+                    raise ValueError("CNX literal run exceeds input")
+
+                output.extend(data[input_ptr:input_ptr + count])
+                input_ptr += count
                             
     return bytes(output), extension
 
@@ -270,7 +293,8 @@ def unpack_fld(filepath, target_root):
 
 def main():
     if len(argv) < 2:
-        print("Usage: python script.py <file.fld>")
+        print("Compile .FLD archive extractor")
+        print("Usage: python extract_fld_4.py <file.fld>")
         return
 
     input_file = argv[1]
