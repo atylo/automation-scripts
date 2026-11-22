@@ -12,7 +12,7 @@ And uses an embedded ROM database based on MAME and blueMSX data to identify kno
 
 ## Usage
 
-###Detect a game type
+### Detect a game type
 
 ```text
 egg_unpack <file>
