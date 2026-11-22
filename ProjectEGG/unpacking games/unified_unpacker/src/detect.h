@@ -21,6 +21,7 @@ enum class GameType {
     OldX1,
     Bind,            // standalone archive, signature "BIND"
     Scn,             // .SCN file, signature "SCN\0"
+    Cnpf,            // CNPF container (game EXEs packed in an archive), signature "CNPF"
 };
 
 const char* TypeTag(GameType t);          // same wording the checker prints
@@ -38,5 +39,5 @@ struct Detection {
 
 Detection Detect(const Bytes& data);
 
-// "name | md5 | date | Found: a, b"  (the checker's output line)
+// "name | md5 | date | Type: a, b"  (the checker's output line, label changed from "Found:")
 std::string FormatLine(const std::string& fileName, const Detection& d);

@@ -1,6 +1,7 @@
 // eggdisk.h - assembles disk images from the chunk files of EGGDATA archives (port of egg_diskv2.py).
 //   EGGFDIMG<n>-INF + EGGFDIMG<n>-<track>   -> fd_EGGFDIMG<n>.d88   (floppy; chunks removed when the MD5 in the INF matches)
-//   EGGHDIMG<n>-INF + EGGHDIMG<segment>     -> hd_EGGHDIMG.fdi       (hard disk)
+//   EGGHDIMG<n>-INF + EGGHDIMG<segment>     -> hd_EGGHDIMG.fdi       (hard disk; no MD5 is verified when the INF has none)
+// Chunks that could not be verified are kept in "<disk id>_chunks/".
 #pragma once
 
 #include "common.h"

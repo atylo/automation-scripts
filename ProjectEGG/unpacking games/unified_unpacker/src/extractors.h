@@ -21,4 +21,5 @@ bool ExtractOldXorLzss(const Context& ctx);               // old Xor + LZSS
 bool ExtractOldX1(const Context& ctx);                    // old_X1
 bool ExtractBind(const Context& ctx);                     // "BIND" archives
 bool ExtractType60(const Context& ctx);                   // TYPE60 (embedded PE with arithmetic-coded BIN resources)
+bool ExtractCnpf(const Context& ctx);                     // CNPF containers (packed game EXEs)
 bool ExtractScn(const Context& ctx);                      // .SCN files (encrypted + LZSS D88 image)

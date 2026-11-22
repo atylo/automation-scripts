@@ -49,11 +49,13 @@ void Remove(const std::vector<fs::path>& files) {
 // Track file: [u32 sector count][u32 offset per sector]; each sector: 12-byte head (C H R N ..., size in the
 // last 4 bytes) followed by its data.
 // ---------------------------------------------------------------------------------------------
-bool BuildFloppy(const Dir& dir, const std::string& disk, const fs::path& infPath, const fs::path& outDir) {
+enum class Outcome { Failed, Kept, Verified };   // nothing written / image written, chunks kept / image written, chunks removed
+
+Outcome BuildFloppy(const Dir& dir, const std::string& disk, const fs::path& infPath, const fs::path& outDir) {
     Bytes inf;
     if (!util::ReadFile(infPath, inf) || inf.size() < 0x21C) {
         util::Warn(disk + ": INF file missing or too small");
-        return false;
+        return Outcome::Failed;
     }
     uint8_t md5[16];
     std::copy(inf.begin() + 0x200, inf.begin() + 0x210, md5);
@@ -61,7 +63,7 @@ bool BuildFloppy(const Dir& dir, const std::string& disk, const fs::path& infPat
     uint32_t numTracks = util::LoadU32(&inf[0x218]);
     if (numTracks == 0 || numTracks > 4096) {
         util::Warn(disk + ": implausible track count " + std::to_string(numTracks));
-        return false;
+        return Outcome::Failed;
     }
     uint8_t roFlag   = (readonly == 1) ? 0x10 : static_cast<uint8_t>(readonly);
     uint8_t diskType = numTracks > 84 ? 0x20 : 0x00;           // 2HD vs 2D
@@ -135,28 +137,28 @@ bool BuildFloppy(const Dir& dir, const std::string& disk, const fs::path& infPat
     image.insert(image.end(), data.begin(), data.end());
 
     fs::path out = util::UniquePath(outDir / d88::SuggestFileName(image, "fd_" + disk));
-    if (!util::WriteFile(out, image)) return false;
+    if (!util::WriteFile(out, image)) return Outcome::Failed;
 
     if (crypto::Md5(image) == std::array<uint8_t, 16>{md5[0], md5[1], md5[2], md5[3], md5[4], md5[5], md5[6], md5[7],
                                                        md5[8], md5[9], md5[10], md5[11], md5[12], md5[13], md5[14], md5[15]}) {
         util::Info("  MD5 check passed for " + util::PathToUtf8(out.filename()) + ", removing the chunks");
         used.push_back(infPath);
         Remove(used);
-    } else {
-        util::Warn("MD5 mismatch for " + util::PathToUtf8(out.filename()) + ", the chunk files are kept");
+        return Outcome::Verified;
     }
-    return true;
+    util::Warn("MD5 mismatch for " + util::PathToUtf8(out.filename()) + ", the chunk files are kept");
+    return Outcome::Kept;
 }
 
 // ---------------------------------------------------------------------------------------------
 // Hard disk: INF (geometry at 0x210: cylinders, segments per cylinder, sectors per segment, sector size)
 // + one file per segment, concatenated behind an FDI header.
 // ---------------------------------------------------------------------------------------------
-bool BuildHardDisk(const Dir& dir, const fs::path& infPath, const fs::path& outDir) {
+Outcome BuildHardDisk(const Dir& dir, const fs::path& infPath, const fs::path& outDir) {
     Bytes inf;
     if (!util::ReadFile(infPath, inf) || inf.size() < 0x220) {
         util::Warn("EGGHDIMG: INF file missing or too small");
-        return false;
+        return Outcome::Failed;
     }
     uint32_t cyls = util::LoadU32(&inf[0x210]), segs = util::LoadU32(&inf[0x214]);
     uint32_t sectorsPerSeg = util::LoadU32(&inf[0x218]), sectorSize = util::LoadU32(&inf[0x21C]);
@@ -166,7 +168,7 @@ bool BuildHardDisk(const Dir& dir, const fs::path& infPath, const fs::path& outD
                std::to_string(sectorsPerSeg) + " sectors x " + std::to_string(sectorSize) + " bytes");
     if (totalSegments == 0 || totalSegments > (1u << 20) || segmentSize == 0 || totalSegments * segmentSize > (4ull << 30)) {
         util::Warn("EGGHDIMG: implausible geometry, not assembled");
-        return false;
+        return Outcome::Failed;
     }
 
     std::vector<fs::path> used;
@@ -176,7 +178,7 @@ bool BuildHardDisk(const Dir& dir, const fs::path& infPath, const fs::path& outD
         Bytes seg;
         if (!p || !util::ReadFile(*p, seg)) {
             util::Warn("Missing segment file EGGHDIMG" + std::to_string(i) + ", hard disk not assembled");
-            return false;
+            return Outcome::Failed;
         }
         if (seg.size() != segmentSize)
             util::Warn("EGGHDIMG" + std::to_string(i) + ": size mismatch (expected " + std::to_string(segmentSize) +
@@ -192,21 +194,50 @@ bool BuildHardDisk(const Dir& dir, const fs::path& infPath, const fs::path& outD
     image.insert(image.end(), data.begin(), data.end());
 
     fs::path out = util::UniquePath(outDir / "hd_EGGHDIMG.fdi");
-    if (!util::WriteFile(out, image)) return false;
+    if (!util::WriteFile(out, image)) return Outcome::Failed;
 
     // The INF carries an MD5 at 0x200 on floppies; if the hard-disk INF has the same field, use it to verify.
     auto sameAs = [&](const Bytes& b) {
         auto d = crypto::Md5(b);
         return std::equal(d.begin(), d.end(), inf.begin() + 0x200);
     };
+    bool hasMd5 = std::any_of(inf.begin() + 0x200, inf.begin() + 0x210, [](uint8_t b) { return b != 0; });
     if (sameAs(data) || sameAs(image)) {
         util::Info("  MD5 check passed for " + util::PathToUtf8(out.filename()) + ", removing the chunks");
         used.push_back(infPath);
         Remove(used);
-    } else {
-        util::Info("  no matching MD5 in the INF for the hard disk image, the chunk files are kept");
+        return Outcome::Verified;
     }
-    return true;
+    if (!hasMd5) util::Info("  the INF has no MD5 for this hard disk, so it cannot be verified: the chunk files are kept");
+    else         util::Warn("MD5 mismatch for " + util::PathToUtf8(out.filename()) + ", the chunk files are kept");
+    return Outcome::Kept;
+}
+
+// Chunks that are kept go into a folder of their own, so they do not bury the rest of the extracted files.
+void MoveChunks(const fs::path& dirPath, const std::string& id, bool hardDisk) {
+    Dir dir(dirPath);
+    std::string lid = Lower(id);
+    std::regex chunk(hardDisk ? R"(^egghdimg\d*-inf(\..+)?$|^egghdimg\d+(\.(dat|cl5|bin))?$)"
+                              : "^" + lid + R"(-inf(\..+)?$|^)" + lid + R"(-\d+(\.(dat|cl5|bin))?$)",
+                     std::regex::icase);
+    std::vector<fs::path> files;
+    for (const auto& [lower, path] : dir.byLower)
+        if (std::regex_match(lower, chunk)) files.push_back(path);
+    if (files.empty()) return;
+
+    fs::path folder = util::UniquePath(dirPath / (id + "_chunks"));
+    std::error_code ec;
+    fs::create_directories(folder, ec);
+    for (const auto& f : files) {
+        fs::path target = folder / f.filename();
+        fs::rename(f, target, ec);
+        if (ec) {                                          // e.g. across volumes
+            ec.clear();
+            fs::copy_file(f, target, fs::copy_options::overwrite_existing, ec);
+            if (!ec) fs::remove(f, ec);
+        }
+    }
+    util::Info("  " + std::to_string(files.size()) + " chunk files moved to " + util::PathToUtf8(folder));
 }
 
 }  // namespace
@@ -215,8 +246,9 @@ size_t AssembleDisks(const fs::path& dirPath) {
     Dir dir(dirPath);
     size_t written = 0;
 
-    static const std::regex floppyInf(R"(^(eggfdimg\d+)-inf(\..+)?$)", std::regex::icase);
-    static const std::regex hardInf(R"(^egghdimg\d+-inf(\..+)?$)", std::regex::icase);
+    // the number is optional: "EGGFDIMG0-INF" and "EGGFDIMG-INF", "EGGHDIMG0-INF" and "EGGHDIMG-INF" all occur
+    static const std::regex floppyInf(R"(^(eggfdimg\d*)-inf(\..+)?$)", std::regex::icase);
+    static const std::regex hardInf(R"(^egghdimg\d*-inf(\..+)?$)", std::regex::icase);
 
     std::vector<std::pair<std::string, fs::path>> floppies;       // (disk id, INF)
     fs::path hardInfPath;
@@ -237,11 +269,15 @@ size_t AssembleDisks(const fs::path& dirPath) {
 
     for (const auto& [id, inf] : floppies) {
         util::Info("Assembling floppy " + id);
-        if (BuildFloppy(dir, id, inf, dirPath)) ++written;
+        Outcome o = BuildFloppy(dir, id, inf, dirPath);
+        if (o != Outcome::Failed) ++written;
+        if (o != Outcome::Verified) MoveChunks(dirPath, id, false);
     }
     if (!hardInfPath.empty()) {
         util::Info("Assembling hard disk");
-        if (BuildHardDisk(dir, hardInfPath, dirPath)) ++written;
+        Outcome o = BuildHardDisk(dir, hardInfPath, dirPath);
+        if (o != Outcome::Failed) ++written;
+        if (o != Outcome::Verified) MoveChunks(dirPath, "EGGHDIMG", true);
     }
     return written;
 }

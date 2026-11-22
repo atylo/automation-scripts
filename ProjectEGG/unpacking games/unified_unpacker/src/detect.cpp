@@ -22,6 +22,7 @@ const char* TypeTag(GameType t) {
         case GameType::OldX1:        return "old_X1";
         case GameType::Bind:         return "BIND";
         case GameType::Scn:          return "SCN";
+        case GameType::Cnpf:         return "CNPF";
     }
     return "?";
 }
@@ -71,7 +72,10 @@ Detection Detect(const Bytes& bytes) {
         return det;
     }
     if (d.size() < 2 || d[0] != 'M' || d[1] != 'Z') {
-        if (d.size() > 17 && std::memcmp(d.data(), "SCN\0", 4) == 0) {       // 53 43 4E 00
+        if (d.size() >= 20 && std::memcmp(d.data(), "CNPF", 4) == 0) {        // 43 4E 50 46
+            det.tags.push_back("CNPF");
+            det.types.push_back(GameType::Cnpf);
+        } else if (d.size() > 17 && std::memcmp(d.data(), "SCN\0", 4) == 0) {       // 53 43 4E 00
             det.tags.push_back("SCN");
             det.types.push_back(GameType::Scn);
         }
